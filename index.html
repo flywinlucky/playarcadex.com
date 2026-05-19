@@ -3,28 +3,38 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PlayArcadeX - Premium Web Games Portal</title>
-    <meta name="description" content="PlayArcadeX is a premium web games portal with fast loading HTML5 titles, smooth gameplay, secure launch flow, and curated action, puzzle, racing, sports, and casual games." />
-    <meta name="keywords" content="PlayArcadeX, web games, html5 games, browser games, puzzle games, racing games, sports games, casual games, action games" />
+    <title>PlayArcadeX | Free Browser Games</title>
+    <meta name="description" content="PlayArcadeX is a premium web games portal with fast launch architecture, curated HTML5 games, and secure policy-compliant gameplay." />
+    <meta name="keywords" content="PlayArcadeX, web games, browser games, html5 games, unblocked games, action games, racing games, puzzle games, sports games, casual games" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-    <meta name="theme-color" content="#08090c" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; worker-src 'self' blob:;" />
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups" />
 
     <link rel="canonical" href="https://playarcadex.com/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://images.gamedistribution.com" />
+    <link rel="preconnect" href="https://img.gamedistribution.com" />
+    <link rel="dns-prefetch" href="//images.gamedistribution.com" />
+    <link rel="dns-prefetch" href="//img.gamedistribution.com" />
+    <link rel="dns-prefetch" href="//html5.gamedistribution.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://playarcadex.com/" />
     <meta property="og:site_name" content="PlayArcadeX" />
-    <meta property="og:title" content="PlayArcadeX - Premium Web Games Portal" />
-    <meta property="og:description" content="Discover top browser games on PlayArcadeX with instant launch flow, premium UI, and optimized mobile and desktop gameplay." />
+    <meta property="og:title" content="PlayArcadeX | Free Browser Games" />
+    <meta property="og:description" content="Fast-loading HTML5 games with secure launch architecture and premium dark UI." />
     <meta property="og:image" content="https://images.gamedistribution.com/13eabea86f7c4cd993a156258420e9ec-512x512.jpeg" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://playarcadex.com/" />
-    <meta name="twitter:title" content="PlayArcadeX - Premium Web Games Portal" />
-    <meta name="twitter:description" content="Fast and premium web games portal with action, puzzle, racing, sports, and casual titles." />
+    <meta name="twitter:title" content="PlayArcadeX | Free Browser Games" />
+    <meta name="twitter:description" content="Explore action, racing, sports, puzzle, and casual browser games on PlayArcadeX." />
     <meta name="twitter:image" content="https://images.gamedistribution.com/13eabea86f7c4cd993a156258420e9ec-512x512.jpeg" />
 
     <script>
@@ -33,20 +43,18 @@
             theme: {
                 extend: {
                     colors: {
-                        bg: "#08090c",
-                        card: "#0e1017",
-                        line: "#181b26",
+                        bg: "#090a14",
+                        card: "#13182e",
+                        line: "#1e243d",
                         brand: "#6366f1",
-                        "brand-strong": "#4f46e5",
-                        ink: "#e6e8ef",
-                        "muted-ink": "#a7afc5"
+                        ink: "#e8ecff",
+                        muted: "#9ea8cb"
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                        sans: ["Space Grotesk", "Plus Jakarta Sans", "ui-sans-serif", "system-ui", "sans-serif"]
                     },
                     boxShadow: {
-                        soft: "0 10px 40px rgba(0, 0, 0, 0.28)",
-                        glow: "0 0 0 1px rgba(99, 102, 241, 0.3), 0 20px 48px rgba(79, 70, 229, 0.18)"
+                        neon: "0 0 0 1px rgba(99,102,241,.45), 0 18px 50px rgba(99,102,241,.22)"
                     }
                 }
             }
@@ -54,70 +62,32 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-        :root {
-            color-scheme: dark;
-        }
+    <link rel="stylesheet" href="assets/css/styles.css" />
 
-        html,
-        body {
-            min-height: 100%;
-            background: #08090c;
+    <script type="speculationrules" id="speculationRulesSeed">
+        {
+            "prefetch": [
+                {
+                    "source": "list",
+                    "urls": [
+                        "https://playarcadex.com/#game=helix-jump",
+                        "https://playarcadex.com/#game=football-legends-2026",
+                        "https://playarcadex.com/#game=fireboy-watergirl-7"
+                    ]
+                }
+            ],
+            "prerender": [
+                {
+                    "source": "list",
+                    "urls": [
+                        "https://playarcadex.com/#game=helix-jump",
+                        "https://playarcadex.com/#game=football-legends-2026",
+                        "https://playarcadex.com/#game=fireboy-watergirl-7"
+                    ]
+                }
+            ]
         }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .focus-dim {
-            transition: opacity 200ms ease;
-        }
-
-        .dialog-panel {
-            scrollbar-width: thin;
-            scrollbar-color: #2e3448 #11131d;
-        }
-
-        .dialog-panel::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .dialog-panel::-webkit-scrollbar-track {
-            background: #11131d;
-            border-radius: 999px;
-        }
-
-        .dialog-panel::-webkit-scrollbar-thumb {
-            background: #2e3448;
-            border-radius: 999px;
-        }
-
-        .grid-backdrop {
-            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.14), transparent 35%), radial-gradient(circle at bottom left, rgba(56, 189, 248, 0.12), transparent 30%), linear-gradient(transparent 96%, rgba(255, 255, 255, 0.02) 100%);
-            background-size: auto, auto, 100% 28px;
-        }
-
-        .card-enter {
-            animation: card-enter 0.45s ease both;
-        }
-
-        @keyframes card-enter {
-            from {
-                opacity: 0;
-                transform: translateY(8px) scale(0.992);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-    </style>
+    </script>
 
     <script type="application/ld+json" id="websiteSchema">
         {
@@ -138,1167 +108,257 @@
             }
         }
     </script>
+
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="assets/js/games-data.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
 </head>
-<body class="bg-bg text-ink font-sans antialiased selection:bg-brand/40 selection:text-white">
+<body class="bg-bg font-sans text-ink antialiased selection:bg-brand/40 selection:text-white">
     <noscript>
-        <div class="mx-auto my-6 max-w-3xl rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-sm text-red-200">
-            PlayArcadeX needs JavaScript enabled for game catalog rendering, safe launch flow, and policy modals.
-        </div>
+        <p class="mx-auto my-6 max-w-3xl rounded-xl border border-red-300/40 bg-red-500/10 p-4 text-sm text-red-200">
+            PlayArcadeX needs JavaScript enabled for the game catalog, launch architecture, and policy modals.
+        </p>
     </noscript>
 
-    <div class="relative min-h-screen overflow-x-hidden grid-backdrop">
-        <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-            <div class="absolute -left-40 top-16 h-72 w-72 rounded-full bg-brand/20 blur-3xl"></div>
-            <div class="absolute -right-28 top-80 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"></div>
-            <div class="absolute bottom-10 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-indigo-400/10 blur-3xl"></div>
-        </div>
+    <header id="siteHeader" class="focus-dim sticky top-0 z-50 h-16 border-b border-line/90 bg-bg/95 backdrop-blur-xl">
+        <div class="mx-auto flex h-full max-w-[1900px] items-center gap-2 px-3 sm:px-4 lg:px-5">
+            <div class="flex items-center gap-2">
+                <button id="sidebarToggleBtn" type="button" aria-label="Toggle sidebar" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line/60 bg-[#141b39] text-slate-200 transition-all duration-300 hover:border-brand/70 hover:text-white">
+                    <i data-lucide="panel-left-close" class="h-4.5 w-4.5"></i>
+                </button>
 
-        <header id="siteHeader" class="focus-dim sticky top-0 z-50 border-b border-line/80 bg-bg/90 backdrop-blur-xl">
-            <div class="mx-auto flex h-[72px] max-w-[1600px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-                <a href="https://playarcadex.com/" class="group inline-flex items-center gap-3" aria-label="PlayArcadeX Home">
-                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-cyan-400/80 shadow-glow">
-                        <i data-lucide="gamepad-2" class="h-5 w-5 text-white"></i>
-                    </span>
-                    <span>
-                        <span class="block text-sm font-bold tracking-[0.18em] text-cyan-300/90">PLAYARCADEX</span>
-                        <span class="block text-xs text-muted-ink">Premium Web Games Portal</span>
+                <a href="https://playarcadex.com/" aria-label="PlayArcadeX Home" class="inline-flex items-center gap-2 lg:hidden">
+                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-fuchsia-600 shadow-neon">
+                        <i data-lucide="gamepad-2" class="h-4.5 w-4.5 text-white"></i>
                     </span>
                 </a>
-
-                <form id="searchForm" class="relative mx-auto w-full max-w-2xl" role="search" aria-label="Search games">
-                    <label for="searchInput" class="sr-only">Search games</label>
-                    <input id="searchInput" type="search" autocomplete="off" placeholder="Search games, genres, or gameplay style..." class="w-full rounded-xl border border-line bg-card/85 py-2.5 pl-11 pr-4 text-sm text-slate-100 outline-none ring-brand transition focus:border-brand focus:ring-2" />
-                    <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-ink"></i>
-                </form>
-
-                <nav class="hidden items-center gap-2 md:flex" aria-label="Top links">
-                    <button type="button" data-modal-open="aboutModal" class="rounded-lg border border-line bg-card px-3 py-2 text-xs font-medium text-muted-ink transition hover:border-brand/70 hover:text-white">About</button>
-                    <button type="button" data-modal-open="privacyModal" class="rounded-lg border border-line bg-card px-3 py-2 text-xs font-medium text-muted-ink transition hover:border-brand/70 hover:text-white">Privacy</button>
-                    <button type="button" data-modal-open="termsModal" class="rounded-lg border border-line bg-card px-3 py-2 text-xs font-medium text-muted-ink transition hover:border-brand/70 hover:text-white">Terms</button>
-                </nav>
             </div>
-        </header>
 
-        <div id="mobileCategoryWrap" class="focus-dim border-b border-line/70 bg-bg/80 lg:hidden">
-            <div id="mobileCategoryBar" class="no-scrollbar mx-auto flex max-w-[1600px] gap-2 overflow-x-auto px-4 py-3 sm:px-6"></div>
+            <form id="searchForm" role="search" aria-label="Search games" class="search-shell relative mx-1 w-full max-w-[460px]">
+                <label for="searchInput" class="sr-only">Search games</label>
+                <input id="searchInput" type="search" autocomplete="off" placeholder="Search games and categories" class="search-input w-full rounded-full border border-transparent bg-[#3a3f66]/95 py-2.5 pl-11 pr-4 text-sm font-semibold text-indigo-100 outline-none ring-0 transition-all duration-300 placeholder:text-indigo-200/70 focus:border-indigo-300/30 focus:bg-[#434977]" />
+                <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+            </form>
         </div>
+    </header>
 
-        <aside id="desktopSidebar" class="focus-dim fixed left-0 top-[72px] hidden h-[calc(100vh-72px)] w-72 flex-col border-r border-line bg-bg/90 lg:flex">
-            <div class="border-b border-line/80 px-5 py-4">
-                <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-muted-ink">Categories</h2>
-                <p class="mt-1 text-xs text-slate-400">Filter by gameplay style</p>
-            </div>
+    <nav id="desktopSidebar" class="focus-dim fixed inset-y-16 left-0 flex border-r border-line/70 bg-[#080b1d]" aria-label="Desktop categories">
+        <section class="no-scrollbar flex h-full w-full flex-col overflow-y-auto px-2 py-2">
+            <header class="mb-3 flex items-center gap-2 px-1.5">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-fuchsia-600 shadow-neon">
+                    <i data-lucide="gamepad-2" class="h-4.5 w-4.5 text-white"></i>
+                </span>
+                <span class="sidebar-brand-text leading-tight">
+                    <span class="logo-glow block text-[11px] font-extrabold tracking-[0.14em] text-indigo-100">PLAYARCADEX</span>
+                    <span class="block text-[10px] text-slate-400">Game Portal</span>
+                </span>
+            </header>
 
-            <nav id="desktopCategoryNav" class="no-scrollbar flex-1 space-y-2 overflow-y-auto px-4 py-4" aria-label="Desktop categories"></nav>
+            <section id="desktopCategoryNav" class="space-y-1"></section>
+        </section>
+    </nav>
 
-            <div class="border-t border-line/80 px-4 py-4 text-xs text-slate-400">
-                <p class="font-semibold text-slate-300">Publisher-friendly setup</p>
-                <p class="mt-1">GDPR/CCPA notices, legal pages, and secure launch flow included.</p>
-            </div>
-        </aside>
-
-        <main id="mainContent" class="mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 lg:pl-[20rem] lg:pr-8">
-            <section id="heroSection" class="mb-6 rounded-2xl border border-line bg-gradient-to-br from-card via-card to-[#131728] p-5 shadow-soft sm:p-6">
-                <div class="flex flex-wrap items-center justify-between gap-5">
-                    <div class="max-w-2xl">
-                        <p class="mb-2 inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-200">
-                            <i data-lucide="zap" class="h-3.5 w-3.5"></i>
-                            Fast Launch Architecture
-                        </p>
-                        <h1 class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">Premium browser gaming, built for speed and monetization.</h1>
-                        <p class="mt-3 text-sm leading-relaxed text-muted-ink sm:text-base">
-                            PlayArcadeX loads games only when players request them, frees memory on exit, and keeps the interface optimized for desktop and mobile.
-                        </p>
-                    </div>
-
-                    <div class="grid w-full max-w-md grid-cols-3 gap-2 text-center text-xs sm:text-sm">
-                        <div class="rounded-xl border border-line bg-bg/60 px-3 py-3">
-                            <p id="heroGameCount" class="text-lg font-bold text-white">20</p>
-                            <p class="text-muted-ink">Curated Games</p>
-                        </div>
-                        <div class="rounded-xl border border-line bg-bg/60 px-3 py-3">
-                            <p id="heroAvgRating" class="text-lg font-bold text-white">4.7</p>
-                            <p class="text-muted-ink">Average Rating</p>
-                        </div>
-                        <div class="rounded-xl border border-line bg-bg/60 px-3 py-3">
-                            <p id="heroTotalPlays" class="text-lg font-bold text-white">0M</p>
-                            <p class="text-muted-ink">Combined Plays</p>
-                        </div>
-                    </div>
-                </div>
+    <main id="mainContent" class="mx-auto w-full max-w-[1900px] px-4 py-4 sm:px-5 lg:pr-5">
+        <section id="catalogView" class="space-y-6">
+            <section id="catalogFiltersBar" class="mb-0 flex flex-wrap items-center justify-between gap-3" aria-label="Catalog controls">
+                <p id="resultInfo" class="text-sm font-semibold text-slate-200">20 games found</p>
+                <button id="resetFiltersBtn" type="button" class="rounded-md bg-[#1a2144] px-3 py-1.5 text-xs font-medium text-slate-200 transition-all duration-300 hover:bg-[#273163] hover:text-white">
+                    Reset Filters
+                </button>
             </section>
 
-            <section id="catalogSection" aria-label="Game catalog">
-                <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <p id="resultInfo" class="text-sm text-muted-ink">20 games found</p>
-                    <button id="resetFiltersBtn" type="button" class="rounded-lg border border-line bg-card px-3 py-1.5 text-xs font-medium text-muted-ink transition hover:border-brand/70 hover:text-white">
-                        Reset Filters
-                    </button>
-                </div>
+            <section id="catalogSections" class="space-y-5" aria-live="polite"></section>
+        </section>
 
-                <div id="gamesGrid" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"></div>
-            </section>
+        <article id="gameArticle" class="hidden space-y-5" aria-live="polite">
+            <section id="bootScreen" class="rounded-2xl border border-line bg-card p-5 shadow-lg shadow-black/30 sm:p-6"></section>
 
-            <section id="gameSection" class="hidden space-y-6" aria-live="polite">
-                <div id="bootScreen" class="rounded-2xl border border-line bg-card p-5 shadow-soft sm:p-6"></div>
-
-                <div id="playerShell" class="hidden space-y-3">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <button id="backToCatalogBtn" type="button" class="inline-flex items-center gap-2 rounded-lg border border-line bg-card px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-brand/80 hover:text-white">
-                            <i data-lucide="arrow-left" class="h-4 w-4"></i>
-                            Back to Catalog
-                        </button>
-
-                        <div class="flex items-center gap-2">
-                            <button id="focusModeBtn" type="button" class="inline-flex items-center gap-2 rounded-lg border border-line bg-card px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-brand/80 hover:text-white">
-                                <i data-lucide="focus" class="h-4 w-4"></i>
-                                Focus Mode
-                            </button>
-
-                            <button id="reloadGameBtn" type="button" class="inline-flex items-center gap-2 rounded-lg border border-line bg-card px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-brand/80 hover:text-white">
-                                <i data-lucide="refresh-cw" class="h-4 w-4"></i>
-                                Reload
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="playerFrameHost" class="relative min-h-[360px] overflow-hidden rounded-2xl border border-line bg-black shadow-soft sm:min-h-[520px]">
-                        <div id="playerPlaceholder" class="absolute inset-0 grid place-items-center p-8 text-center text-sm text-slate-300">
+            <section id="playArena" class="hidden grid gap-3 lg:grid-cols-[minmax(0,1fr)_280px]">
+                <section class="space-y-4">
+                    <section id="playerFrameHost" class="relative aspect-video overflow-hidden rounded-2xl border border-line bg-black">
+                        <section id="playerPlaceholder" class="absolute inset-0 grid place-items-center p-8 text-center text-sm text-slate-300">
                             <div>
-                                <p class="mb-2 text-base font-semibold text-white">Ready to launch</p>
-                                <p id="launchHint">Use the Launch Game button above to mount the iframe on demand.</p>
+                                <p class="mb-2 text-base font-semibold text-white">Launch on demand</p>
+                                <p>The game iframe mounts only when you click Launch Game.</p>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        </section>
+                    </section>
 
-                <section class="rounded-2xl border border-line bg-card p-5 sm:p-6" aria-label="Recommended games">
-                    <div class="mb-4 flex items-center justify-between gap-2">
-                        <h3 class="text-lg font-bold text-white">Recommended Next</h3>
-                        <p class="text-xs text-muted-ink">Dynamic by active category</p>
-                    </div>
-                    <div id="recommendGrid" class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"></div>
-                </section>
-            </section>
-        </main>
-
-        <footer id="siteFooter" class="focus-dim mt-10 border-t border-line bg-bg/90">
-            <div class="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-4 px-4 py-6 text-sm text-muted-ink sm:flex-row sm:items-center sm:px-6 lg:px-8">
-                <p>© 2026 PlayArcadeX. All game rights belong to their respective publishers.</p>
-                <nav class="flex flex-wrap items-center gap-2" aria-label="Footer links">
-                    <button type="button" data-modal-open="privacyModal" class="rounded-lg border border-line bg-card px-3 py-1.5 text-xs transition hover:border-brand/70 hover:text-white">Privacy Policy</button>
-                    <button type="button" data-modal-open="termsModal" class="rounded-lg border border-line bg-card px-3 py-1.5 text-xs transition hover:border-brand/70 hover:text-white">Terms of Service</button>
-                    <button type="button" data-modal-open="aboutModal" class="rounded-lg border border-line bg-card px-3 py-1.5 text-xs transition hover:border-brand/70 hover:text-white">About & Contact</button>
-                </nav>
-            </div>
-        </footer>
-    </div>
-
-    <dialog id="privacyModal" class="w-[min(92vw,760px)] rounded-2xl border border-line bg-card p-0 text-ink shadow-soft backdrop:bg-black/70">
-        <div class="flex items-center justify-between border-b border-line px-5 py-4">
-            <h2 class="text-base font-bold text-white">Privacy Policy</h2>
-            <button type="button" data-modal-close class="rounded-lg border border-line p-1.5 text-slate-400 transition hover:text-white" aria-label="Close privacy policy">
-                <i data-lucide="x" class="h-4 w-4"></i>
-            </button>
-        </div>
-        <div class="dialog-panel max-h-[70vh] space-y-4 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-slate-300">
-            <p>PlayArcadeX uses essential cookies and performance cookies to keep sessions stable, remember player preferences, and improve loading performance.</p>
-            <p>Third-party ad networks, analytics providers, and game partners may process limited data, including device identifiers and ad interaction signals, to serve relevant ads and measure campaign quality.</p>
-            <p>For GDPR and CCPA compliance, users can request data access, correction, or deletion through contact@playarcadex.com. Consent choices can be updated at any time where supported by your region.</p>
-            <p>When launching partner games inside iframe environments, requests may include a secure referrer parameter so ad systems can validate publisher traffic and prevent fraud.</p>
-            <p>We do not intentionally collect sensitive personal data from children. If you believe accidental data collection occurred, please contact us for immediate review.</p>
-        </div>
-    </dialog>
-
-    <dialog id="termsModal" class="w-[min(92vw,760px)] rounded-2xl border border-line bg-card p-0 text-ink shadow-soft backdrop:bg-black/70">
-        <div class="flex items-center justify-between border-b border-line px-5 py-4">
-            <h2 class="text-base font-bold text-white">Terms of Service</h2>
-            <button type="button" data-modal-close class="rounded-lg border border-line p-1.5 text-slate-400 transition hover:text-white" aria-label="Close terms">
-                <i data-lucide="x" class="h-4 w-4"></i>
-            </button>
-        </div>
-        <div class="dialog-panel max-h-[70vh] space-y-4 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-slate-300">
-            <p>By using PlayArcadeX, you agree to use the portal for lawful entertainment purposes and respect all intellectual property rights held by game developers and publishers.</p>
-            <p>Games are delivered through embedded iframe technology. PlayArcadeX does not claim ownership over third-party game code, art, trademarks, or audio assets.</p>
-            <p>You may not reverse engineer, redistribute, scrape, or republish game embeds from this portal without explicit authorization from the rightsholder.</p>
-            <p>Copyright holders may submit DMCA notifications to contact@playarcadex.com with detailed proof of ownership and infringement claims.</p>
-            <p>PlayArcadeX may update, suspend, or remove game entries, content modules, or platform features to preserve security, policy compliance, and service quality.</p>
-        </div>
-    </dialog>
-
-    <dialog id="aboutModal" class="w-[min(92vw,760px)] rounded-2xl border border-line bg-card p-0 text-ink shadow-soft backdrop:bg-black/70">
-        <div class="flex items-center justify-between border-b border-line px-5 py-4">
-            <h2 class="text-base font-bold text-white">About & Contact</h2>
-            <button type="button" data-modal-close class="rounded-lg border border-line p-1.5 text-slate-400 transition hover:text-white" aria-label="Close about dialog">
-                <i data-lucide="x" class="h-4 w-4"></i>
-            </button>
-        </div>
-        <div class="dialog-panel max-h-[70vh] space-y-4 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-slate-300">
-            <p>PlayArcadeX is a curated browser gaming portal focused on premium UX, fast loading architecture, and policy-safe publishing standards.</p>
-            <p>We collaborate with game publishers and web developers to deliver high-quality titles that run smoothly across desktop and mobile browsers.</p>
-            <p>Business inquiries, developer submissions, and partnership requests: <a href="mailto:contact@playarcadex.com" class="font-semibold text-indigo-300 underline underline-offset-4">contact@playarcadex.com</a>.</p>
-            <p>Primary domain: https://playarcadex.com</p>
-        </div>
-    </dialog>
-
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        (() => {
-            "use strict";
-
-            // ============================
-            // State Management
-            // ============================
-            const categories = [
-                { id: "all", label: "All Games", icon: "layout-grid" },
-                { id: "racing", label: "Racing", icon: "flag" },
-                { id: "action", label: "Action", icon: "swords" },
-                { id: "puzzle", label: "Puzzle", icon: "brain" },
-                { id: "sports", label: "Sports", icon: "trophy" },
-                { id: "casual", label: "Casual", icon: "sparkles" }
-            ];
-
-            const gamesData = [
-                {
-                    id: "vex-x3m-3",
-                    title: "Vex X3M 3",
-                    category: "racing",
-                    iframeUrl: "https://html5.gamedistribution.com/ce1b2e5eabe44debb11bf77cd04c0f85/",
-                    thumbnail: "https://images.gamedistribution.com/ce1b2e5eabe44debb11bf77cd04c0f85-512x512.jpeg",
-                    description: "Ride through dangerous tracks packed with traps, sand pits, and high-speed loops. Control your bike with precise timing, unlock stronger vehicles, and finish each stunt-heavy level with the best possible time.",
-                    plays: "620K",
-                    rating: 4.8,
-                    imageHash: "ce1b2e5eabe44debb11bf77cd04c0f85"
-                },
-                {
-                    id: "football-legends-2026",
-                    title: "Football Legends 2026",
-                    category: "sports",
-                    iframeUrl: "https://html5.gamedistribution.com/13eabea86f7c4cd993a156258420e9ec/",
-                    thumbnail: "https://images.gamedistribution.com/13eabea86f7c4cd993a156258420e9ec-512x512.jpeg",
-                    description: "Play high-energy 1v1 and 2v2 football battles with special moves and supershots. Master jump timing, tactical defense, and explosive attacks to dominate tournaments.",
-                    plays: "910K",
-                    rating: 4.9,
-                    imageHash: "13eabea86f7c4cd993a156258420e9ec"
-                },
-                {
-                    id: "world-cup-soccer-caps",
-                    title: "World Cup Soccer Caps",
-                    category: "sports",
-                    iframeUrl: "https://html5.gamedistribution.com/040ff13a2a9f44b98009750960a523ae/",
-                    thumbnail: "https://images.gamedistribution.com/040ff13a2a9f44b98009750960a523ae-512x512.jpeg",
-                    description: "Flick your team caps across the field in a tactical tabletop football format. Adjust shot angle and force, then outplay your rival with precise passes and finishing shots.",
-                    plays: "340K",
-                    rating: 4.6,
-                    imageHash: "040ff13a2a9f44b98009750960a523ae"
-                },
-                {
-                    id: "helix-jump",
-                    title: "Helix Jump",
-                    category: "casual",
-                    iframeUrl: "https://html5.gamedistribution.com/544cf55c6ad44a3299099e813f7f5a9d/",
-                    thumbnail: "https://images.gamedistribution.com/544cf55c6ad44a3299099e813f7f5a9d-512x512.jpeg",
-                    description: "Guide a bouncing ball down rotating helix towers while avoiding danger zones. Build combos, break through layers, and push your reflexes for higher scores.",
-                    plays: "1.1M",
-                    rating: 4.8,
-                    imageHash: "544cf55c6ad44a3299099e813f7f5a9d"
-                },
-                {
-                    id: "magic-tiles-3",
-                    title: "Magic Tiles 3",
-                    category: "casual",
-                    iframeUrl: "https://html5.gamedistribution.com/58deefb8f63943dcbc5093070b9b5777/",
-                    thumbnail: "https://images.gamedistribution.com/58deefb8f63943dcbc5093070b9b5777-512x512.jpeg",
-                    description: "Tap rhythm lanes in sync with songs across multiple genres. Keep perfect timing, avoid missed notes, and chain long streaks to climb score rankings.",
-                    plays: "780K",
-                    rating: 4.7,
-                    imageHash: "58deefb8f63943dcbc5093070b9b5777"
-                },
-                {
-                    id: "fish-out-of-water",
-                    title: "Fish Out of Water!",
-                    category: "casual",
-                    iframeUrl: "https://html5.gamedistribution.com/bece97115f26426491fa08e409e545aa/",
-                    thumbnail: "https://images.gamedistribution.com/bece97115f26426491fa08e409e545aa-512x512.jpeg",
-                    description: "Launch quirky fish characters across ocean waves and maximize bounces. Each fish has unique flight behavior, so timing and throw angle are key.",
-                    plays: "430K",
-                    rating: 4.5,
-                    imageHash: "bece97115f26426491fa08e409e545aa"
-                },
-                {
-                    id: "hopnova",
-                    title: "Hopnova",
-                    category: "casual",
-                    iframeUrl: "https://html5.gamedistribution.com/d9a1e7343c9642988d8ec4623df4196c/",
-                    thumbnail: "https://images.gamedistribution.com/d9a1e7343c9642988d8ec4623df4196c-512x512.jpeg",
-                    description: "Jump through vertical platform challenges and avoid deadly gaps as you climb. Collect power-ups, react quickly, and set new height records every run.",
-                    plays: "210K",
-                    rating: 4.4,
-                    imageHash: "d9a1e7343c9642988d8ec4623df4196c"
-                },
-                {
-                    id: "dusty-cat",
-                    title: "Dusty Cat",
-                    category: "casual",
-                    iframeUrl: "https://html5.gamedistribution.com/141b948c1f5c4476acc673d84f2ad1c0/",
-                    thumbnail: "https://images.gamedistribution.com/141b948c1f5c4476acc673d84f2ad1c0-512x512.jpeg",
-                    description: "Start as a tiny dust particle and grow by consuming smaller targets while dodging larger threats. Survive longer, scale faster, and rank high on scoreboards.",
-                    plays: "185K",
-                    rating: 4.3,
-                    imageHash: "141b948c1f5c4476acc673d84f2ad1c0"
-                },
-                {
-                    id: "clicker-67-tap-tap",
-                    title: "67 Clicker Tap Tap",
-                    category: "casual",
-                    iframeUrl: "https://html5.gamedistribution.com/7fcb55f25f4a4a07848c630dffe1ae6e/",
-                    thumbnail: "https://images.gamedistribution.com/7fcb55f25f4a4a07848c630dffe1ae6e-512x512.jpeg",
-                    description: "Build your score in a rapid-fire clicker loop with upgrades, multipliers, and idle progression. Unlock all themed characters and chase maximum output.",
-                    plays: "270K",
-                    rating: 4.4,
-                    imageHash: "7fcb55f25f4a4a07848c630dffe1ae6e"
-                },
-                {
-                    id: "royal-pin",
-                    title: "Royal Pin",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/780bdf6c7e3244ed9237d175f6c099db/",
-                    thumbnail: "https://images.gamedistribution.com/780bdf6c7e3244ed9237d175f6c099db-512x512.jpeg",
-                    description: "Solve pin-pull rescue puzzles to save the king and protect the royal family. Each level demands careful sequence planning and hazard awareness.",
-                    plays: "520K",
-                    rating: 4.7,
-                    imageHash: "780bdf6c7e3244ed9237d175f6c099db"
-                },
-                {
-                    id: "grand-mahjong-connect",
-                    title: "Grand Mahjong Connect",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/92211d47448849d189bbc32d0d4d8f6f/",
-                    thumbnail: "https://images.gamedistribution.com/92211d47448849d189bbc32d0d4d8f6f-512x512.jpeg",
-                    description: "Match three identical tiles while managing a limited collection bar. Think ahead, avoid dead ends, and clear elegant board layouts efficiently.",
-                    plays: "300K",
-                    rating: 4.6,
-                    imageHash: "92211d47448849d189bbc32d0d4d8f6f"
-                },
-                {
-                    id: "block-escape",
-                    title: "Block Escape",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/9ffaf2fb134844958788642d2f76c6cd/",
-                    thumbnail: "https://images.gamedistribution.com/9ffaf2fb134844958788642d2f76c6cd-512x512.jpeg",
-                    description: "Slide directional blocks out of tight layouts by following each arrow constraint. Levels become more strategic as movement options narrow.",
-                    plays: "260K",
-                    rating: 4.5,
-                    imageHash: "9ffaf2fb134844958788642d2f76c6cd"
-                },
-                {
-                    id: "sudoblock-daily",
-                    title: "Sudoblock Daily",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/6d334740fa9245898dba6281e2766ee1/",
-                    thumbnail: "https://images.gamedistribution.com/6d334740fa9245898dba6281e2766ee1-512x512.jpeg",
-                    description: "Blend sudoku logic with block placement mechanics in daily challenge formats. Keep the board open, build combo clears, and maximize precision.",
-                    plays: "225K",
-                    rating: 4.5,
-                    imageHash: "6d334740fa9245898dba6281e2766ee1"
-                },
-                {
-                    id: "hexa-stack",
-                    title: "Hexa Stack",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/ac3276e1819644858f0c8693c219064c/",
-                    thumbnail: "https://images.gamedistribution.com/ac3276e1819644858f0c8693c219064c-512x512.jpeg",
-                    description: "Sort colorful hex tiles and stack matching colors to trigger satisfying chain merges. Use smart planning and boosters to avoid board lockouts.",
-                    plays: "245K",
-                    rating: 4.6,
-                    imageHash: "ac3276e1819644858f0c8693c219064c"
-                },
-                {
-                    id: "mojicon-garden-connect",
-                    title: "Mojicon Garden Connect",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/04bfaeb994ba4c38bd977a7082a7f07c/",
-                    thumbnail: "https://images.gamedistribution.com/04bfaeb994ba4c38bd977a7082a7f07c-512x512.jpeg",
-                    description: "Relax with colorful connect puzzles in a spring garden atmosphere. Match identical tiles quickly and uncover hidden discoveries as you progress.",
-                    plays: "190K",
-                    rating: 4.4,
-                    imageHash: "04bfaeb994ba4c38bd977a7082a7f07c"
-                },
-                {
-                    id: "sudo-tetroid-daily",
-                    title: "Sudo Tetroid Daily",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/82e9077372484a82ab196e2e38c7efc6/",
-                    thumbnail: "https://images.gamedistribution.com/82e9077372484a82ab196e2e38c7efc6-512x512.jpeg",
-                    description: "Place rotating tetromino pieces to satisfy sudoku-style number rules. Daily puzzles increase in complexity and reward thoughtful positioning.",
-                    plays: "175K",
-                    rating: 4.3,
-                    imageHash: "82e9077372484a82ab196e2e38c7efc6"
-                },
-                {
-                    id: "snake-go-escape-puzzle",
-                    title: "Snake Go - Escape Puzzle",
-                    category: "puzzle",
-                    iframeUrl: "https://html5.gamedistribution.com/73d8b722929e42d192795617dc4dd372/",
-                    thumbnail: "https://images.gamedistribution.com/73d8b722929e42d192795617dc4dd372-512x512.jpeg",
-                    description: "Guide your snake through dense maze-like boards where every movement matters. Sequence each move carefully to escape without locking your path.",
-                    plays: "205K",
-                    rating: 4.4,
-                    imageHash: "73d8b722929e42d192795617dc4dd372"
-                },
-                {
-                    id: "fireboy-watergirl-7",
-                    title: "Fireboy & Watergirl 7: and Friends",
-                    category: "action",
-                    iframeUrl: "https://html5.gamedistribution.com/d4a3629101574bc39bd8f9d1888ca58e/",
-                    thumbnail: "https://images.gamedistribution.com/d4a3629101574bc39bd8f9d1888ca58e-512x512.jpeg",
-                    description: "Cooperative platform action with puzzle-driven levels and multi-character mechanics. Coordinate movement, activate switches, and collect all diamonds.",
-                    plays: "880K",
-                    rating: 4.9,
-                    imageHash: "d4a3629101574bc39bd8f9d1888ca58e"
-                },
-                {
-                    id: "office-solitaire",
-                    title: "Office Solitaire",
-                    category: "casual",
-                    iframeUrl: "https://html5.gamedistribution.com/ab572c1e1dc04e4499da4db26e768286/",
-                    thumbnail: "https://images.gamedistribution.com/ab572c1e1dc04e4499da4db26e768286-512x512.jpeg",
-                    description: "Classic solitaire flow with clean controls and smooth pacing. Build suit stacks from Ace to King while managing deck draws and board sequencing.",
-                    plays: "315K",
-                    rating: 4.6,
-                    imageHash: "ab572c1e1dc04e4499da4db26e768286"
-                },
-                {
-                    id: "arrow-count-master",
-                    title: "Arrow Count Master",
-                    category: "action",
-                    iframeUrl: "https://html5.gamedistribution.com/77183764be80432a90acd34174f4dade/",
-                    thumbnail: "https://images.gamedistribution.com/77183764be80432a90acd34174f4dade-512x512.jpeg",
-                    description: "Race through gates that multiply or reduce your arrows, then unleash massive volleys at the finish. Pick paths strategically and avoid penalties.",
-                    plays: "355K",
-                    rating: 4.6,
-                    imageHash: "77183764be80432a90acd34174f4dade"
-                }
-            ];
-
-            const gameById = new Map(gamesData.map((game) => [game.id, game]));
-
-            const state = {
-                currentView: "catalog",
-                activeCategory: "all",
-                searchTerm: "",
-                activeGameId: null,
-                isFocusMode: false
-            };
-
-            const dom = {
-                siteHeader: document.getElementById("siteHeader"),
-                mobileCategoryWrap: document.getElementById("mobileCategoryWrap"),
-                mobileCategoryBar: document.getElementById("mobileCategoryBar"),
-                desktopSidebar: document.getElementById("desktopSidebar"),
-                desktopCategoryNav: document.getElementById("desktopCategoryNav"),
-                searchForm: document.getElementById("searchForm"),
-                searchInput: document.getElementById("searchInput"),
-                resultInfo: document.getElementById("resultInfo"),
-                resetFiltersBtn: document.getElementById("resetFiltersBtn"),
-                heroSection: document.getElementById("heroSection"),
-                heroGameCount: document.getElementById("heroGameCount"),
-                heroAvgRating: document.getElementById("heroAvgRating"),
-                heroTotalPlays: document.getElementById("heroTotalPlays"),
-                catalogSection: document.getElementById("catalogSection"),
-                gamesGrid: document.getElementById("gamesGrid"),
-                gameSection: document.getElementById("gameSection"),
-                bootScreen: document.getElementById("bootScreen"),
-                playerShell: document.getElementById("playerShell"),
-                backToCatalogBtn: document.getElementById("backToCatalogBtn"),
-                focusModeBtn: document.getElementById("focusModeBtn"),
-                reloadGameBtn: document.getElementById("reloadGameBtn"),
-                playerFrameHost: document.getElementById("playerFrameHost"),
-                playerPlaceholder: document.getElementById("playerPlaceholder"),
-                launchHint: document.getElementById("launchHint"),
-                recommendGrid: document.getElementById("recommendGrid"),
-                siteFooter: document.getElementById("siteFooter"),
-                privacyModal: document.getElementById("privacyModal"),
-                termsModal: document.getElementById("termsModal"),
-                aboutModal: document.getElementById("aboutModal"),
-                metaDescription: document.querySelector('meta[name="description"]'),
-                metaKeywords: document.querySelector('meta[name="keywords"]'),
-                ogTitle: document.querySelector('meta[property="og:title"]'),
-                ogDescription: document.querySelector('meta[property="og:description"]'),
-                ogUrl: document.querySelector('meta[property="og:url"]'),
-                ogImage: document.querySelector('meta[property="og:image"]'),
-                twitterTitle: document.querySelector('meta[name="twitter:title"]'),
-                twitterDescription: document.querySelector('meta[name="twitter:description"]'),
-                twitterUrl: document.querySelector('meta[name="twitter:url"]'),
-                twitterImage: document.querySelector('meta[name="twitter:image"]'),
-                canonical: document.querySelector('link[rel="canonical"]')
-            };
-
-            const BASE_META = {
-                title: "PlayArcadeX - Premium Web Games Portal",
-                description: "PlayArcadeX is a premium web games portal with fast loading HTML5 titles, smooth gameplay, secure launch flow, and curated action, puzzle, racing, sports, and casual games.",
-                keywords: "PlayArcadeX, web games, html5 games, browser games, puzzle games, racing games, sports games, casual games, action games",
-                url: "https://playarcadex.com/",
-                image: "https://images.gamedistribution.com/13eabea86f7c4cd993a156258420e9ec-512x512.jpeg"
-            };
-
-            const DYNAMIC_SCHEMA_ID = "dynamicGameSchema";
-
-            // ============================
-            // Utility Helpers
-            // ============================
-            const debounce = (fn, wait = 140) => {
-                let timer = null;
-                return (...args) => {
-                    clearTimeout(timer);
-                    timer = window.setTimeout(() => fn(...args), wait);
-                };
-            };
-
-            const capitalize = (value) => value.charAt(0).toUpperCase() + value.slice(1);
-
-            const escapeHtml = (value) => String(value)
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#39;");
-
-            const toNumericPlays = (plays) => {
-                const normalized = String(plays).trim().toUpperCase();
-                const base = parseFloat(normalized.replace(/[^\d.]/g, "")) || 0;
-                if (normalized.endsWith("M")) {
-                    return Math.round(base * 1_000_000);
-                }
-                if (normalized.endsWith("K")) {
-                    return Math.round(base * 1_000);
-                }
-                return Math.round(base);
-            };
-
-            const getInitials = (title) => title
-                .split(/\s+/)
-                .filter(Boolean)
-                .slice(0, 2)
-                .map((part) => part[0].toUpperCase())
-                .join("") || "GX";
-
-            const createGradientPlaceholder = (title) => {
-                const canvas = document.createElement("canvas");
-                canvas.width = 512;
-                canvas.height = 512;
-                const ctx = canvas.getContext("2d");
-                if (!ctx) {
-                    return "";
-                }
-
-                const seed = Array.from(title).reduce((acc, char) => acc + char.charCodeAt(0), 0);
-                const hueA = seed % 360;
-                const hueB = (seed * 1.7) % 360;
-                const gradient = ctx.createLinearGradient(0, 0, 512, 512);
-                gradient.addColorStop(0, `hsl(${hueA}, 62%, 40%)`);
-                gradient.addColorStop(1, `hsl(${hueB}, 72%, 30%)`);
-
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, 512, 512);
-
-                ctx.fillStyle = "rgba(255,255,255,0.92)";
-                ctx.font = "700 156px Plus Jakarta Sans";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(getInitials(title), 256, 268);
-
-                return canvas.toDataURL("image/png");
-            };
-
-            const activeGame = () => (state.activeGameId ? gameById.get(state.activeGameId) || null : null);
-
-            // ============================
-            // UI Render Functions
-            // ============================
-            const buildCategoryButton = (category, compact = false) => {
-                const selected = state.activeCategory === category.id;
-                const activeClass = selected
-                    ? "border-brand bg-brand/15 text-white"
-                    : "border-line bg-card text-muted-ink hover:border-brand/60 hover:text-white";
-
-                const sizeClass = compact
-                    ? "px-3 py-2 text-xs whitespace-nowrap"
-                    : "w-full justify-start px-3.5 py-2.5 text-sm";
-
-                return `
-                    <button type="button" data-category="${category.id}" class="inline-flex items-center gap-2 rounded-lg border ${activeClass} ${sizeClass} transition">
-                        <i data-lucide="${category.icon}" class="h-4 w-4"></i>
-                        <span>${category.label}</span>
-                    </button>
-                `;
-            };
-
-            const renderCategoryBars = () => {
-                dom.desktopCategoryNav.innerHTML = categories
-                    .map((category) => buildCategoryButton(category, false))
-                    .join("");
-
-                dom.mobileCategoryBar.innerHTML = categories
-                    .map((category) => buildCategoryButton(category, true))
-                    .join("");
-            };
-
-            const filteredGames = () => {
-                const term = state.searchTerm.trim().toLowerCase();
-                return gamesData
-                    .filter((game) => {
-                        const inCategory = state.activeCategory === "all" || game.category === state.activeCategory;
-                        const haystack = `${game.title} ${game.description} ${game.category}`.toLowerCase();
-                        const inSearch = !term || haystack.includes(term);
-                        return inCategory && inSearch;
-                    })
-                    .sort((a, b) => toNumericPlays(b.plays) - toNumericPlays(a.plays));
-            };
-
-            const renderHeroStats = () => {
-                const totalPlays = gamesData.reduce((sum, game) => sum + toNumericPlays(game.plays), 0);
-                const avgRating = gamesData.reduce((sum, game) => sum + game.rating, 0) / gamesData.length;
-                dom.heroGameCount.textContent = String(gamesData.length);
-                dom.heroAvgRating.textContent = avgRating.toFixed(1);
-                dom.heroTotalPlays.textContent = `${(totalPlays / 1_000_000).toFixed(1)}M`;
-            };
-
-            const gameCardTemplate = (game, index) => `
-                <article class="card-enter group rounded-2xl border border-line bg-card shadow-soft transition hover:-translate-y-0.5 hover:border-brand/55" style="animation-delay: ${Math.min(index * 28, 220)}ms">
-                    <div class="relative aspect-square overflow-hidden rounded-t-2xl border-b border-line/80 bg-bg/70">
-                        <img
-                            src="${escapeHtml(game.thumbnail)}"
-                            alt="${escapeHtml(game.title)} cover image"
-                            loading="lazy"
-                            decoding="async"
-                            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-                            data-game-id="${game.id}"
-                            data-image-hash="${game.imageHash}"
-                            data-fallback-step="0"
-                        />
-                        <span class="absolute left-3 top-3 rounded-full border border-brand/50 bg-bg/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-indigo-200">${escapeHtml(game.category)}</span>
-                    </div>
-                    <div class="space-y-3 p-4">
-                        <h2 class="line-clamp-1 text-base font-bold text-white">${escapeHtml(game.title)}</h2>
-                        <p class="line-clamp-2 text-xs leading-relaxed text-muted-ink">${escapeHtml(game.description)}</p>
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="inline-flex items-center gap-1 text-amber-300"><i data-lucide="star" class="h-3.5 w-3.5 fill-amber-300 text-amber-300"></i> ${game.rating.toFixed(1)}</span>
-                            <span class="text-slate-400">${escapeHtml(game.plays)} plays</span>
-                        </div>
-                        <button type="button" data-game-open="${game.id}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand to-brand-strong px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-900/35 transition hover:brightness-110">
-                            <i data-lucide="play" class="h-4 w-4"></i>
-                            Open Game
+                    <nav id="controlToolbar" class="flex flex-wrap items-center gap-2 rounded-lg border border-line bg-[#101528] px-3 py-2.5" aria-label="Player controls">
+                        <button id="backToCatalogBtn" type="button" data-back-catalog class="inline-flex items-center gap-2 rounded-lg border border-line bg-bg/70 px-3 py-2 text-xs font-semibold text-slate-100 transition-all duration-300 hover:border-brand/70 hover:text-white">
+                            <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                            Back
                         </button>
-                    </div>
-                </article>
-            `;
-
-            const renderCatalog = () => {
-                const games = filteredGames();
-                dom.resultInfo.textContent = `${games.length} games found`;
-
-                if (!games.length) {
-                    dom.gamesGrid.innerHTML = `
-                        <div class="col-span-full rounded-2xl border border-dashed border-line bg-card/70 px-6 py-12 text-center">
-                            <p class="text-lg font-semibold text-white">No games match your filters</p>
-                            <p class="mt-2 text-sm text-muted-ink">Try another search term or switch category.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                dom.gamesGrid.innerHTML = games
-                    .map((game, index) => gameCardTemplate(game, index))
-                    .join("");
-            };
-
-            const renderBootScreen = (game) => {
-                if (!game) {
-                    dom.bootScreen.innerHTML = "";
-                    return;
-                }
-
-                dom.bootScreen.innerHTML = `
-                    <div class="grid gap-5 lg:grid-cols-[320px,1fr] lg:gap-6">
-                        <div class="overflow-hidden rounded-2xl border border-line bg-bg/60">
-                            <img
-                                src="${escapeHtml(game.thumbnail)}"
-                                alt="${escapeHtml(game.title)} key art"
-                                class="h-full w-full object-cover"
-                                data-game-id="${game.id}"
-                                data-image-hash="${game.imageHash}"
-                                data-fallback-step="0"
-                            />
-                        </div>
-                        <div class="space-y-4">
-                            <span class="inline-flex items-center gap-2 rounded-full border border-brand/45 bg-brand/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-indigo-200">
-                                <i data-lucide="joystick" class="h-3.5 w-3.5"></i>
-                                ${escapeHtml(capitalize(game.category))}
-                            </span>
-                            <h2 class="text-2xl font-extrabold text-white sm:text-3xl">${escapeHtml(game.title)}</h2>
-                            <p class="max-w-3xl text-sm leading-relaxed text-muted-ink sm:text-base">${escapeHtml(game.description)}</p>
-
-                            <div class="flex flex-wrap gap-2 text-xs sm:text-sm">
-                                <span class="inline-flex items-center gap-1 rounded-lg border border-line bg-bg/60 px-3 py-1.5 text-slate-300"><i data-lucide="star" class="h-3.5 w-3.5 fill-amber-300 text-amber-300"></i> ${game.rating.toFixed(1)} / 5</span>
-                                <span class="inline-flex items-center gap-1 rounded-lg border border-line bg-bg/60 px-3 py-1.5 text-slate-300"><i data-lucide="trending-up" class="h-3.5 w-3.5"></i> ${escapeHtml(game.plays)} plays</span>
-                                <span class="inline-flex items-center gap-1 rounded-lg border border-line bg-bg/60 px-3 py-1.5 text-slate-300"><i data-lucide="shield-check" class="h-3.5 w-3.5"></i> Secure launch flow</span>
-                            </div>
-
-                            <div class="flex flex-wrap gap-2 pt-2">
-                                <button type="button" data-launch-game class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand to-brand-strong px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-900/35 transition hover:brightness-110">
-                                    <i data-lucide="rocket" class="h-4 w-4"></i>
-                                    Launch Game
-                                </button>
-                                <button type="button" data-back-catalog class="inline-flex items-center gap-2 rounded-xl border border-line bg-bg/50 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-brand/70 hover:text-white">
-                                    <i data-lucide="chevron-left" class="h-4 w-4"></i>
-                                    Back to Catalog
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            };
-
-            const renderRecommendations = (game) => {
-                const source = game
-                    ? gamesData.filter((item) => item.id !== game.id && item.category === game.category)
-                    : gamesData;
-
-                const recommendations = source
-                    .sort((a, b) => b.rating - a.rating)
-                    .slice(0, 6);
-
-                dom.recommendGrid.innerHTML = recommendations
-                    .map((item) => `
-                        <article class="rounded-xl border border-line bg-bg/50 p-3 transition hover:border-brand/55">
-                            <div class="flex items-start gap-3">
-                                <img
-                                    src="${escapeHtml(item.thumbnail)}"
-                                    alt="${escapeHtml(item.title)} cover"
-                                    class="h-16 w-16 rounded-lg object-cover"
-                                    loading="lazy"
-                                    decoding="async"
-                                    data-game-id="${item.id}"
-                                    data-image-hash="${item.imageHash}"
-                                    data-fallback-step="0"
-                                />
-                                <div class="min-w-0 flex-1">
-                                    <h4 class="line-clamp-1 text-sm font-semibold text-white">${escapeHtml(item.title)}</h4>
-                                    <p class="mt-1 text-xs text-muted-ink">${escapeHtml(capitalize(item.category))} • ${item.rating.toFixed(1)}★</p>
-                                    <button type="button" data-game-open="${item.id}" class="mt-2 inline-flex items-center gap-1 rounded-lg border border-line px-2.5 py-1 text-xs text-slate-300 transition hover:border-brand/70 hover:text-white">
-                                        <i data-lucide="play" class="h-3.5 w-3.5"></i>
-                                        Open
-                                    </button>
-                                </div>
-                            </div>
-                        </article>
-                    `)
-                    .join("");
-            };
-
-            // ============================
-            // UX Controls
-            // ============================
-            const applyFocusMode = () => {
-                const shouldDim = state.currentView === "play" && state.isFocusMode;
-                [dom.siteHeader, dom.desktopSidebar, dom.mobileCategoryWrap, dom.siteFooter].forEach((el) => {
-                    if (!el) return;
-                    el.classList.toggle("opacity-10", shouldDim);
-                });
-
-                dom.focusModeBtn.classList.toggle("border-brand", shouldDim);
-                dom.focusModeBtn.classList.toggle("text-white", shouldDim);
-                dom.focusModeBtn.classList.toggle("bg-brand/15", shouldDim);
-            };
-
-            const unmountGameIframe = () => {
-                const iframe = dom.playerFrameHost.querySelector("iframe");
-                if (iframe) {
-                    iframe.src = "";
-                    iframe.remove();
-                }
-                dom.playerPlaceholder.classList.remove("hidden");
-            };
-
-            const mountGameIframe = (game) => {
-                unmountGameIframe();
-
-                const iframe = document.createElement("iframe");
-                iframe.title = `${game.title} - PlayArcadeX`;
-                iframe.className = "h-full min-h-[360px] w-full rounded-2xl border-0 sm:min-h-[520px]";
-                iframe.loading = "eager";
-                iframe.allowFullscreen = true;
-                iframe.referrerPolicy = "origin";
-                iframe.setAttribute("allow", "autoplay; fullscreen; gamepad; clipboard-read; clipboard-write");
-
-                const cleanGameUrl = game.iframeUrl.split("?")[0];
-                const currentOrigin = window.location.origin + window.location.pathname;
-                iframe.src = `${cleanGameUrl}?gd_sdk_referrer_url=${encodeURIComponent(currentOrigin)}`;
-
-                dom.playerFrameHost.appendChild(iframe);
-                dom.playerPlaceholder.classList.add("hidden");
-                dom.launchHint.textContent = "Game session started. Use Back to Catalog to free browser memory.";
-            };
-
-            const openCatalogView = (updateHash = true) => {
-                state.currentView = "catalog";
-                state.activeGameId = null;
-                state.isFocusMode = false;
-
-                unmountGameIframe();
-                dom.heroSection.classList.remove("hidden");
-                dom.catalogSection.classList.remove("hidden");
-                dom.gameSection.classList.add("hidden");
-                dom.playerShell.classList.add("hidden");
-
-                if (updateHash) {
-                    history.replaceState({}, "", window.location.pathname);
-                }
-
-                applyFocusMode();
-                clearGameSchema();
-                updateSeoMeta();
-                renderRecommendations(null);
-                refreshIcons();
-            };
-
-            const openBootView = (gameId, updateHash = true) => {
-                const game = gameById.get(gameId);
-                if (!game) {
-                    openCatalogView(updateHash);
-                    return;
-                }
-
-                state.currentView = "boot";
-                state.activeGameId = game.id;
-                state.isFocusMode = false;
-
-                unmountGameIframe();
-                dom.heroSection.classList.add("hidden");
-                dom.catalogSection.classList.add("hidden");
-                dom.gameSection.classList.remove("hidden");
-                dom.playerShell.classList.add("hidden");
-
-                renderBootScreen(game);
-                renderRecommendations(game);
-
-                if (updateHash) {
-                    history.replaceState({}, "", `${window.location.pathname}#game=${encodeURIComponent(game.id)}`);
-                }
-
-                applyFocusMode();
-                injectGameSchema(game);
-                updateSeoMeta();
-                refreshIcons();
-            };
-
-            const openPlayView = () => {
-                const game = activeGame();
-                if (!game) return;
-
-                state.currentView = "play";
-                dom.playerShell.classList.remove("hidden");
-                mountGameIframe(game);
-                injectGameSchema(game);
-                updateSeoMeta();
-                applyFocusMode();
-                refreshIcons();
-            };
-
-            const resetFilters = () => {
-                state.searchTerm = "";
-                state.activeCategory = "all";
-                dom.searchInput.value = "";
-                renderCategoryBars();
-                renderCatalog();
-                refreshIcons();
-            };
-
-            const handleCategoryChange = (categoryId) => {
-                if (!categories.some((item) => item.id === categoryId)) return;
-                state.activeCategory = categoryId;
-                renderCategoryBars();
-                renderCatalog();
-                refreshIcons();
-            };
-
-            const toggleFocusMode = () => {
-                if (state.currentView !== "play") return;
-                state.isFocusMode = !state.isFocusMode;
-                applyFocusMode();
-            };
-
-            const setModalOpen = (dialog, open) => {
-                if (!dialog) return;
-                if (open) {
-                    if (!dialog.open) dialog.showModal();
-                } else if (dialog.open) {
-                    dialog.close();
-                }
-            };
-
-            const bindModalEvents = () => {
-                const modals = {
-                    privacyModal: dom.privacyModal,
-                    termsModal: dom.termsModal,
-                    aboutModal: dom.aboutModal
-                };
-
-                document.querySelectorAll("[data-modal-open]").forEach((trigger) => {
-                    trigger.addEventListener("click", () => {
-                        const modalId = trigger.getAttribute("data-modal-open");
-                        setModalOpen(modals[modalId], true);
-                    });
-                });
-
-                document.querySelectorAll("[data-modal-close]").forEach((trigger) => {
-                    trigger.addEventListener("click", () => {
-                        const dialog = trigger.closest("dialog");
-                        setModalOpen(dialog, false);
-                    });
-                });
-
-                Object.values(modals).forEach((dialog) => {
-                    if (!dialog) return;
-                    dialog.addEventListener("click", (event) => {
-                        const rect = dialog.getBoundingClientRect();
-                        const inside =
-                            event.clientX >= rect.left &&
-                            event.clientX <= rect.right &&
-                            event.clientY >= rect.top &&
-                            event.clientY <= rect.bottom;
-
-                        if (!inside) {
-                            setModalOpen(dialog, false);
-                        }
-                    });
-                });
-            };
-
-            // ============================
-            // SEO & Schema Injectors
-            // ============================
-            const clearGameSchema = () => {
-                const existing = document.getElementById(DYNAMIC_SCHEMA_ID);
-                if (existing) existing.remove();
-            };
-
-            const injectGameSchema = (game) => {
-                clearGameSchema();
-                if (!game) return;
-
-                const schema = {
-                    "@context": "https://schema.org",
-                    "@type": "GameApplication",
-                    name: game.title,
-                    applicationCategory: "Game",
-                    operatingSystem: "Any",
-                    url: `https://playarcadex.com/#game=${game.id}`,
-                    image: game.thumbnail,
-                    description: game.description,
-                    genre: capitalize(game.category),
-                    aggregateRating: {
-                        "@type": "AggregateRating",
-                        ratingValue: game.rating.toFixed(1),
-                        bestRating: "5",
-                        worstRating: "1",
-                        ratingCount: Math.max(50, Math.round(toNumericPlays(game.plays) / 12))
-                    },
-                    offers: {
-                        "@type": "Offer",
-                        price: "0",
-                        priceCurrency: "USD",
-                        availability: "https://schema.org/InStock"
-                    },
-                    publisher: {
-                        "@type": "Organization",
-                        name: "PlayArcadeX",
-                        url: "https://playarcadex.com/"
-                    }
-                };
-
-                const script = document.createElement("script");
-                script.id = DYNAMIC_SCHEMA_ID;
-                script.type = "application/ld+json";
-                script.textContent = JSON.stringify(schema);
-                document.head.appendChild(script);
-            };
-
-            const updateSeoMeta = () => {
-                const game = activeGame();
-                const isGameContext = (state.currentView === "boot" || state.currentView === "play") && !!game;
-
-                if (!isGameContext || !game) {
-                    document.title = BASE_META.title;
-                    dom.metaDescription.setAttribute("content", BASE_META.description);
-                    dom.metaKeywords.setAttribute("content", BASE_META.keywords);
-                    dom.ogTitle.setAttribute("content", BASE_META.title);
-                    dom.ogDescription.setAttribute("content", BASE_META.description);
-                    dom.ogUrl.setAttribute("content", BASE_META.url);
-                    dom.ogImage.setAttribute("content", BASE_META.image);
-                    dom.twitterTitle.setAttribute("content", BASE_META.title);
-                    dom.twitterDescription.setAttribute("content", BASE_META.description);
-                    dom.twitterUrl.setAttribute("content", BASE_META.url);
-                    dom.twitterImage.setAttribute("content", BASE_META.image);
-                    dom.canonical.setAttribute("href", BASE_META.url);
-                    return;
-                }
-
-                const gameUrl = `https://playarcadex.com/#game=${encodeURIComponent(game.id)}`;
-                const gameTitle = `${game.title} - Play on PlayArcadeX`;
-                const gameDescription = `${game.description} Category: ${capitalize(game.category)}. Rating: ${game.rating.toFixed(1)}.`;
-
-                document.title = gameTitle;
-                dom.metaDescription.setAttribute("content", gameDescription);
-                dom.metaKeywords.setAttribute("content", `${BASE_META.keywords}, ${game.title}, ${game.category} game`);
-                dom.ogTitle.setAttribute("content", gameTitle);
-                dom.ogDescription.setAttribute("content", gameDescription);
-                dom.ogUrl.setAttribute("content", gameUrl);
-                dom.ogImage.setAttribute("content", game.thumbnail);
-                dom.twitterTitle.setAttribute("content", gameTitle);
-                dom.twitterDescription.setAttribute("content", gameDescription);
-                dom.twitterUrl.setAttribute("content", gameUrl);
-                dom.twitterImage.setAttribute("content", game.thumbnail);
-                dom.canonical.setAttribute("href", gameUrl);
-            };
-
-            // ============================
-            // Events and Runtime Wiring
-            // ============================
-            const refreshIcons = () => {
-                if (window.lucide && typeof window.lucide.createIcons === "function") {
-                    window.lucide.createIcons();
-                }
-            };
-
-            const handleImageFallback = (event) => {
-                const target = event.target;
-                if (!(target instanceof HTMLImageElement)) return;
-                const gameId = target.dataset.gameId;
-                if (!gameId) return;
-
-                const game = gameById.get(gameId);
-                if (!game) return;
-
-                const step = Number(target.dataset.fallbackStep || "0");
-                if (step === 0) {
-                    target.dataset.fallbackStep = "1";
-                    target.src = `https://img.gamedistribution.com/${game.imageHash}-512x512.jpg`;
-                    return;
-                }
-                if (step === 1) {
-                    target.dataset.fallbackStep = "2";
-                    target.src = `https://img.gamedistribution.com/${game.imageHash}-512x512.jpeg`;
-                    return;
-                }
-
-                target.dataset.fallbackStep = "3";
-                target.src = createGradientPlaceholder(game.title);
-            };
-
-            const bindCoreEvents = () => {
-                dom.searchForm.addEventListener("submit", (event) => {
-                    event.preventDefault();
-                });
-
-                dom.searchInput.addEventListener("input", debounce((event) => {
-                    state.searchTerm = event.target.value || "";
-                    renderCatalog();
-                    refreshIcons();
-                }));
-
-                dom.resetFiltersBtn.addEventListener("click", () => {
-                    resetFilters();
-                });
-
-                document.addEventListener("click", (event) => {
-                    const categoryButton = event.target.closest("[data-category]");
-                    if (categoryButton) {
-                        handleCategoryChange(categoryButton.getAttribute("data-category"));
-                        return;
-                    }
-
-                    const openButton = event.target.closest("[data-game-open]");
-                    if (openButton) {
-                        openBootView(openButton.getAttribute("data-game-open"));
-                        return;
-                    }
-
-                    const launchButton = event.target.closest("[data-launch-game]");
-                    if (launchButton) {
-                        openPlayView();
-                        return;
-                    }
-
-                    const backButton = event.target.closest("[data-back-catalog]");
-                    if (backButton) {
-                        openCatalogView();
-                    }
-                });
-
-                dom.backToCatalogBtn.addEventListener("click", () => {
-                    openCatalogView();
-                });
-
-                dom.focusModeBtn.addEventListener("click", () => {
-                    toggleFocusMode();
-                });
-
-                dom.reloadGameBtn.addEventListener("click", () => {
-                    const game = activeGame();
-                    if (!game || state.currentView !== "play") return;
-                    mountGameIframe(game);
-                });
-
-                document.addEventListener("error", handleImageFallback, true);
-
-                window.addEventListener("hashchange", () => {
-                    const match = window.location.hash.match(/^#game=(.+)$/);
-                    if (match && gameById.has(decodeURIComponent(match[1]))) {
-                        openBootView(decodeURIComponent(match[1]), false);
-                    } else if (!window.location.hash) {
-                        openCatalogView(false);
-                    }
-                });
-
-                window.addEventListener("keydown", (event) => {
-                    if (event.key === "Escape" && state.currentView === "play" && state.isFocusMode) {
-                        state.isFocusMode = false;
-                        applyFocusMode();
-                    }
-                });
-            };
-
-            const bootFromUrl = () => {
-                const match = window.location.hash.match(/^#game=(.+)$/);
-                if (match) {
-                    const gameId = decodeURIComponent(match[1]);
-                    if (gameById.has(gameId)) {
-                        openBootView(gameId, false);
-                        return;
-                    }
-                }
-                openCatalogView(false);
-            };
-
-            // ============================
-            // App Init
-            // ============================
-            const init = () => {
-                renderCategoryBars();
-                renderHeroStats();
-                renderCatalog();
-                renderRecommendations(null);
-                bindCoreEvents();
-                bindModalEvents();
-                bootFromUrl();
-                updateSeoMeta();
-                refreshIcons();
-            };
-
-            init();
-        })();
-    </script>
+                        <button id="focusModeBtn" type="button" class="inline-flex items-center gap-2 rounded-lg border border-line bg-bg/70 px-3 py-2 text-xs font-semibold text-slate-100 transition-all duration-300 hover:border-brand/70 hover:text-white">
+                            <i data-lucide="focus" class="h-4 w-4"></i>
+                            <span id="focusModeLabel">Focus Mode</span>
+                        </button>
+                        <button id="fullscreenBtn" type="button" class="inline-flex items-center gap-2 rounded-lg border border-line bg-bg/70 px-3 py-2 text-xs font-semibold text-slate-100 transition-all duration-300 hover:border-brand/70 hover:text-white">
+                            <i data-lucide="maximize" class="h-4 w-4"></i>
+                            <span id="fullscreenLabel">Fullscreen</span>
+                        </button>
+                        <button id="shareBtn" type="button" class="inline-flex items-center gap-2 rounded-lg border border-line bg-bg/70 px-3 py-2 text-xs font-semibold text-slate-100 transition-all duration-300 hover:border-brand/70 hover:text-white">
+                            <i data-lucide="share-2" class="h-4 w-4"></i>
+                            Share
+                        </button>
+                        <button id="reloadGameBtn" type="button" class="inline-flex items-center gap-2 rounded-lg border border-line bg-bg/70 px-3 py-2 text-xs font-semibold text-slate-100 transition-all duration-300 hover:border-brand/70 hover:text-white">
+                            <i data-lucide="refresh-cw" class="h-4 w-4"></i>
+                            Reload
+                        </button>
+                        <p id="controlFeedback" class="ml-auto text-xs text-slate-400"></p>
+                    </nav>
+
+                    <section id="metaDetails"></section>
+
+                    <section class="rounded-xl bg-[#0d1128] p-3.5 lg:hidden">
+                        <header class="mb-3 flex items-center justify-between gap-2">
+                            <h3 class="text-sm font-bold text-white">Play next</h3>
+                            <p class="text-[11px] text-slate-400">Recommended</p>
+                        </header>
+                        <section id="mobileRecommendList" class="grid grid-cols-3 gap-2"></section>
+                    </section>
+                </section>
+
+                <aside class="hidden lg:block">
+                    <section class="sticky top-[74px] rounded-xl bg-[#0c1027] p-3">
+                        <header class="mb-3 flex items-center justify-between gap-2">
+                            <h3 class="text-sm font-bold text-white">Play next</h3>
+                            <p class="text-[11px] text-slate-400">Queue</p>
+                        </header>
+                        <section id="desktopRecommendList" class="grid grid-cols-2 gap-2"></section>
+                    </section>
+                </aside>
+            </section>
+        </article>
+    </main>
+
+    <footer id="siteFooter" class="focus-dim mt-10 border-t border-line/80 bg-[#050816]/95">
+        <section class="footer-shell mx-auto grid max-w-[1700px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-9 lg:px-8">
+            <section class="space-y-4">
+                <div class="inline-flex items-center gap-2 rounded-xl border border-line/70 bg-[#0d1431] px-3 py-2">
+                    <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-fuchsia-600">
+                        <i data-lucide="gamepad-2" class="h-4 w-4 text-white"></i>
+                    </span>
+                    <span class="leading-tight">
+                        <span class="block text-xs font-extrabold tracking-[0.12em] text-indigo-100">PLAYARCADEX</span>
+                        <span class="block text-[11px] text-slate-400">Fast Browser Games</span>
+                    </span>
+                </div>
+                <p class="max-w-md text-sm leading-relaxed text-slate-300">
+                    PlayArcadeX brings lightweight HTML5 games with quick launch flow, optimized catalogs, and clean multi-device gameplay.
+                </p>
+                <nav class="flex flex-wrap items-center gap-2" aria-label="PlayArcadeX social links">
+                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Visit PlayArcadeX on X">
+                        <i data-lucide="globe" class="h-4 w-4"></i>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Visit PlayArcadeX on YouTube">
+                        <i data-lucide="play" class="h-4 w-4"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Visit PlayArcadeX on Instagram">
+                        <i data-lucide="camera" class="h-4 w-4"></i>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Visit PlayArcadeX on Facebook">
+                        <i data-lucide="messages-square" class="h-4 w-4"></i>
+                    </a>
+                </nav>
+            </section>
+
+            <section class="space-y-3">
+                <h3 class="footer-title">Discover</h3>
+                <nav class="footer-link-list" aria-label="Discover game categories">
+                    <button type="button" data-category="action" class="footer-link">Action Games</button>
+                    <button type="button" data-category="racing" class="footer-link">Racing Games</button>
+                    <button type="button" data-category="puzzle" class="footer-link">Puzzle Games</button>
+                    <button type="button" data-category="sports" class="footer-link">Sports Games</button>
+                    <button type="button" data-category="casual" class="footer-link">Casual Games</button>
+                </nav>
+            </section>
+
+            <section class="space-y-3">
+                <h3 class="footer-title">Company</h3>
+                <nav class="footer-link-list" aria-label="Company links">
+                    <button type="button" data-modal-open="aboutModal" class="footer-link">About PlayArcadeX</button>
+                    <button type="button" data-modal-open="aboutModal" class="footer-link">Developers</button>
+                    <button type="button" data-modal-open="aboutModal" class="footer-link">Partnerships</button>
+                    <button type="button" data-modal-open="aboutModal" class="footer-link">Contact</button>
+                </nav>
+            </section>
+
+            <section class="space-y-3">
+                <h3 class="footer-title">Legal</h3>
+                <nav class="footer-link-list" aria-label="Legal links">
+                    <button type="button" data-modal-open="privacyModal" class="footer-link">Privacy Policy</button>
+                    <button type="button" data-modal-open="termsModal" class="footer-link">Terms of Service</button>
+                    <button type="button" data-modal-open="privacyModal" class="footer-link">Cookie Policy</button>
+                    <button type="button" data-modal-open="termsModal" class="footer-link">Content Policy</button>
+                </nav>
+            </section>
+        </section>
+
+        <section class="mx-auto flex max-w-[1700px] flex-wrap items-center justify-center gap-3 px-4 pb-6 sm:px-6 lg:px-8">
+            <button id="randomGameBtn" type="button" class="footer-action-btn">
+                <i data-lucide="dices" class="h-4 w-4"></i>
+                Random game
+            </button>
+            <button id="backToTopBtn" type="button" class="footer-action-btn footer-action-btn--brand">
+                <i data-lucide="arrow-up" class="h-4 w-4"></i>
+                Back to top
+            </button>
+        </section>
+
+        <section class="border-t border-line/70">
+            <div class="mx-auto flex max-w-[1700px] flex-col items-start justify-between gap-2 px-4 py-4 text-xs text-slate-400 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+                <p>© 2026 PlayArcadeX. Game rights remain with their respective publishers.</p>
+                <p>Optimized catalog delivery and lazy media loading enabled.</p>
+            </div>
+        </section>
+    </footer>
+
+    <dialog id="privacyModal" class="w-[min(92vw,760px)] rounded-2xl border border-line bg-card p-0 text-ink shadow-xl shadow-black/60 backdrop:bg-black/70">
+        <header class="flex items-center justify-between border-b border-line px-5 py-4">
+            <h2 class="text-base font-bold text-white">Privacy Policy</h2>
+            <button type="button" data-modal-close class="rounded-lg border border-line p-1.5 text-slate-300 transition-all duration-300 hover:text-white" aria-label="Close privacy modal">
+                <i data-lucide="x" class="h-4 w-4"></i>
+            </button>
+        </header>
+        <section class="dialog-panel max-h-[70vh] space-y-4 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-slate-200">
+            <p>PlayArcadeX uses essential and performance cookies to preserve gameplay sessions, optimize loading speed, and improve user experience metrics.</p>
+            <p>Third-party ad providers and measurement partners may process limited pseudonymous data for fraud prevention, campaign attribution, and ad frequency controls.</p>
+            <p>For GDPR and CCPA compliance, users may request access, correction, or deletion by contacting contact@playarcadex.com.</p>
+            <p>When launching partner games in iframes, a secure referrer parameter may be included for publisher validation and anti-abuse systems.</p>
+            <p>PlayArcadeX does not intentionally collect sensitive personal data from children and acts on valid removal requests promptly.</p>
+        </section>
+    </dialog>
+
+    <dialog id="termsModal" class="w-[min(92vw,760px)] rounded-2xl border border-line bg-card p-0 text-ink shadow-xl shadow-black/60 backdrop:bg-black/70">
+        <header class="flex items-center justify-between border-b border-line px-5 py-4">
+            <h2 class="text-base font-bold text-white">Terms of Service</h2>
+            <button type="button" data-modal-close class="rounded-lg border border-line p-1.5 text-slate-300 transition-all duration-300 hover:text-white" aria-label="Close terms modal">
+                <i data-lucide="x" class="h-4 w-4"></i>
+            </button>
+        </header>
+        <section class="dialog-panel max-h-[70vh] space-y-4 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-slate-200">
+            <p>By using PlayArcadeX, you agree to lawful usage of this portal and respect all intellectual property rights of game publishers and developers.</p>
+            <p>Embedded games are delivered through third-party iframe technology. PlayArcadeX does not claim ownership over those game assets or trademarks.</p>
+            <p>Unauthorized scraping, republishing, reverse engineering, or redistribution of embedded game content is prohibited without rights holder authorization.</p>
+            <p>Copyright owners can submit DMCA notices with ownership evidence to contact@playarcadex.com for review and action.</p>
+            <p>PlayArcadeX may modify, suspend, or remove entries and features to maintain security, legal compliance, and service integrity.</p>
+        </section>
+    </dialog>
+
+    <dialog id="aboutModal" class="w-[min(92vw,760px)] rounded-2xl border border-line bg-card p-0 text-ink shadow-xl shadow-black/60 backdrop:bg-black/70">
+        <header class="flex items-center justify-between border-b border-line px-5 py-4">
+            <h2 class="text-base font-bold text-white">About & Contact</h2>
+            <button type="button" data-modal-close class="rounded-lg border border-line p-1.5 text-slate-300 transition-all duration-300 hover:text-white" aria-label="Close about modal">
+                <i data-lucide="x" class="h-4 w-4"></i>
+            </button>
+        </header>
+        <section class="dialog-panel max-h-[70vh] space-y-4 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-slate-200">
+            <p>PlayArcadeX is a curated browser gaming portal focused on premium UX, monetization-safe publishing, and high-performance runtime behavior.</p>
+            <p>We collaborate with publishers and developers to deliver reliable game embeds that run smoothly across desktop and touch devices.</p>
+            <p>Business inquiries, game submissions, and partnerships: <a href="mailto:contact@playarcadex.com" class="font-semibold text-indigo-200 underline underline-offset-4">contact@playarcadex.com</a>.</p>
+            <p>Primary domain: https://playarcadex.com/</p>
+        </section>
+    </dialog>
 </body>
 </html>
