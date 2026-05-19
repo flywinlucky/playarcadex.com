@@ -21,6 +21,7 @@
     const gameById = new Map(catalogGames.map((game) => [game.id, game]));
 
     const SIDEBAR_COLLAPSED_KEY = "playarcadex:sidebar-collapsed:v1";
+    const HIDDEN_GAMES_KEY = "playarcadex:hidden-games:v1";
     const DYNAMIC_SCHEMA_ID = "dynamicGameSchema";
     const SPECULATION_SCRIPT_ID = "speculationRulesSeed";
     const FILTER_PAGE_SIZE = 24;
@@ -49,6 +50,8 @@
         activeGameId: null,
         isFocusMode: false,
         sidebarCollapsed: loadSidebarCollapsed(),
+        hiddenGameIds: new Set(loadHiddenGameIds()),
+        catalogRefreshTimer: null,
         feedbackTimer: null
     };
 
@@ -114,6 +117,55 @@
         } catch {
             // Ignore storage restrictions.
         }
+    }
+
+    function loadHiddenGameIds() {
+        try {
+            const raw = window.localStorage.getItem(HIDDEN_GAMES_KEY);
+            if (!raw) return [];
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed)
+                ? parsed.map((entry) => String(entry || "").trim()).filter(Boolean)
+                : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function saveHiddenGameIds() {
+        try {
+            window.localStorage.setItem(HIDDEN_GAMES_KEY, JSON.stringify([...state.hiddenGameIds]));
+        } catch {
+            // Ignore storage restrictions.
+        }
+    }
+
+    function isGameVisible(game) {
+        return !state.hiddenGameIds.has(game.id);
+    }
+
+    function visibleCatalogGames() {
+        return catalogGames.filter(isGameVisible);
+    }
+
+    function markGameAsHidden(gameId) {
+        if (!gameId || state.hiddenGameIds.has(gameId)) {
+            return false;
+        }
+
+        state.hiddenGameIds.add(gameId);
+        saveHiddenGameIds();
+        return true;
+    }
+
+    function scheduleCatalogRefresh() {
+        if (state.catalogRefreshTimer) return;
+
+        state.catalogRefreshTimer = window.setTimeout(() => {
+            state.catalogRefreshTimer = null;
+            renderCatalog();
+            refreshIcons();
+        }, 80);
     }
 
     function activeGame() {
@@ -297,7 +349,7 @@
     function filteredGames() {
         const term = state.searchTerm.trim().toLowerCase();
 
-        return catalogGames
+        return visibleCatalogGames()
             .filter((game) => {
                 const inCategory = state.activeCategory === "all" || game.category === state.activeCategory;
                 const inSearch = !term || game._searchText.includes(term);
@@ -306,14 +358,42 @@
             .sort((a, b) => b._playsValue - a._playsValue);
     }
 
+    function thumbnailCandidates(game) {
+        const candidates = [];
+        const hash = String(game.imageHash || "").trim();
+
+        if (hash) {
+            candidates.push(`https://img.gamedistribution.com/${hash}-512x512.jpeg`);
+            candidates.push(`https://img.gamedistribution.com/${hash}-512x512.jpg`);
+            candidates.push(`https://images.gamedistribution.com/${hash}-512x512.jpeg`);
+        }
+
+        if (game.thumbnail) {
+            candidates.push(game.thumbnail);
+        }
+
+        return [...new Set(candidates.filter(Boolean))];
+    }
+
+    function getThumbnailSource(game, step) {
+        const candidates = thumbnailCandidates(game);
+        if (!candidates.length) {
+            return createGradientPlaceholder(game.title);
+        }
+
+        const safeIndex = Math.max(0, Math.min(step, candidates.length - 1));
+        return candidates[safeIndex];
+    }
+
     function gameCardTemplate(game, index) {
         const loadingMode = index < 1 ? "eager" : "lazy";
         const fetchPriority = index < 1 ? "high" : "low";
+        const fallbackMax = Math.max(thumbnailCandidates(game).length - 1, 0);
 
         return `
             <article data-game-open-card="${game.id}" class="catalog-tile group card-enter relative aspect-[16/9] w-full cursor-pointer overflow-hidden rounded-xl bg-[#121833]" style="animation-delay:${Math.min(index * 12, 150)}ms">
                 <img
-                    src="${escapeHtml(game.thumbnail)}"
+                    src="${escapeHtml(getThumbnailSource(game, 0))}"
                     alt="Play ${escapeHtml(game.title)} free on PlayArcadeX"
                     loading="${loadingMode}"
                     fetchpriority="${fetchPriority}"
@@ -324,6 +404,7 @@
                     data-game-id="${game.id}"
                     data-image-hash="${game.imageHash}"
                     data-fallback-step="0"
+                    data-fallback-max="${fallbackMax}"
                 />
 
                 <div class="tile-overlay pointer-events-none absolute inset-x-0 bottom-0 px-2.5 pb-2 pt-6">
@@ -439,13 +520,13 @@
     }
 
     function topGames(limit) {
-        return [...catalogGames]
+        return [...visibleCatalogGames()]
             .sort((a, b) => b._playsValue - a._playsValue)
             .slice(0, limit);
     }
 
     function gamesFromCategory(categoryId, limit) {
-        return catalogGames
+        return visibleCatalogGames()
             .filter((game) => game.category === categoryId)
             .sort((a, b) => b._playsValue - a._playsValue)
             .slice(0, limit);
@@ -488,7 +569,7 @@
         state.catalogPage = 1;
 
         const mostPlayed = topGames(18);
-        const newest = [...catalogGames].slice().reverse().slice(0, 12);
+        const newest = [...visibleCatalogGames()].slice().reverse().slice(0, 12);
         const sectionRows = [
             { id: "top", title: "Top picks for you", games: mostPlayed.slice(0, 10) },
             { id: "featured", title: "Featured games", games: mostPlayed.slice(4, 14) },
@@ -523,11 +604,13 @@
     }
 
     function renderBootScreen(game) {
+        const fallbackMax = Math.max(thumbnailCandidates(game).length - 1, 0);
+
         dom.bootScreen.innerHTML = `
             <section class="grid gap-5 lg:grid-cols-[320px,1fr] lg:gap-6">
                 <figure class="overflow-hidden rounded-2xl border border-line bg-black/35">
                     <img
-                        src="${escapeHtml(game.thumbnail)}"
+                        src="${escapeHtml(getThumbnailSource(game, 0))}"
                         alt="Play ${escapeHtml(game.title)} unblocked free on PlayArcadeX"
                         width="512"
                         height="512"
@@ -535,6 +618,7 @@
                         data-game-id="${game.id}"
                         data-image-hash="${game.imageHash}"
                         data-fallback-step="0"
+                        data-fallback-max="${fallbackMax}"
                     />
                 </figure>
 
@@ -591,10 +675,12 @@
     }
 
     function recommendationTemplate(game) {
+        const fallbackMax = Math.max(thumbnailCandidates(game).length - 1, 0);
+
         return `
             <article data-game-open-card="${game.id}" class="recommend-tile group relative h-[84px] cursor-pointer overflow-hidden rounded-lg bg-[#141a35]">
                 <img
-                    src="${escapeHtml(game.thumbnail)}"
+                    src="${escapeHtml(getThumbnailSource(game, 0))}"
                     alt="Play ${escapeHtml(game.title)} free on PlayArcadeX"
                     loading="lazy"
                     decoding="async"
@@ -604,6 +690,7 @@
                     data-game-id="${game.id}"
                     data-image-hash="${game.imageHash}"
                     data-fallback-step="0"
+                    data-fallback-max="${fallbackMax}"
                 />
                 <div class="recommend-overlay pointer-events-none absolute inset-x-0 bottom-0 px-2 pb-1.5 pt-5">
                     <h3 class="truncate text-[11px] font-semibold text-white">${escapeHtml(game.title)}</h3>
@@ -615,10 +702,10 @@
     function renderRecommendations(game) {
         const pool = game
             ? [
-                ...catalogGames.filter((entry) => entry.id !== game.id && entry.category === game.category),
-                ...catalogGames.filter((entry) => entry.id !== game.id && entry.category !== game.category)
+                ...visibleCatalogGames().filter((entry) => entry.id !== game.id && entry.category === game.category),
+                ...visibleCatalogGames().filter((entry) => entry.id !== game.id && entry.category !== game.category)
             ]
-            : [...catalogGames];
+            : [...visibleCatalogGames()];
 
         const recommendations = pool
             .sort((a, b) => b._playsValue - a._playsValue)
@@ -820,7 +907,7 @@
 
     function openBootView(gameId, updateHash) {
         const game = gameById.get(gameId);
-        if (!game) {
+        if (!game || state.hiddenGameIds.has(game.id)) {
             openCatalogView(updateHash);
             return;
         }
@@ -992,19 +1079,33 @@
         if (!game) return;
 
         const step = Number(target.dataset.fallbackStep || "0");
-        if (step === 0) {
-            target.dataset.fallbackStep = "1";
-            target.src = `https://img.gamedistribution.com/${game.imageHash}-512x512.jpg`;
+        const maxStep = Number(target.dataset.fallbackMax || "0");
+
+        if (step < maxStep) {
+            const nextStep = step + 1;
+            target.dataset.fallbackStep = String(nextStep);
+            target.src = getThumbnailSource(game, nextStep);
             return;
         }
 
-        if (step === 1) {
-            target.dataset.fallbackStep = "2";
-            target.src = `https://img.gamedistribution.com/${game.imageHash}-512x512.jpeg`;
+        target.dataset.fallbackStep = String(maxStep + 1);
+
+        if (markGameAsHidden(gameId)) {
+            const current = activeGame();
+            if (current && current.id === gameId) {
+                openCatalogView(true);
+                return;
+            }
+
+            if (state.currentView === "catalog") {
+                scheduleCatalogRefresh();
+            } else {
+                renderRecommendations(current);
+                refreshIcons();
+            }
             return;
         }
 
-        target.dataset.fallbackStep = "3";
         target.src = createGradientPlaceholder(game.title);
     }
 
@@ -1016,7 +1117,7 @@
         }
 
         const gameId = decodeURIComponent(match[1]);
-        if (!gameById.has(gameId)) {
+        if (!gameById.has(gameId) || state.hiddenGameIds.has(gameId)) {
             openCatalogView(false);
             return;
         }
@@ -1144,7 +1245,7 @@
             const match = window.location.hash.match(/^#game=(.+)$/);
             if (match) {
                 const gameId = decodeURIComponent(match[1]);
-                if (gameById.has(gameId)) {
+                if (gameById.has(gameId) && !state.hiddenGameIds.has(gameId)) {
                     openBootView(gameId, false);
                     return;
                 }
