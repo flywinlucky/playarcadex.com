@@ -180,10 +180,6 @@
 
             <div class="shell">
                 <aside id="sidebar" class="sidebar" aria-label="Game categories">
-                    <div class="sidebar-brand" aria-hidden="true">
-                        <span class="brand-mark mini"><i data-lucide="gamepad-2"></i></span>
-                        <span>PlayArcadeX</span>
-                    </div>
                     <nav id="categoryNav" class="category-list"></nav>
                 </aside>
 
