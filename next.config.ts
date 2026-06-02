@@ -2,8 +2,18 @@ import type { NextConfig } from "next";
 
 const isGithubPages = process.env.DEPLOY_TARGET === "github-pages" || process.env.GITHUB_PAGES === "true";
 const githubRepoName = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
-const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH;
-const basePath = configuredBasePath ?? (isGithubPages && githubRepoName ? `/${githubRepoName}` : "");
+const configuredBasePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").trim();
+const normalizedConfiguredBasePath = configuredBasePath
+  ? configuredBasePath === "/"
+    ? ""
+    : configuredBasePath.startsWith("/")
+      ? configuredBasePath
+      : `/${configuredBasePath}`
+  : "";
+const githubPagesBasePath = githubRepoName ? `/${githubRepoName}` : "";
+
+// Avoid accidental CSS/asset 404s on Vercel root domains by applying basePath only for GitHub Pages builds.
+const basePath = isGithubPages ? (normalizedConfiguredBasePath || githubPagesBasePath) : "";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,

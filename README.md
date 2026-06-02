@@ -54,6 +54,9 @@ For production deployment:
 npx vercel --prod
 ```
 
+Important:
+- Do not set NEXT_PUBLIC_BASE_PATH for Vercel root-domain deployments. A non-empty base path can break CSS/JS asset URLs and cause 404 errors.
+
 ## Deployment (GitHub Pages)
 
 This repository includes an automated workflow: [.github/workflows/deploy-github-pages.yml](.github/workflows/deploy-github-pages.yml)
