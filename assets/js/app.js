@@ -11,16 +11,35 @@
 
     const CATEGORIES = [
         { id: "all", label: "All Games", icon: "layout-grid" },
-        { id: "action", label: "Action", icon: "swords" },
-        { id: "racing", label: "Racing", icon: "flag" },
-        { id: "puzzle", label: "Puzzle", icon: "brain" },
+        { id: "action", label: "Action", icon: "zap" },
+        { id: "adventure", label: "Adventure", icon: "compass" },
+        { id: "racing", label: "Racing", icon: "car" },
+        { id: "puzzle", label: "Puzzle", icon: "puzzle" },
         { id: "sports", label: "Sports", icon: "trophy" },
         { id: "casual", label: "Casual", icon: "sparkles" },
-        { id: "adventure", label: "Adventure", icon: "compass" },
         { id: "shooter", label: "Shooter", icon: "crosshair" },
         { id: "strategy", label: "Strategy", icon: "shield" },
         { id: "io", label: ".io", icon: "orbit" },
         { id: "multiplayer", label: "Multiplayer", icon: "users" }
+    ];
+
+    const SIDEBAR_GROUPS = [
+        {
+            label: "Main",
+            items: [
+                { id: "home", label: "Home", icon: "home", category: "all", sort: "popular" },
+                { id: "recent", label: "Recently played", icon: "clock", category: "all", sort: "newest" },
+                { id: "new", label: "New", icon: "sparkles", category: "all", sort: "newest" },
+                { id: "popular", label: "Popular Games", icon: "flame", category: "all", sort: "popular" },
+                { id: "updated", label: "Updated", icon: "refresh-cw", category: "all", sort: "rating" },
+                { id: "multiplayer", label: "Multiplayer", icon: "users", category: "multiplayer" },
+                { id: "leaderboards", label: "Leaderboards", icon: "medal", category: "all", sort: "rating" }
+            ]
+        },
+        {
+            label: "Categories",
+            items: CATEGORIES.filter((category) => category.id !== "all")
+        }
     ];
 
     const categoryIds = new Set(CATEGORIES.map((category) => category.id));
@@ -161,7 +180,10 @@
 
             <div class="shell">
                 <aside id="sidebar" class="sidebar" aria-label="Game categories">
-                    <p class="sidebar-title">Browse</p>
+                    <div class="sidebar-brand" aria-hidden="true">
+                        <span class="brand-mark mini"><i data-lucide="gamepad-2"></i></span>
+                        <span>PlayArcadeX</span>
+                    </div>
                     <nav id="categoryNav" class="category-list"></nav>
                 </aside>
 
@@ -191,6 +213,7 @@
                         <section class="rail">
                             <div class="section-head">
                                 <h2>Top games</h2>
+                                <span class="section-meta">Fast picks, no install</span>
                             </div>
                             <div id="catalogGrid" class="game-grid"></div>
                             <nav id="pager" class="pager" aria-label="Catalog pages"></nav>
@@ -208,13 +231,25 @@
 
             <footer class="footer">
                 <div class="footer-inner">
-                    <p>© 2026 PlayArcadeX. Embedded games belong to their respective publishers.</p>
-                    <nav class="footer-links" aria-label="Footer links">
+                    <div class="footer-brand">
+                        <span class="brand-mark"><i data-lucide="gamepad-2"></i></span>
+                        <div>
+                            <strong>PlayArcadeX</strong>
+                            <p>Free browser games, loaded clean and fast.</p>
+                        </div>
+                    </div>
+                    <nav class="footer-links footer-categories" aria-label="Popular categories">
+                        ${CATEGORIES.filter((category) => category.id !== "all").slice(0, 8).map((category) => `
+                            <a href="${BASE_PATH}?category=${encodeURIComponent(category.id)}" data-category-link="${category.id}">${escapeHtml(category.label)}</a>
+                        `).join("")}
+                    </nav>
+                    <nav class="footer-links footer-legal" aria-label="Footer links">
                         <button type="button" data-modal-open="modalAbout">About</button>
                         <button type="button" data-modal-open="modalPrivacy">Privacy</button>
                         <button type="button" data-modal-open="modalTerms">Terms</button>
                         <a href="${BASE_PATH}sitemap.xml">Sitemap</a>
                     </nav>
+                    <p class="footer-copy">© 2026 PlayArcadeX. Embedded games belong to their respective publishers.</p>
                 </div>
             </footer>
 
@@ -363,16 +398,12 @@
     }
 
     function renderCategoryNav() {
-        const html = CATEGORIES.map((category) => {
-            const active = state.category === category.id && state.view === "catalog";
-            const href = category.id === "all" ? BASE_PATH : `${BASE_PATH}?category=${encodeURIComponent(category.id)}`;
-            return `
-                <a class="category-link ${active ? "is-active" : ""}" href="${href}" data-category-link="${category.id}" aria-current="${active ? "page" : "false"}">
-                    <i data-lucide="${category.icon}"></i>
-                    <span>${escapeHtml(category.label)}</span>
-                </a>
-            `;
-        }).join("");
+        const html = SIDEBAR_GROUPS.map((group) => `
+            <div class="category-group" aria-label="${escapeHtml(group.label)}">
+                <p class="sidebar-title">${escapeHtml(group.label)}</p>
+                ${group.items.map((item) => sidebarItem(item)).join("")}
+            </div>
+        `).join("");
 
         const mobileHtml = CATEGORIES.map((category) => {
             const active = state.category === category.id && state.view === "catalog";
@@ -387,6 +418,42 @@
 
         dom.categoryNav.innerHTML = html;
         dom.mobileCategories.innerHTML = mobileHtml;
+    }
+
+    function sidebarItem(item) {
+        const active = isSidebarItemActive(item);
+        const href = itemHref(item);
+        const attrs = [
+            item.category ? `data-category-link="${item.category}"` : "",
+            item.sort ? `data-sort-link="${item.sort}"` : "",
+            active ? 'aria-current="page"' : 'aria-current="false"'
+        ].filter(Boolean).join(" ");
+
+        return `
+            <a class="category-link ${active ? "is-active" : ""}" href="${href}" ${attrs} data-label="${escapeHtml(item.label)}" aria-label="${escapeHtml(item.label)}">
+                <i data-lucide="${item.icon}"></i>
+                <span>${escapeHtml(item.label)}</span>
+            </a>
+        `;
+    }
+
+    function isSidebarItemActive(item) {
+        if (state.view !== "catalog") return false;
+        if (["recent", "popular", "updated"].includes(item.id)) return false;
+        if (item.id === "home") {
+            return state.category === "all" && state.sort === "popular" && !state.query;
+        }
+        if (item.sort && state.sort !== item.sort) return false;
+        if (item.category) return state.category === item.category;
+        return false;
+    }
+
+    function itemHref(item) {
+        const params = new URLSearchParams();
+        if (item.category && item.category !== "all") params.set("category", item.category);
+        if (item.sort && item.sort !== "popular") params.set("sort", item.sort);
+        const qs = params.toString();
+        return qs ? `${BASE_PATH}?${qs}` : BASE_PATH;
     }
 
     function filteredGames() {
@@ -957,11 +1024,21 @@
         dom.clearSearchBtn.classList.toggle("hidden", !dom.searchInput.value);
     }
 
-    function setCategory(category) {
-        state.category = categoryIds.has(category) ? category : "all";
+    function setCatalogFilter(category, sort = null) {
+        if (category !== null) {
+            state.category = categoryIds.has(category) ? category : "all";
+        }
+        if (sort && ["popular", "rating", "newest", "az"].includes(sort)) {
+            state.sort = sort;
+            dom.sortSelect.value = state.sort;
+        }
         state.page = 1;
         renderCatalog();
         pushCatalogRoute(false);
+    }
+
+    function setCategory(category) {
+        setCatalogFilter(category);
     }
 
     function resetFilters() {
@@ -1019,10 +1096,14 @@
         dom.randomBtn.addEventListener("click", openRandomGame);
 
         document.addEventListener("click", async (event) => {
-            const categoryLink = event.target.closest("[data-category-link]");
+            const categoryLink = event.target.closest("[data-category-link], [data-sort-link]");
             if (categoryLink) {
                 event.preventDefault();
-                setCategory(categoryLink.getAttribute("data-category-link"));
+                const category = categoryLink.hasAttribute("data-category-link")
+                    ? categoryLink.getAttribute("data-category-link")
+                    : null;
+                const sort = categoryLink.getAttribute("data-sort-link");
+                setCatalogFilter(category, sort);
                 return;
             }
 
