@@ -18,6 +18,10 @@ const SITE_NAME = "PlayArcadeX";
 const SITE_TAGLINE = "Play Free Online Games";
 const SITE_DESC = "Play the best free online games on PlayArcadeX! Racing, action, puzzle, sports and more — no downloads, instantly playable on mobile and desktop.";
 
+// URL-ul API-ului de trending (Cloudflare Worker). Lasa gol "" pana il configurezi —
+// sectiunea Trending ramane pur si simplu ascunsa. Ex: "https://pax-trending.USER.workers.dev"
+const TRENDING_API = "";
+
 const ROOT = __dirname;
 const DIST = path.join(ROOT, "dist");
 const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "games.json"), "utf8"));
@@ -108,7 +112,7 @@ function cardHTML(g, eager = false) {
 
 function page({ title, description, canonical, body, jsonld, ogImage, activeCat = "" }) {
   return `<!DOCTYPE html>
-<html lang="en" data-base="">
+<html lang="en" data-base="" data-trending-api="${esc(TRENDING_API)}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -155,10 +159,12 @@ function buildHome() {
     .slice(0, 12);
 
   const categorySections = categories.map(c => `
+    <section class="cat-sec" data-cat="${esc(c)}">
     <h2 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} <a href="/category/${catSlug(c)}/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       ${byCategory[c].slice(0, 12).map(g => cardHTML(g)).join("\n      ")}
-    </div>`).join("\n");
+    </div>
+    </section>`).join("\n");
 
   const body = `
     <div id="searchResults" class="grid" style="display:none"></div>
@@ -168,9 +174,17 @@ function buildHome() {
         <h2 class="section-title"><span class="bar"></span>🕒 Recently Played</h2>
         <div class="grid" id="recentGrid"></div>
       </section>
+      <section id="recoSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>✨ Recommended for You</h2>
+        <div class="grid" id="recoGrid"></div>
+      </section>
       <section id="favSection" style="display:none">
         <h2 class="section-title"><span class="bar"></span>❤️ Your Favorites</h2>
         <div class="grid" id="favGrid"></div>
+      </section>
+      <section id="trendingSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>📈 Trending Now</h2>
+        <div class="grid" id="trendingGrid"></div>
       </section>
       <h2 class="section-title"><span class="bar"></span>🔥 Featured Games</h2>
       <div class="grid featured">
@@ -180,7 +194,9 @@ function buildHome() {
       <div class="grid">
         ${newest.map(g => cardHTML(g)).join("\n        ")}
       </div>
+      <div id="catSections">
       ${categorySections}
+      </div>
     </div>`;
 
   const jsonld = {
@@ -240,7 +256,7 @@ function buildGamePages() {
       <a href="/">Home</a> › <a href="/category/${catSlug(g.category)}/">${esc(g.category)}</a> › ${esc(g.title)}
     </nav>
     <div class="game-stage">
-      <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}">
+      <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
         <div class="game-splash" id="gameSplash" style="background-image:url('${esc(g.thumb)}')">
           <img class="splash-thumb" src="${esc(g.thumb)}" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>

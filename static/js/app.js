@@ -85,11 +85,14 @@
   }
 
   /* ---------- Game page: splash -> iframe (click-to-play = fast LCP) ---------- */
+  var TRENDING_API = document.documentElement.getAttribute("data-trending-api") || "";
   var splash = document.getElementById("gameSplash");
   var frameWrap = document.getElementById("frameWrap");
   if (splash && frameWrap) {
     var src = frameWrap.getAttribute("data-src");
     var slug = frameWrap.getAttribute("data-slug");
+    var gameCat = frameWrap.getAttribute("data-category");
+    if (gameCat) bumpInterest(gameCat, 1); // a vizitat pagina
     var playBtn = document.getElementById("playBtn");
     playBtn.addEventListener("click", function () {
       var iframe = document.createElement("iframe");
@@ -100,6 +103,15 @@
       frameWrap.appendChild(iframe);
       splash.remove();
       if (slug) rememberPlayed(slug);
+      if (gameCat) bumpInterest(gameCat, 3); // a jucat efectiv = semnal puternic
+      if (TRENDING_API && slug) {
+        fetch(TRENDING_API + "/hit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug: slug }),
+          keepalive: true
+        }).catch(function () {});
+      }
     });
   }
 
@@ -128,6 +140,31 @@
     lsSet("pax_recent", list.slice(0, 12));
   }
 
+  /* ---------- Interest model (personalizare pe categorii) ---------- */
+  function bumpInterest(cat, points) {
+    var interest = lsGet("pax_interest", {});
+    interest[cat] = (interest[cat] || 0) + points;
+    // cap ca un singur scor sa nu domine pentru totdeauna
+    if (interest[cat] > 100) {
+      for (var k in interest) interest[k] = Math.round(interest[k] / 2);
+    }
+    lsSet("pax_interest", interest);
+  }
+  function topCategories(n) {
+    var interest = lsGet("pax_interest", {});
+    return Object.keys(interest)
+      .sort(function (a, b) { return interest[b] - interest[a]; })
+      .slice(0, n);
+  }
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
   /* ---------- Favorites ---------- */
   var favBtn = document.getElementById("favBtn");
   if (favBtn) {
@@ -149,13 +186,15 @@
     paintFav();
   }
 
-  /* ---------- Homepage: fill Recently Played + Favorites sections ---------- */
+  /* ---------- Homepage: Recently Played + Favorites + Recommended + reorder ---------- */
   var recentGrid = document.getElementById("recentGrid");
   var favGrid = document.getElementById("favGrid");
-  if (recentGrid || favGrid) {
+  var recoGrid = document.getElementById("recoGrid");
+  if (recentGrid || favGrid || recoGrid) {
     var recent = lsGet("pax_recent", []);
     var favs = lsGet("pax_favs", []);
-    if (recent.length || favs.length) {
+    var topCats = topCategories(3);
+    if (recent.length || favs.length || topCats.length) {
       loadIndex().then(function (idx) {
         var bySlug = {};
         idx.forEach(function (g) { bySlug[g.slug] = g; });
@@ -168,8 +207,54 @@
         }
         fill(recentGrid, "recentSection", recent);
         fill(favGrid, "favSection", favs.slice(0, 12));
+
+        /* Recommended for You: jocuri din categoriile preferate, fara cele deja jucate */
+        if (recoGrid && topCats.length) {
+          var seen = {};
+          recent.concat(favs).forEach(function (s) { seen[s] = 1; });
+          var pool = [];
+          topCats.forEach(function (cat, ci) {
+            var weight = [6, 4, 2][ci] || 1; // categoria #1 primeste cele mai multe sloturi
+            var fromCat = shuffle(idx.filter(function (g) {
+              return g.category === cat && !seen[g.slug];
+            })).slice(0, weight);
+            pool = pool.concat(fromCat);
+          });
+          if (pool.length >= 3) {
+            recoGrid.innerHTML = shuffle(pool).slice(0, 12).map(cardHTML).join("");
+            document.getElementById("recoSection").style.display = "";
+          }
+        }
+
+        /* Reordonare categorii pe homepage dupa interes */
+        var catWrap = document.getElementById("catSections");
+        if (catWrap && topCats.length) {
+          // in ordine inversa, ca prepend sa pastreze ordinea topului
+          topCats.slice().reverse().forEach(function (cat) {
+            var sec = catWrap.querySelector('.cat-sec[data-cat="' + CSS.escape(cat) + '"]');
+            if (sec) catWrap.prepend(sec);
+          });
+        }
       });
     }
+  }
+
+  /* ---------- Trending Now (global, din API) ---------- */
+  var trendingGrid = document.getElementById("trendingGrid");
+  if (trendingGrid && TRENDING_API) {
+    Promise.all([
+      loadIndex(),
+      fetch(TRENDING_API + "/top").then(function (r) { return r.json(); })
+    ]).then(function (res) {
+      var idx = res[0], top = res[1];
+      if (!Array.isArray(top) || !top.length) return;
+      var bySlug = {};
+      idx.forEach(function (g) { bySlug[g.slug] = g; });
+      var items = top.map(function (t) { return bySlug[t.slug || t]; }).filter(Boolean).slice(0, 12);
+      if (!items.length) return;
+      trendingGrid.innerHTML = items.map(cardHTML).join("");
+      document.getElementById("trendingSection").style.display = "";
+    }).catch(function () {});
   }
 
   /* ---------- Random game ---------- */

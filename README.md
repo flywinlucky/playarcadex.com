@@ -63,6 +63,21 @@ npx serve dist
    Verifică în Settings → Pages că domeniul e setat și DNS-ul are
    `A` records spre GitHub Pages / `CNAME www → <user>.github.io`.
 
+## Personalizare & Trending
+
+- **✨ Recommended for You** — site-ul învață local (în browserul fiecărui user,
+  fără cont, fără tracking pe server) ce categorii joacă: vizita pe pagina unui
+  joc = +1 punct, apăsarea Play = +3 puncte pentru categoria respectivă.
+  Pe homepage apare automat o secțiune cu jocuri din categoriile preferate,
+  iar **secțiunile de categorii se reordonează** după interesul fiecărui user —
+  o fată care joacă Girls vede Girls primele; un fan Racing vede Racing primul.
+- **📈 Trending Now** (global, pe click-uri reale) — necesită contorul gratuit
+  din `cloudflare-worker/worker.js`. Instrucțiunile pas-cu-pas sunt în
+  comentariul din fișier (5 minute). După deploy, pui URL-ul workerului în
+  `build.js` la `TRENDING_API` și dai push. Până atunci secțiunea stă ascunsă
+  și site-ul merge normal. Scorurile au decay zilnic (-15%), deci trendingul
+  arată ce e popular acum, nu suma istorică.
+
 ## Funcții de retenție (stil CrazyGames)
 
 - **Recently Played** — jocurile jucate apar automat pe homepage (localStorage)

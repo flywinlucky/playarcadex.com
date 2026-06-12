@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-base="">
+<html lang="en" data-base="" data-trending-api="">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,9 +65,17 @@
         <h2 class="section-title"><span class="bar"></span>🕒 Recently Played</h2>
         <div class="grid" id="recentGrid"></div>
       </section>
+      <section id="recoSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>✨ Recommended for You</h2>
+        <div class="grid" id="recoGrid"></div>
+      </section>
       <section id="favSection" style="display:none">
         <h2 class="section-title"><span class="bar"></span>❤️ Your Favorites</h2>
         <div class="grid" id="favGrid"></div>
+      </section>
+      <section id="trendingSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>📈 Trending Now</h2>
+        <div class="grid" id="trendingGrid"></div>
       </section>
       <h2 class="section-title"><span class="bar"></span>🔥 Featured Games</h2>
       <div class="grid featured">
@@ -175,7 +183,9 @@
       <span class="card-title">Penalty Shootout Pro</span>
     </a>
       </div>
+      <div id="catSections">
       
+    <section class="cat-sec" data-cat="2 Player">
     <h2 class="section-title"><span class="bar"></span>🆚 2 Player <a href="/category/2-player/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/tank-duel-2-player/" title="Tank Duel 2 Player">
@@ -187,7 +197,9 @@
       <span class="card-title">Soccer Heads Champions</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Action">
     <h2 class="section-title"><span class="bar"></span>⚔️ Action <a href="/category/action/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/stickman-battle-arena/" title="Stickman Battle Arena">
@@ -207,7 +219,9 @@
       <span class="card-title">Zombie City Survival</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Adventure">
     <h2 class="section-title"><span class="bar"></span>🗺️ Adventure <a href="/category/adventure/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/treasure-island-quest/" title="Treasure Island Quest">
@@ -219,7 +233,9 @@
       <span class="card-title">Fireboy and Watergirl Temple</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Cards">
     <h2 class="section-title"><span class="bar"></span>🃏 Cards <a href="/category/cards/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/solitaire-klondike-daily/" title="Solitaire Klondike Daily">
@@ -231,7 +247,9 @@
       <span class="card-title">Uno Party Cards</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Clicker">
     <h2 class="section-title"><span class="bar"></span>👆 Clicker <a href="/category/clicker/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/cookie-clicker-empire/" title="Cookie Clicker Empire">
@@ -243,7 +261,9 @@
       <span class="card-title">Mine Tycoon Idle</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Cooking">
     <h2 class="section-title"><span class="bar"></span>🍳 Cooking <a href="/category/cooking/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/burger-chef-cooking-rush/" title="Burger Chef Cooking Rush">
@@ -255,7 +275,9 @@
       <span class="card-title">Pizza Maker Deluxe</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Girls">
     <h2 class="section-title"><span class="bar"></span>💄 Girls <a href="/category/girls/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/fashion-dress-up-studio/" title="Fashion Dress Up Studio">
@@ -271,7 +293,9 @@
       <span class="card-title">Wedding Planner Deluxe</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Horror">
     <h2 class="section-title"><span class="bar"></span>👻 Horror <a href="/category/horror/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/granny-horror-escape/" title="Granny Horror Escape">
@@ -283,7 +307,9 @@
       <span class="card-title">Midnight Asylum</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Hypercasual">
     <h2 class="section-title"><span class="bar"></span>✨ Hypercasual <a href="/category/hypercasual/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/stack-tower-builder/" title="Stack Tower Builder">
@@ -299,7 +325,9 @@
       <span class="card-title">Knife Flip Challenge</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Puzzle">
     <h2 class="section-title"><span class="bar"></span>🧩 Puzzle <a href="/category/puzzle/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/bubble-shooter-classic/" title="Bubble Shooter Classic">
@@ -319,7 +347,9 @@
       <span class="card-title">Daily Sudoku Master</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Racing">
     <h2 class="section-title"><span class="bar"></span>🏎️ Racing <a href="/category/racing/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/moto-x3m-stunt-rider/" title="Moto X3M Stunt Rider">
@@ -339,7 +369,9 @@
       <span class="card-title">Mega Ramp Car Stunts</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Shooting">
     <h2 class="section-title"><span class="bar"></span>🎯 Shooting <a href="/category/shooting/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/sniper-elite-mission/" title="Sniper Elite Mission">
@@ -355,7 +387,9 @@
       <span class="card-title">Battle Royale Pixel</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Sports">
     <h2 class="section-title"><span class="bar"></span>⚽ Sports <a href="/category/sports/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/penalty-shootout-pro/" title="Penalty Shootout Pro">
@@ -375,7 +409,9 @@
       <span class="card-title">8 Ball Pool Club</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="Strategy">
     <h2 class="section-title"><span class="bar"></span>♟️ Strategy <a href="/category/strategy/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/castle-defense-kingdom/" title="Castle Defense Kingdom">
@@ -387,7 +423,9 @@
       <span class="card-title">Chess Grandmaster Online</span>
     </a>
     </div>
+    </section>
 
+    <section class="cat-sec" data-cat="io">
     <h2 class="section-title"><span class="bar"></span>🌐 io <a href="/category/io/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
       <a class="card" href="/game/snake-arena-io/" title="Snake Arena .io">
@@ -403,6 +441,8 @@
       <span class="card-title">Hole Eater .io</span>
     </a>
     </div>
+    </section>
+      </div>
     </div>
   </main>
   <footer class="footer">
