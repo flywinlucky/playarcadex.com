@@ -284,7 +284,8 @@ function buildGamePages() {
     </nav>
     <div class="game-stage" data-orient="${Number(g.width) >= Number(g.height) ? "landscape" : "portrait"}">
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
-        <div class="game-splash" id="gameSplash" style="background-image:url('${esc(smallThumb(g.thumb))}')">
+        <div class="game-splash" id="gameSplash">
+          <img class="splash-bg" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="" aria-hidden="true" loading="eager">
           <img class="splash-thumb" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
         </div>

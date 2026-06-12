@@ -254,10 +254,11 @@ body.no-scroll { overflow: hidden; }
   padding-right: calc(14px + env(safe-area-inset-right));
 }
 
-/* Butonul Close: vizibil doar in fullscreen */
+/* Butonul Close: vizibil doar in fullscreen; butonul Fullscreen dispare in fullscreen */
 .close-btn { display: none; background: #e0245e; color: #fff; }
 .close-btn:hover { background: #ff2f6d; }
 .game-stage.fs-active .close-btn { display: inline-flex; }
+.game-stage.fs-active #fsBtn { display: none; }
 
 /* Hint de rotire: doar in fullscreen, doar la jocuri landscape tinute portrait */
 .rotate-hint {
@@ -287,17 +288,27 @@ body.no-scroll { overflow: hidden; }
   align-items: center;
   justify-content: center;
   gap: 16px;
-  background-size: cover;
-  background-position: center;
+  background: #0a0a14;
+  overflow: hidden;
   z-index: 3;
+}
+/* Thumbnail-ul jocului intins pe tot fundalul + Gaussian blur */
+.game-splash .splash-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: blur(30px) saturate(1.25) brightness(0.9);
+  transform: scale(1.2); /* ascunde marginile estompate de blur */
+  z-index: 0;
 }
 .game-splash::before {
   content: "";
   position: absolute; inset: 0;
-  background: rgba(10, 10, 20, 0.72);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 10, 20, 0.4); /* voal usor, sa ramana lizibile butonul si iconita */
+  z-index: 1;
 }
-.game-splash > * { position: relative; }
+.game-splash > * { position: relative; z-index: 2; }
+.game-splash .splash-bg { z-index: 0; }
 .game-splash img.splash-thumb {
   width: 120px; height: 120px;
   object-fit: cover;
