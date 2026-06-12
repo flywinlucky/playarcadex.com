@@ -73,6 +73,8 @@ async function fetchPage(page) {
     if (seen.has(slug)) continue;
     seen.add(slug);
 
+    const w = Number(g.width) || 0;
+    const h = Number(g.height) || 0;
     normalized.push({
       id: String(g.id),
       title,
@@ -85,6 +87,9 @@ async function fetchPage(page) {
       thumb: g.thumb,
       width: String(g.width || 960),
       height: String(g.height || 600),
+      // landscape doar daca latimea e CLAR mai mare (>=15%), portrait daca inaltimea
+      // e clar mai mare; altfel "adaptive" => nu fortam overlay-ul de rotire
+      orientation: w && h ? (w >= h * 1.15 ? "landscape" : (h >= w * 1.15 ? "portrait" : "adaptive")) : "adaptive",
       feedRank: normalized.length,
       featured: false
     });

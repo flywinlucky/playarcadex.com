@@ -278,11 +278,14 @@ function buildGamePages() {
       ]
     }];
 
+    const W = Number(g.width) || 0, H = Number(g.height) || 0;
+    const orient = g.orientation ||
+      (W && H ? (W >= H * 1.15 ? "landscape" : (H >= W * 1.15 ? "portrait" : "adaptive")) : "adaptive");
     const body = `
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="/">Home</a> › <a href="/category/${catSlug(g.category)}/">${esc(g.category)}</a> › ${esc(g.title)}
     </nav>
-    <div class="game-stage" data-orient="${Number(g.width) >= Number(g.height) ? "landscape" : "portrait"}">
+    <div class="game-stage" data-orient="${orient}">
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
         <div class="game-splash" id="gameSplash">
           <img class="splash-bg" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="" aria-hidden="true" loading="eager">

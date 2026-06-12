@@ -324,6 +324,58 @@ body.no-scroll { overflow: hidden; }
 }
 .fs-allgames:hover { background: rgba(104, 66, 255, 0.45); }
 
+/* ===== Pozitionare dupa orientarea telefonului (doar in fullscreen) ===== */
+
+/* PORTRAIT: controalele stau SUS — All Games pill orizontal in stanga, X in dreapta,
+   cu o banda de gradient negru in spate (safe zone) ca sa nu se amestece cu
+   status bar-ul / ceasul / widgeturile telefonului */
+@media (orientation: portrait) {
+  .game-stage.fs-active::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: calc(env(safe-area-inset-top, 0px) + 64px);
+    background: linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35) 70%, transparent);
+    z-index: 25;
+    pointer-events: none;
+  }
+  .game-stage.fs-active .fs-close {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(12px + env(safe-area-inset-right, 0px));
+  }
+  .game-stage.fs-active .fs-allgames {
+    left: calc(12px + env(safe-area-inset-left, 0px));
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    transform: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    height: 40px;
+  }
+  .game-stage.fs-active .fs-allgames .fs-allgames-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+  .game-stage.fs-active .fs-allgames .fs-mini-logo {
+    width: 22px; height: 22px; font-size: 0.7rem;
+  }
+}
+
+/* LANDSCAPE: tab vertical pe marginea stanga (ca acum), X dreapta-sus,
+   amandoua impinse de notch-ul lateral prin safe-area */
+@media (orientation: landscape) {
+  .game-stage.fs-active .fs-allgames {
+    padding-left: calc(7px + env(safe-area-inset-left, 0px));
+  }
+  .game-stage.fs-active .fs-close {
+    top: calc(10px + env(safe-area-inset-top, 0px));
+    right: calc(10px + env(safe-area-inset-right, 0px));
+  }
+}
+
 /* Overlay "Rotate device" pe tot ecranul (stil Yandex):
    acopera jocul cat timp un joc landscape e tinut portrait, in fullscreen */
 .rotate-overlay {
