@@ -142,7 +142,7 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
 <html lang="en" data-base="" data-trending-api="${esc(TRENDING_API)}">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <link rel="canonical" href="${canonical}">
@@ -282,17 +282,19 @@ function buildGamePages() {
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="/">Home</a> › <a href="/category/${catSlug(g.category)}/">${esc(g.category)}</a> › ${esc(g.title)}
     </nav>
-    <div class="game-stage">
+    <div class="game-stage" data-orient="${Number(g.width) >= Number(g.height) ? "landscape" : "portrait"}">
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
         <div class="game-splash" id="gameSplash" style="background-image:url('${esc(smallThumb(g.thumb))}')">
           <img class="splash-thumb" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
         </div>
+        <div class="rotate-hint" aria-hidden="true">📱↻ Rotate your phone for the best experience</div>
       </div>
       <div class="game-toolbar">
         <h1>${esc(g.title)}</h1>
         <button class="tool-btn fav-btn" id="favBtn" data-slug="${esc(g.slug)}" aria-label="Add to favorites">♡</button>
         <button class="tool-btn" id="fsBtn" aria-label="Fullscreen">⛶ Fullscreen</button>
+        <button class="tool-btn close-btn" id="closeFsBtn" aria-label="Close fullscreen">✕ Close</button>
       </div>
     </div>
     <div class="share-row" aria-label="Share this game">

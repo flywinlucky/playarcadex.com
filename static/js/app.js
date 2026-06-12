@@ -88,10 +88,45 @@
     searchInput.addEventListener("focus", function () { loadIndex(); });
   }
 
-  /* ---------- Game page: splash -> iframe (click-to-play = fast LCP) ---------- */
+  /* ---------- Game page: splash -> iframe + fullscreen mode (stil Yandex Games) ---------- */
   var TRENDING_API = document.documentElement.getAttribute("data-trending-api") || "";
   var splash = document.getElementById("gameSplash");
   var frameWrap = document.getElementById("frameWrap");
+  var gameStage = document.querySelector(".game-stage");
+  var closeFsBtn = document.getElementById("closeFsBtn");
+
+  var isMobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+
+  function enterGameFs() {
+    if (!gameStage) return;
+    gameStage.classList.add("fs-active");
+    document.body.classList.add("no-scroll");
+    // Fullscreen nativ unde exista (Android/desktop). Pe iPhone Safari nu exista
+    // pentru div-uri — acolo ramane overlay-ul fix pe tot viewportul (ca la Yandex).
+    try {
+      if (gameStage.requestFullscreen) gameStage.requestFullscreen().catch(function () {});
+      else if (gameStage.webkitRequestFullscreen) gameStage.webkitRequestFullscreen();
+    } catch (e) {}
+    // Lock pe landscape pentru jocurile landscape (functioneaza pe Android in fullscreen)
+    try {
+      if (gameStage.getAttribute("data-orient") === "landscape" &&
+          screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock("landscape").catch(function () {});
+      }
+    } catch (e) {}
+  }
+
+  function exitGameFs() {
+    if (!gameStage) return;
+    gameStage.classList.remove("fs-active");
+    document.body.classList.remove("no-scroll");
+    try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (e) {}
+    try {
+      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } catch (e) {}
+  }
+
   if (splash && frameWrap) {
     var src = frameWrap.getAttribute("data-src");
     var slug = frameWrap.getAttribute("data-slug");
@@ -106,6 +141,7 @@
       iframe.setAttribute("title", document.title);
       frameWrap.appendChild(iframe);
       splash.remove();
+      if (isMobile) enterGameFs(); // pe mobil: direct pe tot ecranul
       if (slug) rememberPlayed(slug);
       if (gameCat) bumpInterest(gameCat, 3); // a jucat efectiv = semnal puternic
       if (TRENDING_API && slug) {
@@ -120,13 +156,19 @@
   }
 
   var fsBtn = document.getElementById("fsBtn");
-  if (fsBtn && frameWrap) {
-    fsBtn.addEventListener("click", function () {
-      var el = frameWrap.querySelector("iframe") || frameWrap;
-      if (el.requestFullscreen) el.requestFullscreen();
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-    });
+  if (fsBtn && gameStage) {
+    fsBtn.addEventListener("click", enterGameFs);
   }
+  if (closeFsBtn) {
+    closeFsBtn.addEventListener("click", exitGameFs);
+  }
+  // Daca userul iese din fullscreen nativ cu Esc/gestul de sistem, inchidem si overlay-ul
+  document.addEventListener("fullscreenchange", function () {
+    if (!document.fullscreenElement && gameStage && gameStage.classList.contains("fs-active")) {
+      gameStage.classList.remove("fs-active");
+      document.body.classList.remove("no-scroll");
+    }
+  });
 
   /* ---------- localStorage helpers (safe) ---------- */
   function lsGet(key, fallback) {
