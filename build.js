@@ -22,6 +22,9 @@ const SITE_DESC = "Play the best free online games on PlayArcadeX! Racing, actio
 // sectiunea Trending ramane pur si simplu ascunsa. Ex: "https://pax-trending.USER.workers.dev"
 const TRENDING_API = "";
 
+// Google Analytics 4 (lasa gol "" ca sa dezactivezi)
+const GA_ID = "G-GTMHJ8176B";
+
 const ROOT = __dirname;
 const DIST = path.join(ROOT, "dist");
 const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "games.json"), "utf8"));
@@ -166,6 +169,9 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <style>${CSS_MIN}</style>
   ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
+  ${GA_ID ? `<!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');</script>` : ""}
 </head>
 <body>
   ${headerHTML()}
@@ -418,8 +424,10 @@ const STATIC_PAGES = [
       <p>${SITE_NAME} itself does not require accounts and does not directly collect personal information. Like most websites, our hosting provider (GitHub Pages) may log standard technical data such as IP address, browser type and pages visited for security and operational purposes.</p>
       <h2>Games and third-party content</h2>
       <p>Games on this site are embedded from our partner <strong>GameMonetize</strong> and run inside iframes. These games and the advertising inside them are operated by third parties, which may use cookies and similar technologies to serve and measure ads (including personalized ads where permitted). Their data practices are governed by their own privacy policies, including the <a href="https://gamemonetize.com/privacy" rel="nofollow noopener" target="_blank">GameMonetize Privacy Policy</a>.</p>
+      <h2>Analytics</h2>
+      <p>We use <strong>Google Analytics 4</strong> to understand how visitors use the site (pages visited, games played, time on site, approximate location at city level, device type). Google Analytics uses cookies and similar identifiers for this purpose. The data is aggregated and does not directly identify you. You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" rel="nofollow noopener" target="_blank">Google Analytics Opt-out Browser Add-on</a> or by blocking cookies in your browser. Learn more in the <a href="https://policies.google.com/privacy" rel="nofollow noopener" target="_blank">Google Privacy Policy</a>.</p>
       <h2>Cookies</h2>
-      <p>We do not set tracking cookies ourselves. Third-party game and ad providers embedded on this site may set cookies as described above. You can control or delete cookies through your browser settings.</p>
+      <p>We use Google Analytics cookies as described above. Additionally, third-party game and ad providers embedded on this site may set their own cookies. You can control or delete cookies through your browser settings.</p>
       <h2>Children's privacy</h2>
       <p>This website offers general-audience games and does not knowingly collect personal information from children. Parents and guardians who believe a third-party service embedded here has collected information from a child should contact that provider and us at contact@playarcadex.com.</p>
       <h2>Your rights</h2>

@@ -88,6 +88,11 @@
     searchInput.addEventListener("focus", function () { loadIndex(); });
   }
 
+  /* ---------- GA4 events helper ---------- */
+  function track(name, params) {
+    try { if (typeof window.gtag === "function") window.gtag("event", name, params || {}); } catch (e) {}
+  }
+
   /* ---------- Game page: splash -> iframe + fullscreen mode (stil Yandex Games) ---------- */
   var TRENDING_API = document.documentElement.getAttribute("data-trending-api") || "";
   var splash = document.getElementById("gameSplash");
@@ -144,6 +149,7 @@
       if (isMobile) enterGameFs(); // pe mobil: direct pe tot ecranul
       if (slug) rememberPlayed(slug);
       if (gameCat) bumpInterest(gameCat, 3); // a jucat efectiv = semnal puternic
+      track("play_game", { game_slug: slug, game_category: gameCat });
       if (TRENDING_API && slug) {
         fetch(TRENDING_API + "/hit", {
           method: "POST",
@@ -229,7 +235,8 @@
     favBtn.addEventListener("click", function () {
       var favs = lsGet("pax_favs", []);
       var i = favs.indexOf(favSlug);
-      if (i === -1) favs.unshift(favSlug); else favs.splice(i, 1);
+      if (i === -1) { favs.unshift(favSlug); track("add_favorite", { game_slug: favSlug }); }
+      else { favs.splice(i, 1); track("remove_favorite", { game_slug: favSlug }); }
       lsSet("pax_favs", favs.slice(0, 60));
       paintFav();
     });
@@ -311,6 +318,7 @@
   var randomBtn = document.getElementById("randomBtn");
   if (randomBtn) {
     randomBtn.addEventListener("click", function () {
+      track("random_game");
       loadIndex().then(function (idx) {
         if (!idx || !idx.length) return;
         var g = idx[Math.floor(Math.random() * idx.length)];
