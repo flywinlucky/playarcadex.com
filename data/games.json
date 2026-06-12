@@ -1,0 +1,747 @@
+[
+  {
+    "id": "sample-1",
+    "title": "Moto X3M Stunt Rider",
+    "slug": "moto-x3m-stunt-rider",
+    "description": "Race your motorbike through insane obstacle courses, pull off backflips and beat the clock in this addictive stunt racing game.",
+    "instructions": "Arrow keys or WASD to ride and balance. Touch buttons on mobile.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_1/",
+    "category": "Racing",
+    "tags": [
+      "bike",
+      "stunt",
+      "racing"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_1/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-2",
+    "title": "Drift Hunters City",
+    "slug": "drift-hunters-city",
+    "description": "Drift through city streets in tuned sports cars. Earn points, buy new cars and upgrade your ride.",
+    "instructions": "Arrow keys to drive, space for handbrake.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_2/",
+    "category": "Racing",
+    "tags": [
+      "drift",
+      "cars",
+      "3d"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_2/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-3",
+    "title": "Highway Traffic Rush",
+    "slug": "highway-traffic-rush",
+    "description": "Weave through dense highway traffic at top speed. How far can you go without crashing?",
+    "instructions": "Arrows or tilt to steer.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_3/",
+    "category": "Racing",
+    "tags": [
+      "traffic",
+      "cars",
+      "endless"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_3/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-4",
+    "title": "Mega Ramp Car Stunts",
+    "slug": "mega-ramp-car-stunts",
+    "description": "Launch supercars off impossible mega ramps and land epic stunts in huge 3D arenas.",
+    "instructions": "WASD to drive, N for nitro.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_4/",
+    "category": "Racing",
+    "tags": [
+      "stunts",
+      "ramp",
+      "3d"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_4/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-5",
+    "title": "Stickman Battle Arena",
+    "slug": "stickman-battle-arena",
+    "description": "Fight waves of enemies in epic stickman combat. Unlock weapons and upgrade your fighter.",
+    "instructions": "WASD to move, mouse to attack.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_5/",
+    "category": "Action",
+    "tags": [
+      "stickman",
+      "fighting"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_5/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-6",
+    "title": "Ninja Shadow Strike",
+    "slug": "ninja-shadow-strike",
+    "description": "Slash through enemies as a deadly shadow ninja. Master combos and timing.",
+    "instructions": "Tap or click to attack and dodge.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_6/",
+    "category": "Action",
+    "tags": [
+      "ninja",
+      "slash",
+      "combo"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_6/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-7",
+    "title": "Vex Parkour Master",
+    "slug": "vex-parkour-master",
+    "description": "Run, jump, slide and swim through deadly stickman parkour levels full of traps.",
+    "instructions": "Arrow keys to move and jump.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_7/",
+    "category": "Action",
+    "tags": [
+      "parkour",
+      "platformer",
+      "stickman"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_7/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-8",
+    "title": "Zombie City Survival",
+    "slug": "zombie-city-survival",
+    "description": "Survive endless zombie waves in a ruined city. Loot weapons and barricade up.",
+    "instructions": "WASD + mouse to shoot.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_8/",
+    "category": "Action",
+    "tags": [
+      "zombie",
+      "survival"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_8/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-9",
+    "title": "Sniper Elite Mission",
+    "slug": "sniper-elite-mission",
+    "description": "Take out targets from long range in tense sniper missions. Steady your scope and breathe.",
+    "instructions": "Mouse to aim, click to shoot.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_9/",
+    "category": "Shooting",
+    "tags": [
+      "sniper",
+      "gun",
+      "mission"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_9/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-10",
+    "title": "Gun Mayhem Duel",
+    "slug": "gun-mayhem-duel",
+    "description": "Fast-paced 2D arena shootouts against bots or a friend on one keyboard.",
+    "instructions": "WASD vs arrows, fire with space/enter.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_10/",
+    "category": "Shooting",
+    "tags": [
+      "arena",
+      "2player",
+      "shooter"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_10/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-11",
+    "title": "Battle Royale Pixel",
+    "slug": "battle-royale-pixel",
+    "description": "Drop into a shrinking pixel battlefield, loot weapons and be the last one standing.",
+    "instructions": "WASD to move, mouse to aim and shoot.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_11/",
+    "category": "Shooting",
+    "tags": [
+      "battle-royale",
+      "pixel",
+      "io"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_11/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-12",
+    "title": "Penalty Shootout Pro",
+    "slug": "penalty-shootout-pro",
+    "description": "Take penalty kicks and save shots as goalkeeper in this realistic football game.",
+    "instructions": "Swipe or drag to aim and shoot.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_12/",
+    "category": "Sports",
+    "tags": [
+      "football",
+      "soccer"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_12/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-13",
+    "title": "Basketball Legends Star",
+    "slug": "basketball-legends-star",
+    "description": "Score epic dunks and three-pointers in fast 1v1 and 2v2 basketball matches.",
+    "instructions": "Arrows to move, X to shoot.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_13/",
+    "category": "Sports",
+    "tags": [
+      "basketball",
+      "2player"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_13/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-14",
+    "title": "Table Tennis World Tour",
+    "slug": "table-tennis-world-tour",
+    "description": "Compete in world table tennis tournaments with realistic ball physics.",
+    "instructions": "Move your paddle with mouse or finger.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_14/",
+    "category": "Sports",
+    "tags": [
+      "ping-pong",
+      "tennis"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_14/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-15",
+    "title": "8 Ball Pool Club",
+    "slug": "8-ball-pool-club",
+    "description": "Classic 8-ball pool with smooth physics. Play vs AI or a friend.",
+    "instructions": "Drag to aim, release to shoot.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_15/",
+    "category": "Sports",
+    "tags": [
+      "pool",
+      "billiards",
+      "2player"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_15/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-16",
+    "title": "Bubble Shooter Classic",
+    "slug": "bubble-shooter-classic",
+    "description": "Match 3 or more bubbles of the same color to pop them all. Hundreds of levels.",
+    "instructions": "Aim and tap to shoot bubbles.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_16/",
+    "category": "Puzzle",
+    "tags": [
+      "bubble",
+      "match-3",
+      "casual"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_16/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-17",
+    "title": "2048 Number Merge",
+    "slug": "2048-number-merge",
+    "description": "Slide tiles and merge numbers to reach 2048 in this legendary brain teaser.",
+    "instructions": "Arrow keys or swipe to move tiles.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_17/",
+    "category": "Puzzle",
+    "tags": [
+      "2048",
+      "numbers",
+      "logic"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_17/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-18",
+    "title": "Block Puzzle Jewel",
+    "slug": "block-puzzle-jewel",
+    "description": "Place jewel blocks on the grid and clear full lines. Relaxing but tricky!",
+    "instructions": "Drag blocks onto the board.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_18/",
+    "category": "Puzzle",
+    "tags": [
+      "blocks",
+      "tetris",
+      "jewel"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_18/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-19",
+    "title": "Daily Sudoku Master",
+    "slug": "daily-sudoku-master",
+    "description": "Fresh sudoku puzzles every day, from easy to expert difficulty.",
+    "instructions": "Tap a cell, pick a number.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_19/",
+    "category": "Puzzle",
+    "tags": [
+      "sudoku",
+      "brain",
+      "daily"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_19/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-20",
+    "title": "Snake Arena .io",
+    "slug": "snake-arena-io",
+    "description": "Grow the longest snake in the arena. Eat orbs, trap rivals, dominate the leaderboard.",
+    "instructions": "Mouse to steer, click to boost.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_20/",
+    "category": "io",
+    "tags": [
+      "snake",
+      "io",
+      "multiplayer"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_20/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-21",
+    "title": "Paper Territory .io",
+    "slug": "paper-territory-io",
+    "description": "Claim territory by drawing loops — but defend your tail from other players!",
+    "instructions": "Swipe or arrows to move.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_21/",
+    "category": "io",
+    "tags": [
+      "territory",
+      "io"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_21/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-22",
+    "title": "Hole Eater .io",
+    "slug": "hole-eater-io",
+    "description": "Control a black hole and swallow the whole city — and smaller players too.",
+    "instructions": "Move with mouse or finger.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_22/",
+    "category": "io",
+    "tags": [
+      "hole",
+      "io",
+      "arcade"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_22/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-23",
+    "title": "Fashion Dress Up Studio",
+    "slug": "fashion-dress-up-studio",
+    "description": "Style models with thousands of outfit combos for fashion week shows.",
+    "instructions": "Tap clothes and accessories to mix looks.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_23/",
+    "category": "Girls",
+    "tags": [
+      "dress-up",
+      "fashion",
+      "makeover"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_23/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-24",
+    "title": "Princess Makeover Salon",
+    "slug": "princess-makeover-salon",
+    "description": "Run a magical salon: hair, makeup, nails and sparkling gowns for every princess.",
+    "instructions": "Tap tools and follow the steps.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_24/",
+    "category": "Girls",
+    "tags": [
+      "princess",
+      "salon",
+      "makeup"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_24/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-25",
+    "title": "Wedding Planner Deluxe",
+    "slug": "wedding-planner-deluxe",
+    "description": "Design the perfect wedding: dress, venue, cake and decorations.",
+    "instructions": "Tap to choose and decorate.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_25/",
+    "category": "Girls",
+    "tags": [
+      "wedding",
+      "design"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_25/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-26",
+    "title": "Stack Tower Builder",
+    "slug": "stack-tower-builder",
+    "description": "Stack moving blocks perfectly to build the tallest tower in the world.",
+    "instructions": "Tap or click to drop the block.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_26/",
+    "category": "Hypercasual",
+    "tags": [
+      "stack",
+      "timing",
+      "casual"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_26/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-27",
+    "title": "Helix Jump Ball",
+    "slug": "helix-jump-ball",
+    "description": "Guide the bouncing ball down the helix tower — avoid the danger zones!",
+    "instructions": "Drag to rotate the tower.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_27/",
+    "category": "Hypercasual",
+    "tags": [
+      "helix",
+      "ball",
+      "arcade"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_27/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-28",
+    "title": "Knife Flip Challenge",
+    "slug": "knife-flip-challenge",
+    "description": "Flip knives into targets with perfect timing. Unlock legendary blades.",
+    "instructions": "Tap to throw.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_28/",
+    "category": "Hypercasual",
+    "tags": [
+      "knife",
+      "timing"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_28/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-29",
+    "title": "Cookie Clicker Empire",
+    "slug": "cookie-clicker-empire",
+    "description": "Bake billions of cookies, hire grandmas and build a delicious empire.",
+    "instructions": "Click the cookie, buy upgrades.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_29/",
+    "category": "Clicker",
+    "tags": [
+      "idle",
+      "clicker",
+      "cookies"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_29/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-30",
+    "title": "Mine Tycoon Idle",
+    "slug": "mine-tycoon-idle",
+    "description": "Dig deep, automate your mine and become an idle mining tycoon.",
+    "instructions": "Tap to dig, invest profits in managers.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_30/",
+    "category": "Clicker",
+    "tags": [
+      "idle",
+      "tycoon",
+      "mining"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_30/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-31",
+    "title": "Treasure Island Quest",
+    "slug": "treasure-island-quest",
+    "description": "Explore a mysterious island, solve riddles and hunt legendary pirate treasure.",
+    "instructions": "Tap to move and interact.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_31/",
+    "category": "Adventure",
+    "tags": [
+      "pirate",
+      "exploration",
+      "quest"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_31/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-32",
+    "title": "Fireboy and Watergirl Temple",
+    "slug": "fireboy-and-watergirl-temple",
+    "description": "Control two heroes at once through element-themed temple puzzles. Great in co-op!",
+    "instructions": "Player 1: arrows. Player 2: WASD.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_32/",
+    "category": "Adventure",
+    "tags": [
+      "co-op",
+      "2player",
+      "platformer"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_32/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-33",
+    "title": "Castle Defense Kingdom",
+    "slug": "castle-defense-kingdom",
+    "description": "Place towers, cast spells and stop endless waves of monsters from reaching your castle.",
+    "instructions": "Drag towers onto the map.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_33/",
+    "category": "Strategy",
+    "tags": [
+      "tower-defense",
+      "strategy"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_33/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-34",
+    "title": "Chess Grandmaster Online",
+    "slug": "chess-grandmaster-online",
+    "description": "Classic chess with adjustable AI difficulty and a clean board. Train your brain.",
+    "instructions": "Drag pieces to move.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_34/",
+    "category": "Strategy",
+    "tags": [
+      "chess",
+      "board",
+      "brain"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_34/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-35",
+    "title": "Solitaire Klondike Daily",
+    "slug": "solitaire-klondike-daily",
+    "description": "The timeless Klondike solitaire with daily challenges and smooth card physics.",
+    "instructions": "Drag cards or tap to auto-move.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_35/",
+    "category": "Cards",
+    "tags": [
+      "solitaire",
+      "cards",
+      "classic"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_35/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-36",
+    "title": "Uno Party Cards",
+    "slug": "uno-party-cards",
+    "description": "Match colors and numbers, throw +4s and yell UNO before your rivals!",
+    "instructions": "Tap a card to play it.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_36/",
+    "category": "Cards",
+    "tags": [
+      "uno",
+      "party",
+      "multiplayer"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_36/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-37",
+    "title": "Burger Chef Cooking Rush",
+    "slug": "burger-chef-cooking-rush",
+    "description": "Cook and serve burgers, fries and shakes to a rush of hungry customers.",
+    "instructions": "Tap ingredients in the right order.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_37/",
+    "category": "Cooking",
+    "tags": [
+      "cooking",
+      "restaurant",
+      "time-management"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_37/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": true
+  },
+  {
+    "id": "sample-38",
+    "title": "Pizza Maker Deluxe",
+    "slug": "pizza-maker-deluxe",
+    "description": "Knead, top and bake the perfect pizza, then design your own pizzeria.",
+    "instructions": "Drag ingredients onto the dough.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_38/",
+    "category": "Cooking",
+    "tags": [
+      "pizza",
+      "baking"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_38/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-39",
+    "title": "Granny Horror Escape",
+    "slug": "granny-horror-escape",
+    "description": "Escape the creepy house in 5 days without making a sound. Granny hears everything…",
+    "instructions": "WASD to sneak, click to interact.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_39/",
+    "category": "Horror",
+    "tags": [
+      "escape",
+      "scary",
+      "granny"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_39/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-40",
+    "title": "Midnight Asylum",
+    "slug": "midnight-asylum",
+    "description": "Explore an abandoned asylum with only a flashlight. What is making that noise?",
+    "instructions": "WASD + mouse to explore.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_40/",
+    "category": "Horror",
+    "tags": [
+      "scary",
+      "exploration"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_40/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-41",
+    "title": "Tank Duel 2 Player",
+    "slug": "tank-duel-2-player",
+    "description": "Battle a friend in destructible maze arenas — last tank rolling wins.",
+    "instructions": "P1: WASD+Q, P2: arrows+M.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_41/",
+    "category": "2 Player",
+    "tags": [
+      "tanks",
+      "duel",
+      "local"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_41/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  },
+  {
+    "id": "sample-42",
+    "title": "Soccer Heads Champions",
+    "slug": "soccer-heads-champions",
+    "description": "Big-head 1v1 soccer chaos with power-ups. Beat your friend on one keyboard!",
+    "instructions": "P1: WASD, P2: arrows.",
+    "url": "https://html5.gamemonetize.com/SAMPLE_GAME_ID_42/",
+    "category": "2 Player",
+    "tags": [
+      "soccer",
+      "heads",
+      "versus"
+    ],
+    "thumb": "https://img.gamemonetize.com/SAMPLE_GAME_ID_42/512x384.jpg",
+    "width": "960",
+    "height": "600",
+    "featured": false
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "playarcadex",
+  "version": "1.0.0",
+  "description": "PlayArcadeX — free online games portal (static, GitHub Pages)",
+  "private": true,
+  "scripts": {
+    "fetch": "node fetch-games.js --pages=5",
+    "build": "node build.js",
+    "dev": "node build.js && npx -y serve dist",
+    "all": "node fetch-games.js --pages=5 && node build.js"
+  }
+}
