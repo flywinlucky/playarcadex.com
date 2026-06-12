@@ -150,6 +150,7 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <meta name="description" content="${esc(description)}">
   <link rel="canonical" href="${canonical}">
   <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="yandex-verification" content="addf8873d6751e80">
   <meta name="theme-color" content="#0e0f1a">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="${SITE_NAME}">
