@@ -157,6 +157,13 @@ button { font: inherit; cursor: pointer; border: 0; }
   background: var(--accent);
   display: inline-block;
 }
+.view-all {
+  margin-left: auto;
+  font-size: .82rem;
+  color: #b9adff; /* contrast AA pe fundal inchis */
+  font-weight: 700;
+}
+.view-all:hover { color: #d4ccff; text-decoration: underline; }
 
 /* ---------- Game grid & cards ---------- */
 .grid {
@@ -306,15 +313,25 @@ button { font: inherit; cursor: pointer; border: 0; }
 /* ---------- Share & favorite ---------- */
 .dice-btn {
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  width: 38px; height: 38px;
-  font-size: 1.1rem;
-  display: grid; place-items: center;
-  transition: transform 0.15s, background 0.15s;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  height: 38px;
+  padding: 0 16px;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
   flex-shrink: 0;
 }
-.dice-btn:hover { background: var(--accent); transform: rotate(20deg) scale(1.08); }
+.dice-btn:hover {
+  background: var(--accent);
+  transform: scale(1.05);
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+.dice-btn svg { flex-shrink: 0; }
 
 .fav-btn { font-size: 1.1rem; }
 .fav-btn.on { background: #e0245e; color: #fff; }
@@ -322,27 +339,45 @@ button { font: inherit; cursor: pointer; border: 0; }
 .share-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-.share-label { color: var(--text-dim); font-size: 0.85rem; font-weight: 700; }
-.share-btn {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: grid; place-items: center;
-  font-weight: 800;
-  font-size: 0.95rem;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 16px;
   background: var(--surface);
-  color: var(--text);
-  transition: transform 0.12s, background 0.12s;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
 }
-.share-btn:hover { transform: scale(1.12); }
-.share-btn.fb:hover { background: #1877f2; }
-.share-btn.tw:hover { background: #000; }
-.share-btn.wa:hover { background: #25d366; }
-.share-btn.tg:hover { background: #2aabee; }
-.share-btn.copy:hover { background: var(--accent); }
+.share-label {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-right: 2px;
+}
+.share-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 0;
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.share-btn svg { display: block; }
+.share-btn:hover { transform: translateY(-3px) scale(1.08); filter: brightness(1.12); }
+.share-btn.fb   { background: #1877f2; }
+.share-btn.tw   { background: #14171a; border: 1px solid rgba(255,255,255,0.18); }
+.share-btn.wa   { background: #25d366; }
+.share-btn.tg   { background: #2aabee; }
+.share-btn.copy { background: var(--accent); }
+.share-btn.copy:hover { background: var(--accent-hover); }
+
+/* ---------- Performance: nu randa sectiunile de sub fold pana la scroll ---------- */
+.cat-sec {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 540px;
+}
 
 /* ---------- Static pages ---------- */
 .static-page h1 { font-size: 1.5rem; margin-bottom: 12px; }
@@ -374,6 +409,8 @@ button { font: inherit; cursor: pointer; border: 0; }
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
   .menu-btn { display: block; }
+  .dice-btn { padding: 0; width: 38px; justify-content: center; border-radius: 50%; }
+  .dice-label { display: none; }
   .sidebar {
     transform: translateX(-100%);
     transition: transform 0.22s ease;

@@ -28,8 +28,12 @@
   var loading = false;
 
   function cardHTML(g) {
+    var small = String(g.thumb).replace(/512x384/i, "230x230");
+    var fallback = small !== g.thumb
+      ? ' onerror="this.onerror=null;this.src=\'' + escapeAttr(g.thumb) + '\'"'
+      : "";
     return '<a class="card" href="' + BASE + '/game/' + g.slug + '/" title="' + escapeAttr(g.title) + '">' +
-      '<img loading="lazy" decoding="async" src="' + escapeAttr(g.thumb) + '" alt="' + escapeAttr(g.title) + '" width="512" height="384">' +
+      '<img loading="lazy" decoding="async" src="' + escapeAttr(small) + '"' + fallback + ' alt="' + escapeAttr(g.title) + '" width="230" height="173">' +
       '<span class="card-title">' + escapeHTML(g.title) + '</span></a>';
   }
 
@@ -272,11 +276,12 @@
   /* ---------- Copy link ---------- */
   var copyBtn = document.getElementById("copyLinkBtn");
   if (copyBtn) {
+    var copyOriginal = copyBtn.innerHTML;
     copyBtn.addEventListener("click", function () {
       var url = copyBtn.getAttribute("data-url");
       function done() {
-        copyBtn.textContent = "✓";
-        setTimeout(function () { copyBtn.textContent = "🔗"; }, 1500);
+        copyBtn.innerHTML = "✓";
+        setTimeout(function () { copyBtn.innerHTML = copyOriginal; }, 1500);
       }
       if (navigator.clipboard) navigator.clipboard.writeText(url).then(done);
       else { window.prompt("Copy link:", url); }

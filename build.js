@@ -26,6 +26,13 @@ const ROOT = __dirname;
 const DIST = path.join(ROOT, "dist");
 const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "games.json"), "utf8"));
 
+// CSS-ul se inline-eaza in <head> la build => zero render-blocking requests (PageSpeed)
+const CSS_MIN = fs.readFileSync(path.join(ROOT, "static", "css", "style.css"), "utf8")
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .replace(/\s+/g, " ")
+  .replace(/ ?([{};:,>]) ?/g, "$1")
+  .trim();
+
 /* ---------------- helpers ---------------- */
 const esc = s => String(s ?? "")
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -64,6 +71,16 @@ for (const g of games) (byCategory[g.category] ??= []).push(g);
 const featured = games.filter(g => g.featured);
 const nowISO = new Date().toISOString().slice(0, 10);
 
+/* ---------------- SVG icons (inline, fara requesturi externe) ---------------- */
+const ICONS = {
+  fb: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+  tw: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>',
+  wa: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>',
+  tg: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>',
+  link: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>',
+  dice: '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM7.5 18A1.5 1.5 0 1 1 9 16.5 1.5 1.5 0 0 1 7.5 18zm0-9A1.5 1.5 0 1 1 9 7.5 1.5 1.5 0 0 1 7.5 9zm4.5 4.5a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5zM16.5 18a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5zm0-9A1.5 1.5 0 1 1 18 7.5 1.5 1.5 0 0 1 16.5 9z"/></svg>'
+};
+
 /* ---------------- shared components ---------------- */
 function sidebarHTML(activeCat) {
   const home = `<a href="/" class="${activeCat === "__home" ? "active" : ""}"><span class="emoji">🏠</span>Home</a>
@@ -82,7 +99,7 @@ function headerHTML() {
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
-    <button class="dice-btn" id="randomBtn" title="Random game" aria-label="Play a random game">🎲</button>
+    <button class="dice-btn" id="randomBtn" title="Play a random game" aria-label="Play a random game">${ICONS.dice}<span class="dice-label">Random</span></button>
   </header>`;
 }
 
@@ -103,9 +120,19 @@ function footerHTML() {
   </footer>`;
 }
 
+/* Thumbnail mic pentru grile (230x230 ~ 12KB vs 512x384 ~ 100KB+).
+   Daca varianta mica nu exista pentru un joc, onerror revine la originala. */
+function smallThumb(t) {
+  return String(t).replace(/512x384/i, "230x230");
+}
+
 function cardHTML(g, eager = false) {
+  const small = smallThumb(g.thumb);
+  const fallback = small !== g.thumb
+    ? ` onerror="this.onerror=null;this.src='${esc(g.thumb)}'"`
+    : "";
   return `<a class="card" href="/game/${g.slug}/" title="${esc(g.title)}">
-      <img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${esc(g.thumb)}" alt="${esc(g.title)} - play free online" width="512" height="384">
+      <img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${esc(small)}"${fallback} alt="${esc(g.title)} - play free online" width="230" height="173">
       <span class="card-title">${esc(g.title)}</span>
     </a>`;
 }
@@ -137,7 +164,7 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
-  <link rel="stylesheet" href="/css/style.css">
+  <style>${CSS_MIN}</style>
   ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
 </head>
 <body>
@@ -160,9 +187,9 @@ function buildHome() {
 
   const categorySections = categories.map(c => `
     <section class="cat-sec" data-cat="${esc(c)}">
-    <h2 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} <a href="/category/${catSlug(c)}/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
+    <h2 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} <a class="view-all" href="/category/${catSlug(c)}/">View all →</a></h2>
     <div class="grid">
-      ${byCategory[c].slice(0, 12).map(g => cardHTML(g)).join("\n      ")}
+      ${byCategory[c].slice(0, 8).map(g => cardHTML(g)).join("\n      ")}
     </div>
     </section>`).join("\n");
 
@@ -257,8 +284,8 @@ function buildGamePages() {
     </nav>
     <div class="game-stage">
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
-        <div class="game-splash" id="gameSplash" style="background-image:url('${esc(g.thumb)}')">
-          <img class="splash-thumb" src="${esc(g.thumb)}" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
+        <div class="game-splash" id="gameSplash" style="background-image:url('${esc(smallThumb(g.thumb))}')">
+          <img class="splash-thumb" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
         </div>
       </div>
@@ -270,11 +297,11 @@ function buildGamePages() {
     </div>
     <div class="share-row" aria-label="Share this game">
       <span class="share-label">Share:</span>
-      <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}" aria-label="Share on Facebook">f</a>
-      <a class="share-btn tw" rel="nofollow noopener" target="_blank" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent("Play " + g.title + " free!")}" aria-label="Share on X">𝕏</a>
-      <a class="share-btn wa" rel="nofollow noopener" target="_blank" href="https://wa.me/?text=${encodeURIComponent("Play " + g.title + " free! " + canonical)}" aria-label="Share on WhatsApp">✆</a>
-      <a class="share-btn tg" rel="nofollow noopener" target="_blank" href="https://t.me/share/url?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent("Play " + g.title + " free!")}" aria-label="Share on Telegram">➤</a>
-      <button class="share-btn copy" id="copyLinkBtn" data-url="${esc(canonical)}" aria-label="Copy link">🔗</button>
+      <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}" aria-label="Share on Facebook">${ICONS.fb}</a>
+      <a class="share-btn tw" rel="nofollow noopener" target="_blank" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent("Play " + g.title + " free!")}" aria-label="Share on X">${ICONS.tw}</a>
+      <a class="share-btn wa" rel="nofollow noopener" target="_blank" href="https://wa.me/?text=${encodeURIComponent("Play " + g.title + " free! " + canonical)}" aria-label="Share on WhatsApp">${ICONS.wa}</a>
+      <a class="share-btn tg" rel="nofollow noopener" target="_blank" href="https://t.me/share/url?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent("Play " + g.title + " free!")}" aria-label="Share on Telegram">${ICONS.tg}</a>
+      <button class="share-btn copy" id="copyLinkBtn" data-url="${esc(canonical)}" aria-label="Copy link">${ICONS.link}</button>
     </div>
     <div class="game-info">
       <h2>About ${esc(g.title)}</h2>
