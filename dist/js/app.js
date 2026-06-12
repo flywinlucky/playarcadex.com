@@ -162,6 +162,10 @@
   if (closeFsBtn) {
     closeFsBtn.addEventListener("click", exitGameFs);
   }
+  var fsCloseFloat = document.getElementById("fsCloseFloat");
+  if (fsCloseFloat) {
+    fsCloseFloat.addEventListener("click", exitGameFs);
+  }
   // Daca userul iese din fullscreen nativ cu Esc/gestul de sistem, inchidem si overlay-ul
   document.addEventListener("fullscreenchange", function () {
     if (!document.fullscreenElement && gameStage && gameStage.classList.contains("fs-active")) {

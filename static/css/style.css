@@ -254,32 +254,95 @@ body.no-scroll { overflow: hidden; }
   padding-right: calc(14px + env(safe-area-inset-right));
 }
 
-/* Butonul Close: vizibil doar in fullscreen; butonul Fullscreen dispare in fullscreen */
+/* Butonul Close din toolbar: doar in modul normal nu e necesar */
 .close-btn { display: none; background: #e0245e; color: #fff; }
 .close-btn:hover { background: #ff2f6d; }
-.game-stage.fs-active .close-btn { display: inline-flex; }
+
+/* In fullscreen: bara de jos dispare complet — ramane doar X-ul plutitor din colt */
+.game-stage.fs-active .game-toolbar { display: none; }
 .game-stage.fs-active #fsBtn { display: none; }
 
-/* Hint de rotire: doar in fullscreen, doar la jocuri landscape tinute portrait */
-.rotate-hint {
+/* X plutitor, mic, semi-transparent, in coltul din dreapta-sus (stil Yandex) */
+.fs-close {
   display: none;
   position: absolute;
-  top: 14px; left: 50%;
-  transform: translateX(-50%);
-  background: rgba(14, 15, 26, 0.9);
-  color: var(--text);
-  font-size: 0.85rem;
+  top: calc(10px + env(safe-area-inset-top));
+  right: calc(10px + env(safe-area-inset-right));
+  z-index: 30;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(18, 19, 30, 0.72);
+  color: #fff;
+  font-size: 1.05rem;
   font-weight: 700;
-  padding: 8px 16px;
-  border-radius: 999px;
-  z-index: 5;
-  pointer-events: none;
-  white-space: nowrap;
-  animation: hint-pulse 2s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
 }
-@keyframes hint-pulse { 50% { opacity: 0.55; } }
+.fs-close:hover { background: rgba(104, 66, 255, 0.85); }
+.game-stage.fs-active .fs-close { display: inline-flex; }
+
+/* Tab vertical "All Games" pe marginea stanga (stil Yandex) — doar in fullscreen */
+.fs-allgames {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: rgba(18, 19, 30, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-left: 0;
+  border-radius: 0 12px 12px 0;
+  padding: 14px 7px;
+  backdrop-filter: blur(6px);
+}
+.game-stage.fs-active .fs-allgames { display: flex; }
+.fs-allgames-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.fs-mini-logo {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--accent), #a55cff);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+.fs-allgames:hover { background: rgba(104, 66, 255, 0.45); }
+
+/* Overlay "Rotate device" pe tot ecranul (stil Yandex):
+   acopera jocul cat timp un joc landscape e tinut portrait, in fullscreen */
+.rotate-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #15161f;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 24px;
+}
+.rotate-title { font-size: 1.45rem; font-weight: 800; margin-top: 10px; }
+.rotate-sub { color: var(--text-dim); font-size: 0.95rem; }
 @media (orientation: portrait) {
-  .game-stage.fs-active[data-orient="landscape"] .rotate-hint { display: block; }
+  .game-stage.fs-active[data-orient="landscape"] .rotate-overlay { display: flex; }
 }
 .game-splash {
   position: absolute; inset: 0;
