@@ -23,7 +23,7 @@ const SITE_DESC = "Play the best free online games on PlayArcadeX! Racing, actio
 const TRENDING_API = "";
 
 // Google Analytics 4 (lasa gol "" ca sa dezactivezi)
-const GA_ID = "G-GTMHJ8176B";
+const GA_ID = "G-X4DF0DZ88J";
 
 const ROOT = __dirname;
 const DIST = path.join(ROOT, "dist");
