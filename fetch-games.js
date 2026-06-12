@@ -85,6 +85,7 @@ async function fetchPage(page) {
       thumb: g.thumb,
       width: String(g.width || 960),
       height: String(g.height || 600),
+      feedRank: normalized.length,
       featured: false
     });
   }

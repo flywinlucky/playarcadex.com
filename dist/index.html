@@ -19,6 +19,10 @@
   <meta name="twitter:description" content="Play the best free online games on PlayArcadeX! Racing, action, puzzle, sports and more — no downloads, instantly playable on mobile and desktop.">
   <meta name="twitter:image" content="https://playarcadex.com/img/og-default.png">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"PlayArcadeX","url":"https://playarcadex.com","description":"Play the best free online games on PlayArcadeX! Racing, action, puzzle, sports and more — no downloads, instantly playable on mobile and desktop.","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://playarcadex.com/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
@@ -31,9 +35,11 @@
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
+    <button class="dice-btn" id="randomBtn" title="Random game" aria-label="Play a random game">🎲</button>
   </header>
   <nav class="sidebar" id="sidebar" aria-label="Categories">
     <a href="/" class="active"><span class="emoji">🏠</span>Home</a>
+    <a href="/games/" class=""><span class="emoji">📚</span>All Games</a>
     <a href="/category/2-player/" class=""><span class="emoji">🆚</span>2 Player</a>
     <a href="/category/action/" class=""><span class="emoji">⚔️</span>Action</a>
     <a href="/category/adventure/" class=""><span class="emoji">🗺️</span>Adventure</a>
@@ -55,6 +61,14 @@
     <div id="searchResults" class="grid" style="display:none"></div>
     <div id="emptyState" class="empty">😕 No games found. Try another search.</div>
     <div id="defaultSections">
+      <section id="recentSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>🕒 Recently Played</h2>
+        <div class="grid" id="recentGrid"></div>
+      </section>
+      <section id="favSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>❤️ Your Favorites</h2>
+        <div class="grid" id="favGrid"></div>
+      </section>
       <h2 class="section-title"><span class="bar"></span>🔥 Featured Games</h2>
       <div class="grid featured">
         <a class="card" href="/game/moto-x3m-stunt-rider/" title="Moto X3M Stunt Rider">
@@ -108,6 +122,57 @@
         <a class="card" href="/game/burger-chef-cooking-rush/" title="Burger Chef Cooking Rush">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_37/512x384.jpg" alt="Burger Chef Cooking Rush - play free online" width="512" height="384">
       <span class="card-title">Burger Chef Cooking Rush</span>
+    </a>
+      </div>
+      <h2 class="section-title"><span class="bar"></span>🆕 New Games</h2>
+      <div class="grid">
+        <a class="card" href="/game/moto-x3m-stunt-rider/" title="Moto X3M Stunt Rider">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_1/512x384.jpg" alt="Moto X3M Stunt Rider - play free online" width="512" height="384">
+      <span class="card-title">Moto X3M Stunt Rider</span>
+    </a>
+        <a class="card" href="/game/drift-hunters-city/" title="Drift Hunters City">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_2/512x384.jpg" alt="Drift Hunters City - play free online" width="512" height="384">
+      <span class="card-title">Drift Hunters City</span>
+    </a>
+        <a class="card" href="/game/highway-traffic-rush/" title="Highway Traffic Rush">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_3/512x384.jpg" alt="Highway Traffic Rush - play free online" width="512" height="384">
+      <span class="card-title">Highway Traffic Rush</span>
+    </a>
+        <a class="card" href="/game/mega-ramp-car-stunts/" title="Mega Ramp Car Stunts">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_4/512x384.jpg" alt="Mega Ramp Car Stunts - play free online" width="512" height="384">
+      <span class="card-title">Mega Ramp Car Stunts</span>
+    </a>
+        <a class="card" href="/game/stickman-battle-arena/" title="Stickman Battle Arena">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_5/512x384.jpg" alt="Stickman Battle Arena - play free online" width="512" height="384">
+      <span class="card-title">Stickman Battle Arena</span>
+    </a>
+        <a class="card" href="/game/ninja-shadow-strike/" title="Ninja Shadow Strike">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_6/512x384.jpg" alt="Ninja Shadow Strike - play free online" width="512" height="384">
+      <span class="card-title">Ninja Shadow Strike</span>
+    </a>
+        <a class="card" href="/game/vex-parkour-master/" title="Vex Parkour Master">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_7/512x384.jpg" alt="Vex Parkour Master - play free online" width="512" height="384">
+      <span class="card-title">Vex Parkour Master</span>
+    </a>
+        <a class="card" href="/game/zombie-city-survival/" title="Zombie City Survival">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_8/512x384.jpg" alt="Zombie City Survival - play free online" width="512" height="384">
+      <span class="card-title">Zombie City Survival</span>
+    </a>
+        <a class="card" href="/game/sniper-elite-mission/" title="Sniper Elite Mission">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_9/512x384.jpg" alt="Sniper Elite Mission - play free online" width="512" height="384">
+      <span class="card-title">Sniper Elite Mission</span>
+    </a>
+        <a class="card" href="/game/gun-mayhem-duel/" title="Gun Mayhem Duel">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_10/512x384.jpg" alt="Gun Mayhem Duel - play free online" width="512" height="384">
+      <span class="card-title">Gun Mayhem Duel</span>
+    </a>
+        <a class="card" href="/game/battle-royale-pixel/" title="Battle Royale Pixel">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_11/512x384.jpg" alt="Battle Royale Pixel - play free online" width="512" height="384">
+      <span class="card-title">Battle Royale Pixel</span>
+    </a>
+        <a class="card" href="/game/penalty-shootout-pro/" title="Penalty Shootout Pro">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_12/512x384.jpg" alt="Penalty Shootout Pro - play free online" width="512" height="384">
+      <span class="card-title">Penalty Shootout Pro</span>
     </a>
       </div>
       

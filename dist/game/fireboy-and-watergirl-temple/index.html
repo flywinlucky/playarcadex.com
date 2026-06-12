@@ -19,6 +19,10 @@
   <meta name="twitter:description" content="Control two heroes at once through element-themed temple puzzles. Great in co-op!">
   <meta name="twitter:image" content="https://img.gamemonetize.com/SAMPLE_GAME_ID_32/512x384.jpg">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"VideoGame","name":"Fireboy and Watergirl Temple","url":"https://playarcadex.com/game/fireboy-and-watergirl-temple/","description":"Control two heroes at once through element-themed temple puzzles. Great in co-op!","image":"https://img.gamemonetize.com/SAMPLE_GAME_ID_32/512x384.jpg","genre":"Adventure","keywords":"co-op, 2player, platformer","gamePlatform":["Web Browser","Mobile","Desktop"],"applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://playarcadex.com/"},{"@type":"ListItem","position":2,"name":"Adventure","item":"https://playarcadex.com/category/adventure/"},{"@type":"ListItem","position":3,"name":"Fireboy and Watergirl Temple","item":"https://playarcadex.com/game/fireboy-and-watergirl-temple/"}]}]</script>
@@ -31,9 +35,11 @@
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
+    <button class="dice-btn" id="randomBtn" title="Random game" aria-label="Play a random game">🎲</button>
   </header>
   <nav class="sidebar" id="sidebar" aria-label="Categories">
     <a href="/" class=""><span class="emoji">🏠</span>Home</a>
+    <a href="/games/" class=""><span class="emoji">📚</span>All Games</a>
     <a href="/category/2-player/" class=""><span class="emoji">🆚</span>2 Player</a>
     <a href="/category/action/" class=""><span class="emoji">⚔️</span>Action</a>
     <a href="/category/adventure/" class="active"><span class="emoji">🗺️</span>Adventure</a>
@@ -56,7 +62,7 @@
       <a href="/">Home</a> › <a href="/category/adventure/">Adventure</a> › Fireboy and Watergirl Temple
     </nav>
     <div class="game-stage">
-      <div class="game-frame-wrap" id="frameWrap" data-src="https://html5.gamemonetize.com/SAMPLE_GAME_ID_32/">
+      <div class="game-frame-wrap" id="frameWrap" data-src="https://html5.gamemonetize.com/SAMPLE_GAME_ID_32/" data-slug="fireboy-and-watergirl-temple">
         <div class="game-splash" id="gameSplash" style="background-image:url('https://img.gamemonetize.com/SAMPLE_GAME_ID_32/512x384.jpg')">
           <img class="splash-thumb" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_32/512x384.jpg" alt="Fireboy and Watergirl Temple" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
@@ -64,8 +70,17 @@
       </div>
       <div class="game-toolbar">
         <h1>Fireboy and Watergirl Temple</h1>
+        <button class="tool-btn fav-btn" id="favBtn" data-slug="fireboy-and-watergirl-temple" aria-label="Add to favorites">♡</button>
         <button class="tool-btn" id="fsBtn" aria-label="Fullscreen">⛶ Fullscreen</button>
       </div>
+    </div>
+    <div class="share-row" aria-label="Share this game">
+      <span class="share-label">Share:</span>
+      <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fplayarcadex.com%2Fgame%2Ffireboy-and-watergirl-temple%2F" aria-label="Share on Facebook">f</a>
+      <a class="share-btn tw" rel="nofollow noopener" target="_blank" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fplayarcadex.com%2Fgame%2Ffireboy-and-watergirl-temple%2F&text=Play%20Fireboy%20and%20Watergirl%20Temple%20free!" aria-label="Share on X">𝕏</a>
+      <a class="share-btn wa" rel="nofollow noopener" target="_blank" href="https://wa.me/?text=Play%20Fireboy%20and%20Watergirl%20Temple%20free!%20https%3A%2F%2Fplayarcadex.com%2Fgame%2Ffireboy-and-watergirl-temple%2F" aria-label="Share on WhatsApp">✆</a>
+      <a class="share-btn tg" rel="nofollow noopener" target="_blank" href="https://t.me/share/url?url=https%3A%2F%2Fplayarcadex.com%2Fgame%2Ffireboy-and-watergirl-temple%2F&text=Play%20Fireboy%20and%20Watergirl%20Temple%20free!" aria-label="Share on Telegram">➤</a>
+      <button class="share-btn copy" id="copyLinkBtn" data-url="https://playarcadex.com/game/fireboy-and-watergirl-temple/" aria-label="Copy link">🔗</button>
     </div>
     <div class="game-info">
       <h2>About Fireboy and Watergirl Temple</h2>

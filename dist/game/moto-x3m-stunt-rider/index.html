@@ -19,6 +19,10 @@
   <meta name="twitter:description" content="Race your motorbike through insane obstacle courses, pull off backflips and beat the clock in this addictive stunt racing game.">
   <meta name="twitter:image" content="https://img.gamemonetize.com/SAMPLE_GAME_ID_1/512x384.jpg">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"VideoGame","name":"Moto X3M Stunt Rider","url":"https://playarcadex.com/game/moto-x3m-stunt-rider/","description":"Race your motorbike through insane obstacle courses, pull off backflips and beat the clock in this addictive stunt racing game.","image":"https://img.gamemonetize.com/SAMPLE_GAME_ID_1/512x384.jpg","genre":"Racing","keywords":"bike, stunt, racing","gamePlatform":["Web Browser","Mobile","Desktop"],"applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://playarcadex.com/"},{"@type":"ListItem","position":2,"name":"Racing","item":"https://playarcadex.com/category/racing/"},{"@type":"ListItem","position":3,"name":"Moto X3M Stunt Rider","item":"https://playarcadex.com/game/moto-x3m-stunt-rider/"}]}]</script>
@@ -31,9 +35,11 @@
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
+    <button class="dice-btn" id="randomBtn" title="Random game" aria-label="Play a random game">🎲</button>
   </header>
   <nav class="sidebar" id="sidebar" aria-label="Categories">
     <a href="/" class=""><span class="emoji">🏠</span>Home</a>
+    <a href="/games/" class=""><span class="emoji">📚</span>All Games</a>
     <a href="/category/2-player/" class=""><span class="emoji">🆚</span>2 Player</a>
     <a href="/category/action/" class=""><span class="emoji">⚔️</span>Action</a>
     <a href="/category/adventure/" class=""><span class="emoji">🗺️</span>Adventure</a>
@@ -56,7 +62,7 @@
       <a href="/">Home</a> › <a href="/category/racing/">Racing</a> › Moto X3M Stunt Rider
     </nav>
     <div class="game-stage">
-      <div class="game-frame-wrap" id="frameWrap" data-src="https://html5.gamemonetize.com/SAMPLE_GAME_ID_1/">
+      <div class="game-frame-wrap" id="frameWrap" data-src="https://html5.gamemonetize.com/SAMPLE_GAME_ID_1/" data-slug="moto-x3m-stunt-rider">
         <div class="game-splash" id="gameSplash" style="background-image:url('https://img.gamemonetize.com/SAMPLE_GAME_ID_1/512x384.jpg')">
           <img class="splash-thumb" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_1/512x384.jpg" alt="Moto X3M Stunt Rider" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
@@ -64,8 +70,17 @@
       </div>
       <div class="game-toolbar">
         <h1>Moto X3M Stunt Rider</h1>
+        <button class="tool-btn fav-btn" id="favBtn" data-slug="moto-x3m-stunt-rider" aria-label="Add to favorites">♡</button>
         <button class="tool-btn" id="fsBtn" aria-label="Fullscreen">⛶ Fullscreen</button>
       </div>
+    </div>
+    <div class="share-row" aria-label="Share this game">
+      <span class="share-label">Share:</span>
+      <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fplayarcadex.com%2Fgame%2Fmoto-x3m-stunt-rider%2F" aria-label="Share on Facebook">f</a>
+      <a class="share-btn tw" rel="nofollow noopener" target="_blank" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fplayarcadex.com%2Fgame%2Fmoto-x3m-stunt-rider%2F&text=Play%20Moto%20X3M%20Stunt%20Rider%20free!" aria-label="Share on X">𝕏</a>
+      <a class="share-btn wa" rel="nofollow noopener" target="_blank" href="https://wa.me/?text=Play%20Moto%20X3M%20Stunt%20Rider%20free!%20https%3A%2F%2Fplayarcadex.com%2Fgame%2Fmoto-x3m-stunt-rider%2F" aria-label="Share on WhatsApp">✆</a>
+      <a class="share-btn tg" rel="nofollow noopener" target="_blank" href="https://t.me/share/url?url=https%3A%2F%2Fplayarcadex.com%2Fgame%2Fmoto-x3m-stunt-rider%2F&text=Play%20Moto%20X3M%20Stunt%20Rider%20free!" aria-label="Share on Telegram">➤</a>
+      <button class="share-btn copy" id="copyLinkBtn" data-url="https://playarcadex.com/game/moto-x3m-stunt-rider/" aria-label="Copy link">🔗</button>
     </div>
     <div class="game-info">
       <h2>About Moto X3M Stunt Rider</h2>

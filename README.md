@@ -63,6 +63,17 @@ npx serve dist
    Verifică în Settings → Pages că domeniul e setat și DNS-ul are
    `A` records spre GitHub Pages / `CNAME www → <user>.github.io`.
 
+## Funcții de retenție (stil CrazyGames)
+
+- **Recently Played** — jocurile jucate apar automat pe homepage (localStorage)
+- **Favorites ❤** — buton de inimă pe fiecare pagină de joc + secțiune pe homepage
+- **Random Game 🎲** — buton în header, te duce la un joc aleatoriu
+- **New Games 🆕** — cele mai noi jocuri din feed, pe homepage
+- **All Games 📚** — catalog complet A-Z la `/games/`
+- **Share social** — Facebook, X, WhatsApp, Telegram + copy link pe fiecare joc
+- **PWA** — site instalabil pe telefon/desktop (manifest + service worker care
+  cache-uiește doar CSS/JS/imagini; paginile rămân mereu fresh de pe rețea)
+
 ## După lansare (SEO checklist)
 
 - [ ] Trimite `https://playarcadex.com/sitemap.xml` în **Google Search Console**

@@ -62,7 +62,8 @@ const nowISO = new Date().toISOString().slice(0, 10);
 
 /* ---------------- shared components ---------------- */
 function sidebarHTML(activeCat) {
-  const home = `<a href="/" class="${activeCat === "__home" ? "active" : ""}"><span class="emoji">🏠</span>Home</a>`;
+  const home = `<a href="/" class="${activeCat === "__home" ? "active" : ""}"><span class="emoji">🏠</span>Home</a>
+    <a href="/games/" class="${activeCat === "__all" ? "active" : ""}"><span class="emoji">📚</span>All Games</a>`;
   const cats = categories.map(c =>
     `<a href="/category/${catSlug(c)}/" class="${activeCat === c ? "active" : ""}"><span class="emoji">${CATEGORY_EMOJI[c] || "🎮"}</span>${esc(c)}</a>`
   ).join("\n    ");
@@ -77,6 +78,7 @@ function headerHTML() {
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
+    <button class="dice-btn" id="randomBtn" title="Random game" aria-label="Play a random game">🎲</button>
   </header>`;
 }
 
@@ -126,6 +128,10 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <meta name="twitter:description" content="${esc(description)}">
   <meta name="twitter:image" content="${esc(ogImage || SITE_URL + "/img/og-default.png")}">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <link rel="stylesheet" href="/css/style.css">
   ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
@@ -144,6 +150,10 @@ ${body}
 
 /* ---------------- HOME ---------------- */
 function buildHome() {
+  const newest = [...games]
+    .sort((a, b) => (a.feedRank ?? 1e9) - (b.feedRank ?? 1e9))
+    .slice(0, 12);
+
   const categorySections = categories.map(c => `
     <h2 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} <a href="/category/${catSlug(c)}/" style="margin-left:auto;font-size:.82rem;color:var(--accent-hover)">View all →</a></h2>
     <div class="grid">
@@ -154,9 +164,21 @@ function buildHome() {
     <div id="searchResults" class="grid" style="display:none"></div>
     <div id="emptyState" class="empty">😕 No games found. Try another search.</div>
     <div id="defaultSections">
+      <section id="recentSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>🕒 Recently Played</h2>
+        <div class="grid" id="recentGrid"></div>
+      </section>
+      <section id="favSection" style="display:none">
+        <h2 class="section-title"><span class="bar"></span>❤️ Your Favorites</h2>
+        <div class="grid" id="favGrid"></div>
+      </section>
       <h2 class="section-title"><span class="bar"></span>🔥 Featured Games</h2>
       <div class="grid featured">
         ${featured.map((g, i) => cardHTML(g, i < 4)).join("\n        ")}
+      </div>
+      <h2 class="section-title"><span class="bar"></span>🆕 New Games</h2>
+      <div class="grid">
+        ${newest.map(g => cardHTML(g)).join("\n        ")}
       </div>
       ${categorySections}
     </div>`;
@@ -218,7 +240,7 @@ function buildGamePages() {
       <a href="/">Home</a> › <a href="/category/${catSlug(g.category)}/">${esc(g.category)}</a> › ${esc(g.title)}
     </nav>
     <div class="game-stage">
-      <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}">
+      <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}">
         <div class="game-splash" id="gameSplash" style="background-image:url('${esc(g.thumb)}')">
           <img class="splash-thumb" src="${esc(g.thumb)}" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
@@ -226,8 +248,17 @@ function buildGamePages() {
       </div>
       <div class="game-toolbar">
         <h1>${esc(g.title)}</h1>
+        <button class="tool-btn fav-btn" id="favBtn" data-slug="${esc(g.slug)}" aria-label="Add to favorites">♡</button>
         <button class="tool-btn" id="fsBtn" aria-label="Fullscreen">⛶ Fullscreen</button>
       </div>
+    </div>
+    <div class="share-row" aria-label="Share this game">
+      <span class="share-label">Share:</span>
+      <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}" aria-label="Share on Facebook">f</a>
+      <a class="share-btn tw" rel="nofollow noopener" target="_blank" href="https://twitter.com/intent/tweet?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent("Play " + g.title + " free!")}" aria-label="Share on X">𝕏</a>
+      <a class="share-btn wa" rel="nofollow noopener" target="_blank" href="https://wa.me/?text=${encodeURIComponent("Play " + g.title + " free! " + canonical)}" aria-label="Share on WhatsApp">✆</a>
+      <a class="share-btn tg" rel="nofollow noopener" target="_blank" href="https://t.me/share/url?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent("Play " + g.title + " free!")}" aria-label="Share on Telegram">➤</a>
+      <button class="share-btn copy" id="copyLinkBtn" data-url="${esc(canonical)}" aria-label="Copy link">🔗</button>
     </div>
     <div class="game-info">
       <h2>About ${esc(g.title)}</h2>
@@ -389,10 +420,87 @@ function buildStaticPages() {
   }
 }
 
+/* ---------------- ALL GAMES ---------------- */
+function buildAllGamesPage() {
+  const canonical = `${SITE_URL}/games/`;
+  const sorted = [...games].sort((a, b) => a.title.localeCompare(b.title));
+  const body = `
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › All Games</nav>
+    <h1 class="section-title"><span class="bar"></span>📚 All Games <span style="color:var(--text-dim);font-size:.85rem;font-weight:600">(${games.length})</span></h1>
+    <div class="grid">
+      ${sorted.map((g, i) => cardHTML(g, i < 6)).join("\n      ")}
+    </div>`;
+  const jsonld = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "All Games",
+    url: canonical,
+    description: `Browse all ${games.length} free online games on ${SITE_NAME}.`,
+    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL }
+  };
+  write("games/index.html", page({
+    title: `All Games — Browse ${games.length}+ Free Online Games | ${SITE_NAME}`,
+    description: `Browse the full ${SITE_NAME} catalog: ${games.length}+ free online games across ${categories.length} categories, sorted A-Z.`,
+    canonical, body, jsonld, activeCat: "__all"
+  }));
+}
+
+/* ---------------- PWA: manifest + service worker ---------------- */
+function buildPWA() {
+  const manifest = {
+    name: SITE_NAME,
+    short_name: SITE_NAME,
+    description: SITE_DESC,
+    start_url: "/",
+    scope: "/",
+    display: "standalone",
+    orientation: "any",
+    background_color: "#0e0f1a",
+    theme_color: "#6842ff",
+    icons: [
+      { src: "/img/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
+      { src: "/img/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }
+    ]
+  };
+  write("manifest.webmanifest", JSON.stringify(manifest, null, 2));
+
+  // Service worker: cache static assets (stale-while-revalidate). Paginile raman network-first
+  // ca sa nu servim niciodata continut vechi dupa un deploy.
+  const sw = `/* PlayArcadeX service worker */
+const CACHE = "pax-v${Date.now()}";
+const STATIC_RE = /\\.(css|js|svg|png|jpg|webp|woff2?)$|\\/games\\.json$/;
+
+self.addEventListener("install", e => { self.skipWaiting(); });
+self.addEventListener("activate", e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ).then(() => self.clients.claim()));
+});
+
+self.addEventListener("fetch", e => {
+  const url = new URL(e.request.url);
+  if (e.request.method !== "GET" || url.origin !== location.origin) return;
+  if (!STATIC_RE.test(url.pathname)) return; // pages: always network
+  e.respondWith(
+    caches.open(CACHE).then(cache =>
+      cache.match(e.request).then(cached => {
+        const fresh = fetch(e.request).then(res => {
+          if (res.ok) cache.put(e.request, res.clone());
+          return res;
+        }).catch(() => cached);
+        return cached || fresh;
+      })
+    )
+  );
+});`;
+  write("sw.js", sw);
+}
+
 /* ---------------- SITEMAP / ROBOTS / EXTRAS ---------------- */
 function buildSitemap() {
   const urls = [
     { loc: SITE_URL + "/", priority: "1.0", changefreq: "daily" },
+    { loc: SITE_URL + "/games/", priority: "0.9", changefreq: "daily" },
     ...categories.map(c => ({ loc: `${SITE_URL}/category/${catSlug(c)}/`, priority: "0.8", changefreq: "daily" })),
     ...games.map(g => ({ loc: `${SITE_URL}/game/${g.slug}/`, priority: "0.7", changefreq: "weekly" })),
     ...STATIC_PAGES.map(p => ({ loc: `${SITE_URL}/${p.slug}/`, priority: "0.3", changefreq: "monthly" }))
@@ -441,7 +549,9 @@ copyDir(path.join(ROOT, "static"), DIST);
 buildHome();
 buildGamePages();
 buildCategoryPages();
+buildAllGamesPage();
 buildStaticPages();
+buildPWA();
 buildSitemap();
 build404();
 buildSearchIndex();

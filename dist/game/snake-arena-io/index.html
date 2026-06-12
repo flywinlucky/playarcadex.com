@@ -19,6 +19,10 @@
   <meta name="twitter:description" content="Grow the longest snake in the arena. Eat orbs, trap rivals, dominate the leaderboard.">
   <meta name="twitter:image" content="https://img.gamemonetize.com/SAMPLE_GAME_ID_20/512x384.jpg">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"VideoGame","name":"Snake Arena .io","url":"https://playarcadex.com/game/snake-arena-io/","description":"Grow the longest snake in the arena. Eat orbs, trap rivals, dominate the leaderboard.","image":"https://img.gamemonetize.com/SAMPLE_GAME_ID_20/512x384.jpg","genre":"io","keywords":"snake, io, multiplayer","gamePlatform":["Web Browser","Mobile","Desktop"],"applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://playarcadex.com/"},{"@type":"ListItem","position":2,"name":"io","item":"https://playarcadex.com/category/io/"},{"@type":"ListItem","position":3,"name":"Snake Arena .io","item":"https://playarcadex.com/game/snake-arena-io/"}]}]</script>
@@ -31,9 +35,11 @@
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
+    <button class="dice-btn" id="randomBtn" title="Random game" aria-label="Play a random game">🎲</button>
   </header>
   <nav class="sidebar" id="sidebar" aria-label="Categories">
     <a href="/" class=""><span class="emoji">🏠</span>Home</a>
+    <a href="/games/" class=""><span class="emoji">📚</span>All Games</a>
     <a href="/category/2-player/" class=""><span class="emoji">🆚</span>2 Player</a>
     <a href="/category/action/" class=""><span class="emoji">⚔️</span>Action</a>
     <a href="/category/adventure/" class=""><span class="emoji">🗺️</span>Adventure</a>
@@ -56,7 +62,7 @@
       <a href="/">Home</a> › <a href="/category/io/">io</a> › Snake Arena .io
     </nav>
     <div class="game-stage">
-      <div class="game-frame-wrap" id="frameWrap" data-src="https://html5.gamemonetize.com/SAMPLE_GAME_ID_20/">
+      <div class="game-frame-wrap" id="frameWrap" data-src="https://html5.gamemonetize.com/SAMPLE_GAME_ID_20/" data-slug="snake-arena-io">
         <div class="game-splash" id="gameSplash" style="background-image:url('https://img.gamemonetize.com/SAMPLE_GAME_ID_20/512x384.jpg')">
           <img class="splash-thumb" src="https://img.gamemonetize.com/SAMPLE_GAME_ID_20/512x384.jpg" alt="Snake Arena .io" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
@@ -64,8 +70,17 @@
       </div>
       <div class="game-toolbar">
         <h1>Snake Arena .io</h1>
+        <button class="tool-btn fav-btn" id="favBtn" data-slug="snake-arena-io" aria-label="Add to favorites">♡</button>
         <button class="tool-btn" id="fsBtn" aria-label="Fullscreen">⛶ Fullscreen</button>
       </div>
+    </div>
+    <div class="share-row" aria-label="Share this game">
+      <span class="share-label">Share:</span>
+      <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fplayarcadex.com%2Fgame%2Fsnake-arena-io%2F" aria-label="Share on Facebook">f</a>
+      <a class="share-btn tw" rel="nofollow noopener" target="_blank" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fplayarcadex.com%2Fgame%2Fsnake-arena-io%2F&text=Play%20Snake%20Arena%20.io%20free!" aria-label="Share on X">𝕏</a>
+      <a class="share-btn wa" rel="nofollow noopener" target="_blank" href="https://wa.me/?text=Play%20Snake%20Arena%20.io%20free!%20https%3A%2F%2Fplayarcadex.com%2Fgame%2Fsnake-arena-io%2F" aria-label="Share on WhatsApp">✆</a>
+      <a class="share-btn tg" rel="nofollow noopener" target="_blank" href="https://t.me/share/url?url=https%3A%2F%2Fplayarcadex.com%2Fgame%2Fsnake-arena-io%2F&text=Play%20Snake%20Arena%20.io%20free!" aria-label="Share on Telegram">➤</a>
+      <button class="share-btn copy" id="copyLinkBtn" data-url="https://playarcadex.com/game/snake-arena-io/" aria-label="Copy link">🔗</button>
     </div>
     <div class="game-info">
       <h2>About Snake Arena .io</h2>

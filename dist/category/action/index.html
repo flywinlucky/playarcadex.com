@@ -19,6 +19,10 @@
   <meta name="twitter:description" content="Play 4+ free action games online, no download needed. The best action browser games on PlayArcadeX.">
   <meta name="twitter:image" content="https://playarcadex.com/img/og-default.png">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Action Games","url":"https://playarcadex.com/category/action/","description":"Play 4 free action games online on PlayArcadeX.","isPartOf":{"@type":"WebSite","name":"PlayArcadeX","url":"https://playarcadex.com"}}</script>
@@ -31,9 +35,11 @@
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
+    <button class="dice-btn" id="randomBtn" title="Random game" aria-label="Play a random game">🎲</button>
   </header>
   <nav class="sidebar" id="sidebar" aria-label="Categories">
     <a href="/" class=""><span class="emoji">🏠</span>Home</a>
+    <a href="/games/" class=""><span class="emoji">📚</span>All Games</a>
     <a href="/category/2-player/" class=""><span class="emoji">🆚</span>2 Player</a>
     <a href="/category/action/" class="active"><span class="emoji">⚔️</span>Action</a>
     <a href="/category/adventure/" class=""><span class="emoji">🗺️</span>Adventure</a>

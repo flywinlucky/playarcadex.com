@@ -303,6 +303,47 @@ button { font: inherit; cursor: pointer; border: 0; }
 }
 .breadcrumbs a:hover { color: var(--accent-hover); }
 
+/* ---------- Share & favorite ---------- */
+.dice-btn {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 38px; height: 38px;
+  font-size: 1.1rem;
+  display: grid; place-items: center;
+  transition: transform 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.dice-btn:hover { background: var(--accent); transform: rotate(20deg) scale(1.08); }
+
+.fav-btn { font-size: 1.1rem; }
+.fav-btn.on { background: #e0245e; color: #fff; }
+
+.share-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.share-label { color: var(--text-dim); font-size: 0.85rem; font-weight: 700; }
+.share-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: var(--surface);
+  color: var(--text);
+  transition: transform 0.12s, background 0.12s;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.share-btn:hover { transform: scale(1.12); }
+.share-btn.fb:hover { background: #1877f2; }
+.share-btn.tw:hover { background: #000; }
+.share-btn.wa:hover { background: #25d366; }
+.share-btn.tg:hover { background: #2aabee; }
+.share-btn.copy:hover { background: var(--accent); }
+
 /* ---------- Static pages ---------- */
 .static-page h1 { font-size: 1.5rem; margin-bottom: 12px; }
 .static-page h2 { margin-top: 20px; }
