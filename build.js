@@ -170,9 +170,10 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <link rel="preconnect" href="https://img.gamemonetize.com">
   <style>${CSS_MIN}</style>
   ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
-  ${GA_ID ? `<!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');</script>` : ""}
+  ${GA_ID ? `<!-- Google tag (gtag.js) — incarcat dupa ce pagina e gata, ca sa nu blocheze randarea -->
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');
+  (function(){function loadGA(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=${GA_ID}';document.head.appendChild(s);}
+  if('requestIdleCallback'in window){requestIdleCallback(loadGA,{timeout:3000});}else{window.addEventListener('load',function(){setTimeout(loadGA,1200);});}})();</script>` : ""}
 </head>
 <body>
   ${headerHTML()}
