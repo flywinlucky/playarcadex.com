@@ -28,8 +28,8 @@ jobs:
           node-version: 22
 
       - name: Fetch latest games from GameMonetize
-        run: node fetch-games.js --pages=5
-        continue-on-error: true   # dacă feed-ul pică, folosim games.json din repo
+        run: node fetch-games.js --pages=3 --per=200 --max=1000
+        continue-on-error: true   # daca feed-ul pica, folosim games.json din repo
 
       - name: Build static site
         run: node build.js

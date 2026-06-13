@@ -4,9 +4,9 @@
   "description": "PlayArcadeX — free online games portal (static, GitHub Pages)",
   "private": true,
   "scripts": {
-    "fetch": "node fetch-games.js --pages=5",
+    "fetch": "node fetch-games.js --pages=3 --per=200 --max=1000",
     "build": "node build.js",
     "dev": "node build.js && npx -y serve dist",
-    "all": "node fetch-games.js --pages=5 && node build.js"
+    "all": "node fetch-games.js --pages=3 --per=200 --max=1000 && node build.js"
   }
 }
