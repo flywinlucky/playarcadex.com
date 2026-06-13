@@ -25,6 +25,35 @@ const TRENDING_API = "";
 // Google Analytics 4 (lasa gol "" ca sa dezactivezi)
 const GA_ID = "G-X4DF0DZ88J";
 
+// FAQ general pentru homepage — targeteaza cautari conversationale despre site.
+// Raspunsurile pot contine linkuri interne (bune pentru UX + SEO).
+const HOME_FAQ = [
+  {
+    q: `Are the games on ${SITE_NAME} free?`,
+    a: `Yes! Every game on ${SITE_NAME} is 100% free to play. There are no fees, no downloads and no sign-up needed — just open a game and play instantly in your browser.`
+  },
+  {
+    q: `Do I need to download or install anything?`,
+    a: `No. All games run directly in your web browser. You can start playing immediately on desktop, laptop, tablet or phone without installing any app.`
+  },
+  {
+    q: `Can I play these games on my phone?`,
+    a: `Absolutely. ${SITE_NAME} works on Android and iOS. Most games support touch controls and many open in fullscreen for the best mobile experience.`
+  },
+  {
+    q: `What kind of games can I play?`,
+    a: `We offer free online games across many categories — racing, action, shooting, puzzle, sports, .io, girls, cooking and more. Browse them all on the <a href="/games/">All Games</a> page.`
+  },
+  {
+    q: `Do I need an account to play?`,
+    a: `No account is required. You can play any game right away. Your recently played games and favorites are saved automatically in your browser.`
+  },
+  {
+    q: `Are new games added regularly?`,
+    a: `Yes. We regularly refresh our catalog with the best and most popular new HTML5 games, so there is always something fresh to play.`
+  }
+];
+
 const ROOT = __dirname;
 const DIST = path.join(ROOT, "dist");
 const games = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "games.json"), "utf8"));
@@ -232,6 +261,13 @@ function buildHome() {
       <div id="catSections">
       ${categorySections}
       </div>
+      <div class="game-info faq-block" style="margin-top:30px">
+        <h2>Frequently Asked Questions</h2>
+        ${HOME_FAQ.map(f => `<details class="faq-item">
+          <summary>${esc(f.q)}</summary>
+          <p>${f.a}</p>
+        </details>`).join("\n        ")}
+      </div>
     </div>`;
 
   // Categoriile cele mai mari (cu cele mai multe jocuri) — candidate la sitelinks
@@ -268,6 +304,15 @@ function buildHome() {
         name: it.name,
         url: it.url
       }))
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: HOME_FAQ.map(f => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]*>/g, "") }
+      }))
     }
   ];
 
@@ -285,6 +330,29 @@ function buildGamePages() {
     const related = (byCategory[g.category] || []).filter(x => x.slug !== g.slug).slice(0, 12);
     const canonical = `${SITE_URL}/game/${g.slug}/`;
     const desc = (g.description || `Play ${g.title} free online on ${SITE_NAME}.`).slice(0, 158);
+
+    // FAQ specific jocului — targeteaza cautari conversationale ("is X free",
+    // "how to play X", "can I play X on mobile"). Raspunsuri scurte, directe.
+    const faq = [
+      {
+        q: `Is ${g.title} free to play?`,
+        a: `Yes, ${g.title} is completely free to play on ${SITE_NAME}. No download, no installation and no sign-up required — just click play and start gaming.`
+      },
+      {
+        q: `Can I play ${g.title} on mobile?`,
+        a: `Yes. ${g.title} runs directly in your browser on phones, tablets and desktop. It works on both Android and iOS without any app.`
+      },
+      {
+        q: `How do I play ${g.title}?`,
+        a: g.instructions
+          ? `${g.instructions} Press “Play Now” to start.`
+          : `Just press the “Play Now” button and follow the in-game instructions. ${g.title} is easy to pick up and play instantly.`
+      },
+      {
+        q: `What type of game is ${g.title}?`,
+        a: `${g.title} is a free online ${g.category.toLowerCase()} game${(g.tags && g.tags.length) ? `, featuring ${g.tags.slice(0, 3).join(", ")}` : ""}. You can find more ${g.category} games on ${SITE_NAME}.`
+      }
+    ];
 
     const jsonld = [{
       "@context": "https://schema.org",
@@ -308,7 +376,16 @@ function buildGamePages() {
         { "@type": "ListItem", position: 2, name: g.category, item: `${SITE_URL}/category/${catSlug(g.category)}/` },
         { "@type": "ListItem", position: 3, name: g.title, item: canonical }
       ]
+    }, {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faq.map(f => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a }
+      }))
     }];
+
 
     const W = Number(g.width) || 0, H = Number(g.height) || 0;
     const orient = g.orientation ||
@@ -364,6 +441,13 @@ function buildGamePages() {
         <a class="tag" href="/category/${catSlug(g.category)}/">${esc(g.category)}</a>
         ${(g.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join("\n        ")}
       </div>
+    </div>
+    <div class="game-info faq-block">
+      <h2>Frequently Asked Questions</h2>
+      ${faq.map(f => `<details class="faq-item">
+        <summary>${esc(f.q)}</summary>
+        <p>${esc(f.a)}</p>
+      </details>`).join("\n      ")}
     </div>
     ${related.length ? `
     <h2 class="section-title"><span class="bar"></span>More ${esc(g.category)} Games</h2>
