@@ -3,9 +3,6 @@ name: Build & Deploy PlayArcadeX
 on:
   push:
     branches: [main]
-  schedule:
-    # Reîmprospătează automat jocurile din feed în fiecare zi de luni la 06:00 UTC
-    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -27,9 +24,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Fetch latest games from GameMonetize
-        run: node fetch-games.js --pages=3 --per=200 --max=1000
-        continue-on-error: true   # daca feed-ul pica, folosim games.json din repo
+      # NOTA: fetch-ul automat este DEZACTIVAT intentionat ca sa protejeze
+      # baza PREMIUM curata manual (data/games.json din repo).
+      # Ca sa improspatezi catalogul premium: extragi listele din RSS Builder,
+      # rulezi local `node merge-premium.js <folder>` apoi commit + push.
 
       - name: Build static site
         run: node build.js

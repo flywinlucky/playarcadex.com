@@ -3,6 +3,33 @@
 Portal de jocuri web gratuit (stil CrazyGames), 100% static — perfect pentru **GitHub Pages**.
 Jocurile vin din feed-ul partener **GameMonetize** și sunt integrate prin iframe.
 
+## Catalogul de jocuri — curatorie PREMIUM (manual)
+
+Baza de jocuri (`data/games.json`) e o **curatorie premium** construită din listele
+de top ale GameMonetize, nu tot catalogul la grămadă. Fetch-ul automat e
+**dezactivat** ca să protejeze această bază.
+
+### Cum împrospătezi catalogul premium
+1. Mergi la **https://gamemonetize.com/rss-builder**
+2. Generează liste JSON cu `Type: HTML5` și `Popularity:` pe rând —
+   **Best Games, Hot Games, Exclusive, Editor's Picks, Most Popular** (Items: 100)
+3. Salvează fiecare ca `.txt` într-un folder (ex. `premium-feeds/`)
+4. Rulează merge-ul (deduplică + scor de calitate):
+   ```
+   node merge-premium.js premium-feeds
+   node build.js
+   ```
+5. Verifică local cu `npx serve dist`, apoi `git commit` + `git push`
+
+Algoritmul de calitate: fiecare listă are o greutate (Editor's Picks cea mai
+mare), iar jocurile care apar în **mai multe liste** primesc scor cumulat —
+cele mai bune ajung Featured pe homepage și primele în fiecare categorie
+(stil CrazyGames/Yandex).
+
+> `fetch-games.js` rămâne în proiect ca alternativă pentru fetch automat din
+> toate categoriile, dar nu e folosit în workflow (l-am dezactivat ca să nu
+> suprascrie baza premium).
+
 ## Arhitectura
 
 ```
