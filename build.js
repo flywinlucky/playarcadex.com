@@ -233,18 +233,42 @@ function buildHome() {
       </div>
     </div>`;
 
-  const jsonld = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: SITE_NAME,
-    url: SITE_URL,
-    description: SITE_DESC,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: SITE_URL + "/?q={search_term_string}" },
-      "query-input": "required name=search_term_string"
+  // Categoriile cele mai mari (cu cele mai multe jocuri) — candidate la sitelinks
+  const topCats = Object.entries(byCategory)
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, 8)
+    .map(([c]) => c);
+
+  const jsonld = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESC,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: { "@type": "EntryPoint", urlTemplate: SITE_URL + "/?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    // SiteNavigationElement — îi spune lui Google secțiunile principale,
+    // exact mecanismul prin care Poki/CrazyGames primesc sitelinks.
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${SITE_NAME} navigation`,
+      itemListElement: [
+        { name: "All Games", url: SITE_URL + "/games/" },
+        ...topCats.map(c => ({ name: `${c} Games`, url: `${SITE_URL}/category/${catSlug(c)}/` }))
+      ].map((it, i) => ({
+        "@type": "SiteNavigationElement",
+        position: i + 1,
+        name: it.name,
+        url: it.url
+      }))
     }
-  };
+  ];
 
   write("index.html", page({
     title: `${SITE_NAME} — ${SITE_TAGLINE} | ${games.length}+ Free Browser Games`,
