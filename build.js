@@ -386,8 +386,7 @@ function buildGamePages() {
       gamePlatform: ["Web Browser", "Mobile", "Desktop"],
       applicationCategory: "Game",
       operatingSystem: "Any",
-      playMode: "SinglePlayer",
-      offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" }
+      playMode: "SinglePlayer"
     }, {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
