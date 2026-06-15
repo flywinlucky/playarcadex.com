@@ -754,16 +754,28 @@ ${urls.map(u => `  <url><loc>${u.loc}</loc><lastmod>${nowISO}</lastmod><changefr
 }
 
 function build404() {
+  // 12 jocuri populare reale (din baza premium, primele = cele mai bune)
+  const popular = games.slice(0, 12);
   const body = `
-    <div style="text-align:center;padding:80px 20px">
-      <div style="font-size:4rem">🕹️</div>
-      <h1 style="margin:10px 0">404 — Game Over</h1>
-      <p style="color:var(--text-dim)">This page doesn't exist. Insert coin and try again!</p>
-      <a href="/" class="play-btn" style="display:inline-block;margin-top:20px">← Back to Games</a>
+    <div class="notfound">
+      <div class="notfound-title">GAME<br>OVER</div>
+      <p class="notfound-sub">Oops, you've reached a dead end!<br>The page you're looking for doesn't exist.</p>
+      <a href="/" class="bottom-btn primary notfound-home">🏠 Go back home</a>
+
+      <p class="notfound-pick">…or try some of our most popular games:</p>
+      <div class="grid notfound-grid">
+        ${popular.map((g, i) => cardHTML(g, i < 4)).join("\n        ")}
+      </div>
+
+      <div class="bottom-actions">
+        <a href="/games/" class="bottom-btn">🆕 New games</a>
+        <button class="bottom-btn" id="randomBottomBtn">🎲 Random game</button>
+        <a href="/" class="bottom-btn primary">🏠 Home</a>
+      </div>
     </div>`;
   write("404.html", page({
     title: `Page Not Found | ${SITE_NAME}`,
-    description: "Page not found on PlayArcadeX.",
+    description: "Page not found on PlayArcadeX. Try our most popular free online games instead.",
     canonical: SITE_URL + "/404.html",
     body
   }));
