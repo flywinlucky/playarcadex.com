@@ -88,12 +88,47 @@ function copyDir(src, dest) {
 }
 
 /* ---------------- data prep ---------------- */
-const CATEGORY_EMOJI = {
-  Racing: "🏎️", Action: "⚔️", Puzzle: "🧩", Sports: "⚽", Shooting: "🎯",
-  Arcade: "🕹️", Adventure: "🗺️", Girls: "💄", Hypercasual: "✨",
-  Multiplayer: "👥", Clicker: "👆", io: "🌐", "3D": "🎮", "2D": "🎮",
-  Strategy: "♟️", Cards: "🃏", Cooking: "🍳", Horror: "👻", Battle: "🛡️", "2 Player": "🆚"
+// Iconite SVG (stil Lucide, liniare) pentru categorii — aspect profesional ca CrazyGames.
+// Fiecare e un <svg> de 22x22, stroke=currentColor (preia culoarea textului).
+const SVG_BASE = 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+function ico(paths) { return `<svg viewBox="0 0 24 24" width="22" height="22" ${SVG_BASE}>${paths}</svg>`; }
+
+const CATEGORY_ICON = {
+  Racing:      ico('<path d="M5 17h14M5 17a2 2 0 1 0 0 0M19 17a2 2 0 1 0 0 0"/><path d="M3 17v-2l2-5a2 2 0 0 1 2-1h7l4 4h1a1 1 0 0 1 1 1v3"/>'),
+  Action:      ico('<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>'),
+  Adventure:   ico('<circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-2 6.3-6.4 2.1 2-6.3z"/>'),
+  Arcade:      ico('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/>'),
+  Shooting:    ico('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'),
+  Puzzle:      ico('<path d="M19.5 12.5a2 2 0 1 0-2-3.4V7a1 1 0 0 0-1-1h-2.1a2 2 0 1 0-3.4-2H8a1 1 0 0 0-1 1v2.1a2 2 0 1 0-2 3.4V14a1 1 0 0 0 1 1h2.1a2 2 0 1 0 3.4 2H15a1 1 0 0 0 1-1v-2.1a2 2 0 0 0 2.5-1.4z"/>'),
+  Puzzles:     ico('<path d="M19.5 12.5a2 2 0 1 0-2-3.4V7a1 1 0 0 0-1-1h-2.1a2 2 0 1 0-3.4-2H8a1 1 0 0 0-1 1v2.1a2 2 0 1 0-2 3.4V14a1 1 0 0 0 1 1h2.1a2 2 0 1 0 3.4 2H15a1 1 0 0 0 1-1v-2.1a2 2 0 0 0 2.5-1.4z"/>'),
+  Sports:      ico('<circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 0 20M12 2a7 7 0 0 1 0 20M2 12h20"/>'),
+  Soccer:      ico('<circle cx="12" cy="12" r="10"/><path d="m12 7 3 2.2-1.2 3.6h-3.6L9 9.2z"/>'),
+  Girls:       ico('<circle cx="12" cy="8" r="5"/><path d="M12 13v8M9 18h6"/>'),
+  Hypercasual: ico('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/>'),
+  Multiplayer: ico('<circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M14 20a5 5 0 0 1 7 0"/>'),
+  Clicker:     ico('<path d="M9 11V5a2 2 0 0 1 4 0v6M13 11V7a2 2 0 0 1 4 0v6a7 7 0 0 1-7 7 7 7 0 0 1-5-2l-3-4a1.5 1.5 0 0 1 2.5-2L8 13"/>'),
+  io:          ico('<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>'),
+  "3D":        ico('<path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/>'),
+  "2D":        ico('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/>'),
+  Strategy:    ico('<path d="M3 21h18M6 21V10M18 21V10M5 10l7-6 7 6M9 21v-5h6v5"/>'),
+  Cards:       ico('<rect x="3" y="5" width="13" height="16" rx="2"/><path d="M8 21h10a2 2 0 0 0 2-2V8M9.5 13l1.5-3 1.5 3-1.5 2z"/>'),
+  Cooking:     ico('<path d="M8 3v4M12 3v4M16 3v4M5 11h14a7 7 0 0 1-14 0zM7 18h10"/>'),
+  Horror:      ico('<path d="M12 2a9 9 0 0 0-9 9v7l3-2 2 2 2-2 2 2 2-2 3 2v-7a9 9 0 0 0-9-9z"/><path d="M9 11h.01M15 11h.01"/>'),
+  Battle:      ico('<path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5z"/>'),
+  "2 Player":  ico('<circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20a6 6 0 0 1 12 0M10 20a6 6 0 0 1 12 0"/>'),
+  Boys:        ico('<circle cx="10" cy="14" r="6"/><path d="m15 9 5-5M16 4h4v4"/>'),
+  Fighting:    ico('<path d="M7 14a3 3 0 0 1 0-6h2l2-3 2 3h2a3 3 0 0 1 0 6M6 14h12v3a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/>'),
+  Driving:     ico('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M5.6 18.4l4.3-4.3M18.4 18.4l-4.3-4.3"/>'),
+  Simulation:  ico('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9zM4 12h2M18 12h2M12 4v2M12 18v2"/>'),
+  Board:       ico('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
+  Card:        ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/>'),
+  Thinky:      ico('<path d="M9 18h6M10 21h4M12 2a7 7 0 0 0-4 13c.6.5 1 1 1 2h6c0-1 .4-1.5 1-2a7 7 0 0 0-4-13z"/>'),
+  Trivia:      ico('<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>'),
+  Word:        ico('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h2l1 5 1-5h0l1 5 1-5h2"/>'),
+  Adventure2:  ico('<circle cx="12" cy="12" r="10"/>')
 };
+const FALLBACK_ICON = ico('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M16 12h.01M19 11h.01"/>');
+function catIcon(c) { return CATEGORY_ICON[c] || FALLBACK_ICON; }
 
 const categories = [...new Set(games.map(g => g.category))].sort();
 const catSlug = c => slugify(c);
@@ -115,10 +150,12 @@ const ICONS = {
 
 /* ---------------- shared components ---------------- */
 function sidebarHTML(activeCat) {
-  const home = `<a href="/" class="${activeCat === "__home" ? "active" : ""}"><span class="emoji">🏠</span>Home</a>
-    <a href="/games/" class="${activeCat === "__all" ? "active" : ""}"><span class="emoji">📚</span>All Games</a>`;
+  const homeIco = ico('<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>');
+  const allIco = ico('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>');
+  const home = `<a href="/" class="${activeCat === "__home" ? "active" : ""}"><span class="emoji">${homeIco}</span>Home</a>
+    <a href="/games/" class="${activeCat === "__all" ? "active" : ""}"><span class="emoji">${allIco}</span>All Games</a>`;
   const cats = categories.map(c =>
-    `<a href="/category/${catSlug(c)}/" class="${activeCat === c ? "active" : ""}"><span class="emoji">${CATEGORY_EMOJI[c] || "🎮"}</span>${esc(c)}</a>`
+    `<a href="/category/${catSlug(c)}/" class="${activeCat === c ? "active" : ""}"><span class="emoji">${catIcon(c)}</span>${esc(c)}</a>`
   ).join("\n    ");
   return `<nav class="sidebar" id="sidebar" aria-label="Categories">\n    ${home}\n    ${cats}\n  </nav>`;
 }
@@ -226,7 +263,7 @@ function buildHome() {
 
   const categorySections = categories.map(c => `
     <section class="cat-sec" data-cat="${esc(c)}">
-    <h2 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} <a class="view-all" href="/category/${catSlug(c)}/">View more →</a></h2>
+    <h2 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> ${esc(c)} <a class="view-all" href="/category/${catSlug(c)}/">View more →</a></h2>
     <div class="row-wrap">
       <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
       <div class="row" tabindex="0">
@@ -274,7 +311,7 @@ function buildHome() {
           <a href="/games/" class="cat-block-link">Browse all games →</a>
         </div>
         <div class="cat-block-grid">
-          ${categories.map(c => `<a class="cat-chip" href="/category/${catSlug(c)}/"><span class="cat-chip-emoji">${CATEGORY_EMOJI[c] || "🎮"}</span><span>${esc(c)}</span></a>`).join("\n          ")}
+          ${categories.map(c => `<a class="cat-chip" href="/category/${catSlug(c)}/"><span class="cat-chip-emoji">${catIcon(c)}</span><span>${esc(c)}</span></a>`).join("\n          ")}
         </div>
       </div>
       <div class="game-info faq-block" style="margin-top:30px">
@@ -491,7 +528,7 @@ function buildCategoryPages() {
     const canonical = `${SITE_URL}/category/${catSlug(c)}/`;
     const body = `
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › ${esc(c)}</nav>
-    <h1 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} Games <span style="color:var(--text-dim);font-size:.85rem;font-weight:600">(${list.length})</span></h1>
+    <h1 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> ${esc(c)} Games <span style="color:var(--text-dim);font-size:.85rem;font-weight:600">(${list.length})</span></h1>
     <div class="grid">
       ${list.map((g, i) => cardHTML(g, i < 6)).join("\n      ")}
     </div>`;

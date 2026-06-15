@@ -172,7 +172,15 @@ button { font: inherit; cursor: pointer; border: 0; }
 }
 .sidebar a:hover { background: var(--surface); color: var(--text); }
 .sidebar a.active { background: var(--accent); color: #fff; box-shadow: 0 0 12px var(--accent-glow); }
-.sidebar .emoji { width: 22px; text-align: center; }
+.sidebar .emoji {
+  width: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar .emoji svg { width: 20px; height: 20px; }
+.sidebar a.active .emoji svg { color: #fff; }
 
 /* ---------- Layout ---------- */
 .main {
@@ -706,7 +714,21 @@ body.no-scroll { overflow: hidden; }
   transition: background 0.14s, color 0.14s, transform 0.14s;
 }
 .cat-chip:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
-.cat-chip-emoji { font-size: 1.05rem; }
+.cat-chip-emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-hover);
+}
+.cat-chip-emoji svg { width: 20px; height: 20px; }
+/* iconita SVG langa titlul de sectiune */
+.sec-ico {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent-hover);
+  vertical-align: middle;
+}
+.sec-ico svg { width: 20px; height: 20px; }
 
 @media (max-width: 700px) {
   .cat-block { grid-template-columns: 1fr; }
