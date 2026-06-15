@@ -65,7 +65,7 @@
       ? ' onerror="this.onerror=null;this.src=\'' + escapeAttr(g.thumb) + '\'"'
       : "";
     return '<a class="card" href="' + BASE + '/game/' + g.slug + '/" title="' + escapeAttr(g.title) + '">' +
-      '<img loading="lazy" decoding="async" src="' + escapeAttr(small) + '"' + fallback + ' alt="' + escapeAttr(g.title) + '" width="230" height="173">' +
+      '<img loading="lazy" decoding="async" draggable="false" src="' + escapeAttr(small) + '"' + fallback + ' alt="' + escapeAttr(g.title) + '" width="230" height="173">' +
       '<span class="card-title">' + escapeHTML(g.title) + '</span></a>';
   }
 

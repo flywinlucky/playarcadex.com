@@ -166,7 +166,7 @@ function cardHTML(g, eager = false) {
     ? ` onerror="this.onerror=null;this.src='${esc(g.thumb)}'"`
     : "";
   return `<a class="card" href="/game/${g.slug}/" title="${esc(g.title)}">
-      <img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${esc(small)}"${fallback} alt="${esc(g.title)} - play free online" width="230" height="173">
+      <img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" draggable="false" src="${esc(small)}"${fallback} alt="${esc(g.title)} - play free online" width="230" height="173">
       <span class="card-title">${esc(g.title)}</span>
     </a>`;
 }
