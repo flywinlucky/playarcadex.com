@@ -169,16 +169,18 @@
     var slug = frameWrap.getAttribute("data-slug");
     var gameCat = frameWrap.getAttribute("data-category");
     if (gameCat) bumpInterest(gameCat, 1); // a vizitat pagina
-    var playBtn = document.getElementById("playBtn");
-    playBtn.addEventListener("click", function () {
-      var iframe = document.createElement("iframe");
-      iframe.src = src;
-      iframe.allow = "fullscreen; autoplay; gamepad";
-      iframe.setAttribute("allowfullscreen", "");
-      iframe.setAttribute("title", document.title);
-      frameWrap.appendChild(iframe);
-      splash.remove();
-      if (isMobile) enterGameFs(); // pe mobil: direct pe tot ecranul
+
+    function launchGame(goFullscreen) {
+      if (!frameWrap.querySelector("iframe")) {
+        var iframe = document.createElement("iframe");
+        iframe.src = src;
+        iframe.allow = "fullscreen; autoplay; gamepad";
+        iframe.setAttribute("allowfullscreen", "");
+        iframe.setAttribute("title", document.title);
+        frameWrap.appendChild(iframe);
+      }
+      if (splash && splash.parentNode) splash.remove();
+      if (goFullscreen) enterGameFs();
       if (slug) rememberPlayed(slug);
       if (gameCat) bumpInterest(gameCat, 3); // a jucat efectiv = semnal puternic
       track("play_game", { game_slug: slug, game_category: gameCat });
@@ -190,7 +192,16 @@
           keepalive: true
         }).catch(function () {});
       }
-    });
+    }
+
+    var playBtn = document.getElementById("playBtn");
+    if (isMobile) {
+      // MOBIL: jocul porneste DOAR la apasarea pe Play (intra si in fullscreen)
+      playBtn.addEventListener("click", function () { launchGame(true); });
+    } else {
+      // PC: autoplay — jocul se lanseaza automat la deschiderea paginii, fara splash
+      launchGame(false);
+    }
   }
 
   var fsBtn = document.getElementById("fsBtn");
