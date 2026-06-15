@@ -383,14 +383,12 @@
     searchToggle.addEventListener("click", toggleSearch);
     searchToggle.addEventListener("touchend", toggleSearch, { passive: false });
 
-    // buton X de inchidere in bara de search (esential pe mobil)
-    var closeBtn = document.createElement("button");
-    closeBtn.type = "button";
-    closeBtn.className = "search-close";
-    closeBtn.setAttribute("aria-label", "Close search");
-    closeBtn.textContent = "✕";
-    closeBtn.addEventListener("click", function (e) { e.preventDefault(); closeSearch(); });
-    searchWrap.appendChild(closeBtn);
+    // butonul X de inchidere (din HTML)
+    var closeBtn = document.getElementById("searchClose");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function (e) { e.preventDefault(); closeSearch(); });
+      closeBtn.addEventListener("touchend", function (e) { e.preventDefault(); closeSearch(); }, { passive: false });
+    }
 
     searchWrap.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeSearch();

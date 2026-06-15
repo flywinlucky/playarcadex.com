@@ -131,6 +131,7 @@ function headerHTML() {
     <div class="search-wrap" id="searchWrap">
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
+      <button class="search-close" id="searchClose" type="button" aria-label="Close search">✕</button>
     </div>
     <button class="dice-btn" id="randomBtn" title="Play a random game" aria-label="Play a random game">${ICONS.dice}<span class="dice-label">Random</span></button>
   </header>`;
