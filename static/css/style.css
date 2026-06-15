@@ -591,9 +591,9 @@ body.no-scroll { overflow: hidden; }
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 42px;
-  height: 64px;
-  background: rgba(14, 15, 26, 0.82);
+  width: 44px;
+  height: 72px;
+  background: rgba(14, 15, 26, 0.9);
   color: #fff;
   font-size: 2rem;
   line-height: 1;
@@ -601,17 +601,22 @@ body.no-scroll { overflow: hidden; }
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  z-index: 5;
+  z-index: 6;
   opacity: 0;
+  cursor: pointer;
   transition: opacity 0.18s, background 0.15s;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(4px);
+  pointer-events: none;
 }
-.row-arrow.left { left: -6px; }
-.row-arrow.right { right: -6px; }
+.row-arrow.left { left: 0; }
+.row-arrow.right { right: 0; }
 .row-arrow:hover { background: var(--accent); }
-.row-arrow.hidden { display: none; }
-.row-wrap:hover .row-arrow { opacity: 1; }
+.row-arrow.hidden { opacity: 0 !important; pointer-events: none !important; }
+/* la hover pe rand, sagetile vizibile (cele neascunse) devin clickabile */
+.row-wrap:hover .row-arrow:not(.hidden) { opacity: 1; pointer-events: auto; }
+/* cand nu exista overflow, ascundem complet ambele sageti */
+.row-wrap.no-overflow .row-arrow { display: none; }
 @media (hover: none) { .row-arrow { display: none; } } /* pe touch ascundem, userul da swipe */
 
 /* ---------- Category block (stil CrazyGames "Free Online Games at...") ---------- */

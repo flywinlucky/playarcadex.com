@@ -359,23 +359,40 @@
       if (!row || !left || !right) return;
 
       function update() {
-        var max = row.scrollWidth - row.clientWidth - 4;
+        var max = row.scrollWidth - row.clientWidth;
+        var hasOverflow = max > 4;
+        if (!hasOverflow) {
+          // toate jocurile incap pe ecran -> ascundem ambele sageti
+          left.classList.add("hidden");
+          right.classList.add("hidden");
+          wrap.classList.add("no-overflow");
+          return;
+        }
+        wrap.classList.remove("no-overflow");
         left.classList.toggle("hidden", row.scrollLeft <= 4);
-        right.classList.toggle("hidden", row.scrollLeft >= max);
+        right.classList.toggle("hidden", row.scrollLeft >= max - 4);
       }
       function step() {
-        // derulam ~80% din latimea vizibila
         return Math.max(200, Math.round(row.clientWidth * 0.8));
       }
-      left.addEventListener("click", function () {
+      left.addEventListener("click", function (e) {
+        e.preventDefault();
         row.scrollBy({ left: -step(), behavior: "smooth" });
       });
-      right.addEventListener("click", function () {
+      right.addEventListener("click", function (e) {
+        e.preventDefault();
         row.scrollBy({ left: step(), behavior: "smooth" });
       });
       row.addEventListener("scroll", update, { passive: true });
       window.addEventListener("resize", update);
+
+      // recalculam dupa ce imaginile lazy se incarca (altfel scrollWidth e gresit)
       update();
+      setTimeout(update, 300);
+      setTimeout(update, 1200);
+      row.querySelectorAll("img").forEach(function (img) {
+        if (!img.complete) img.addEventListener("load", update, { once: true });
+      });
     });
   }
   if (document.readyState !== "loading") setupRows();
