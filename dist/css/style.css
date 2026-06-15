@@ -810,23 +810,25 @@ body.no-scroll { overflow: hidden; }
   .game-frame-wrap { aspect-ratio: 4 / 3; }
 
   /* Mobil: search-ul e ascuns by default, apare butonul-lupa.
-     Click pe lupa -> search-ul se deschide ca bara peste header. */
+     Click pe lupa -> search-ul apare ca bara SUB header (nu peste el). */
   .search-toggle { display: flex; align-items: center; justify-content: center; }
   .search-wrap {
-    position: absolute;
-    top: 0; left: 0; right: 0;
+    position: fixed;
+    top: var(--header-h); left: 0; right: 0;
     width: 100%;
-    height: var(--header-h);
+    height: 54px;
     margin: 0;
-    padding: 11px 12px;
-    background: var(--bg);
+    padding: 8px 12px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
     display: none;
     align-items: center;
-    z-index: 110;
+    z-index: 95;
   }
   .search-wrap.open { display: flex; }
   .search-wrap.open .search-close { display: flex; align-items: center; justify-content: center; }
-  .search-wrap input { flex: 1; }
+  .search-wrap input { flex: 1; height: 38px; }
   .search-wrap .search-ico { display: none; }
 }
 
