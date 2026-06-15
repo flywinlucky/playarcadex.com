@@ -828,7 +828,7 @@ body.no-scroll { overflow: hidden; }
   }
   .search-wrap.open { display: flex; }
   .search-wrap.open .search-close { display: flex !important; align-items: center; justify-content: center; }
-  .search-wrap input { flex: 1; height: 38px; }
+  .search-wrap input { flex: 1; height: 38px; font-size: 16px; }
   .search-wrap .search-ico { display: none; }
 }
 

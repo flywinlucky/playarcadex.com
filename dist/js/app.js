@@ -371,23 +371,26 @@
     function openSearch() {
       searchWrap.classList.add("open");
       var inp = searchWrap.querySelector("input");
-      if (inp) setTimeout(function () { inp.focus(); }, 50);
+      if (inp) setTimeout(function () { inp.focus(); }, 60);
     }
-    function closeSearch() { searchWrap.classList.remove("open"); }
-    function toggleSearch(e) {
-      if (e) { e.preventDefault(); e.stopPropagation(); }
+    function closeSearch() {
+      searchWrap.classList.remove("open");
+      var inp = searchWrap.querySelector("input");
+      if (inp) inp.blur();
+    }
+    searchToggle.addEventListener("click", function (e) {
+      e.preventDefault();
       if (searchWrap.classList.contains("open")) closeSearch();
       else openSearch();
-    }
-    // click + touchend pentru iOS Safari (unde click pe butoane custom uneori rateaza)
-    searchToggle.addEventListener("click", toggleSearch);
-    searchToggle.addEventListener("touchend", toggleSearch, { passive: false });
+    });
 
-    // butonul X de inchidere (din HTML)
     var closeBtn = document.getElementById("searchClose");
     if (closeBtn) {
-      closeBtn.addEventListener("click", function (e) { e.preventDefault(); closeSearch(); });
-      closeBtn.addEventListener("touchend", function (e) { e.preventDefault(); closeSearch(); }, { passive: false });
+      closeBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeSearch();
+      });
     }
 
     searchWrap.addEventListener("keydown", function (e) {
