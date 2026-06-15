@@ -11,6 +11,7 @@
   --surface-2: #272b45;
   --accent: #6842ff;
   --accent-hover: #7d5cff;
+  --icon-purple: #9d7bff;
   --accent-glow: rgba(104, 66, 255, 0.45);
   --text: #f3f4fa;
   --text-dim: #9aa0b8;
@@ -178,9 +179,11 @@ button { font: inherit; cursor: pointer; border: 0; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: var(--icon-purple);
 }
 .sidebar .emoji svg { width: 20px; height: 20px; }
-.sidebar a.active .emoji svg { color: #fff; }
+/* pe linkul activ (fundal violet) iconita devine alba ca sa contrasteze */
+.sidebar a.active .emoji { color: #fff; }
 
 /* ---------- Layout ---------- */
 .main {
@@ -722,10 +725,11 @@ body.no-scroll { overflow: hidden; }
 }
 .cat-chip-emoji svg { width: 20px; height: 20px; }
 /* iconita SVG langa titlul de sectiune */
+
 .sec-ico {
   display: inline-flex;
   align-items: center;
-  color: var(--accent-hover);
+  color: var(--icon-purple);
   vertical-align: middle;
 }
 .sec-ico svg { width: 20px; height: 20px; }
