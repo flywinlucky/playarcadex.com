@@ -127,7 +127,8 @@ function headerHTML() {
   return `<header class="header">
     <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
     <a href="/" class="logo"><span class="logo-badge">🎮</span>PlayArcade<span class="x">X</span></a>
-    <div class="search-wrap">
+    <button class="search-toggle" id="searchToggle" aria-label="Search">🔍</button>
+    <div class="search-wrap" id="searchWrap">
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
       <span class="search-ico">🔍</span>
     </div>
@@ -281,6 +282,10 @@ function buildHome() {
           <summary>${esc(f.q)}</summary>
           <p>${f.a}</p>
         </details>`).join("\n        ")}
+      </div>
+      <div class="bottom-actions">
+        <button class="bottom-btn" id="randomBottomBtn">🎲 Random game</button>
+        <button class="bottom-btn primary" id="backTopBtn">↑ Back to top</button>
       </div>
     </div>`;
 

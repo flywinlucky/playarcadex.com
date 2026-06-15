@@ -349,6 +349,42 @@
     });
   }
 
+  /* ---------- Mobile search toggle ---------- */
+  var searchToggle = document.getElementById("searchToggle");
+  var searchWrap = document.getElementById("searchWrap");
+  if (searchToggle && searchWrap) {
+    searchToggle.addEventListener("click", function () {
+      searchWrap.classList.toggle("open");
+      if (searchWrap.classList.contains("open")) {
+        var inp = searchWrap.querySelector("input");
+        if (inp) inp.focus();
+      }
+    });
+    // inchide la Escape
+    searchWrap.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") searchWrap.classList.remove("open");
+    });
+  }
+
+  /* ---------- Bottom actions: Random game + Back to top ---------- */
+  var randomBottom = document.getElementById("randomBottomBtn");
+  if (randomBottom) {
+    randomBottom.addEventListener("click", function () {
+      track("random_game");
+      loadIndex().then(function (idx) {
+        if (idx && idx.length) {
+          window.location.href = BASE + "/game/" + idx[Math.floor(Math.random() * idx.length)].slug + "/";
+        }
+      });
+    });
+  }
+  var backTop = document.getElementById("backTopBtn");
+  if (backTop) {
+    backTop.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
   /* ---------- Horizontal carousel arrows (stil CrazyGames) ---------- */
   function setupRows() {
     var wraps = document.querySelectorAll(".row-wrap");
