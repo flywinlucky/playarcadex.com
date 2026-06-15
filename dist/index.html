@@ -25,7 +25,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
-  <style>:root{--bg:#0e0f1a;--bg-soft:#171929;--surface:#1f2236;--surface-2:#272b45;--accent:#6842ff;--accent-hover:#7d5cff;--accent-glow:rgba(104,66,255,0.45);--text:#f3f4fa;--text-dim:#9aa0b8;--radius:12px;--radius-lg:16px;--sidebar-w:220px;--header-h:60px;--shadow-card:0 4px 14px rgba(0,0,0,0.35);}*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Nunito Sans",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}a{color:inherit;text-decoration:none;}img{display:block;max-width:100%;}button{font:inherit;cursor:pointer;border:0;}.header{position:fixed;inset:0 0 auto 0;height:var(--header-h);background:rgba(14,15,26,0.92);backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;padding:0 16px;z-index:100;border-bottom:1px solid rgba(255,255,255,0.06);}.logo{font-weight:800;font-size:1.25rem;letter-spacing:-0.02em;white-space:nowrap;display:flex;align-items:center;gap:8px;}.logo .x{color:var(--accent);}.logo-badge{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#a55cff);display:grid;place-items:center;font-size:0.95rem;box-shadow:0 0 14px var(--accent-glow);}.menu-btn{background:none;color:var(--text);font-size:1.4rem;padding:6px 10px;border-radius:8px;display:none;}.menu-btn:hover{background:var(--surface);}.search-wrap{margin-left:auto;position:relative;width:min(420px,46vw);}.search-wrap input{width:100%;height:38px;border-radius:999px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);padding:0 42px 0 16px;font-size:0.95rem;outline:none;transition:border-color 0.15s;}.search-wrap input:focus{border-color:var(--accent);}.search-wrap .search-ico{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-dim);pointer-events:none;}.sidebar{position:fixed;top:var(--header-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--bg-soft);padding:14px 10px 24px;overflow-y:auto;z-index:90;scrollbar-width:thin;scrollbar-color:var(--surface-2) transparent;}.sidebar a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;color:var(--text-dim);font-size:0.93rem;font-weight:600;transition:background 0.12s,color 0.12s;}.sidebar a:hover{background:var(--surface);color:var(--text);}.sidebar a.active{background:var(--accent);color:#fff;box-shadow:0 0 12px var(--accent-glow);}.sidebar .emoji{width:22px;text-align:center;}.main{margin-left:var(--sidebar-w);padding:calc(var(--header-h) + 20px) 20px 60px;min-height:100vh;}.section-title{font-size:1.15rem;font-weight:800;margin:26px 0 12px;display:flex;align-items:center;gap:8px;}.section-title:first-child{margin-top:0;}.section-title .bar{width:4px;height:20px;border-radius:2px;background:var(--accent);display:inline-block;}.view-all{margin-left:auto;font-size:.82rem;color:#b9adff;font-weight:700;}.view-all:hover{color:#d4ccff;text-decoration:underline;}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;}.grid.featured{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}.card{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--surface);aspect-ratio:4 / 3;box-shadow:var(--shadow-card);transition:transform 0.18s ease,box-shadow 0.18s ease;will-change:transform;}.card img{width:100%;height:100%;object-fit:cover;}.card .card-title{position:absolute;inset:auto 0 0 0;padding:26px 10px 8px;font-size:0.85rem;font-weight:700;background:linear-gradient(transparent,rgba(0,0,0,0.85));opacity:0;transform:translateY(6px);transition:opacity 0.18s,transform 0.18s;}.card:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 10px 24px rgba(0,0,0,0.5),0 0 0 2px var(--accent);z-index:2;}.card:hover .card-title{opacity:1;transform:translateY(0);}.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}.game-stage{background:#000;border-radius:var(--radius-lg);overflow:hidden;position:relative;box-shadow:var(--shadow-card);}.game-frame-wrap{position:relative;width:100%;aspect-ratio:16 / 9;max-height:calc(100vh - var(--header-h) - 120px);}.game-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}body.no-scroll{overflow:hidden;}.game-stage.fs-active{position:fixed;inset:0;z-index:1000;border-radius:0;display:flex;flex-direction:column;width:100vw;height:100vh;height:100dvh;}.game-stage.fs-active .game-frame-wrap{flex:1;aspect-ratio:auto;max-height:none;min-height:0;}.game-stage.fs-active .game-toolbar{border-radius:0;padding-bottom:calc(10px + env(safe-area-inset-bottom));padding-left:calc(14px + env(safe-area-inset-left));padding-right:calc(14px + env(safe-area-inset-right));}.close-btn{display:none;background:#e0245e;color:#fff;}.close-btn:hover{background:#ff2f6d;}.game-stage.fs-active .game-toolbar{display:none;}.game-stage.fs-active #fsBtn{display:none;}.fs-close{display:none;position:absolute;top:calc(10px + env(safe-area-inset-top));right:calc(10px + env(safe-area-inset-right));z-index:30;width:40px;height:40px;border-radius:50%;background:rgba(18,19,30,0.72);color:#fff;font-size:1.05rem;font-weight:700;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(6px);align-items:center;justify-content:center;}.fs-close:hover{background:rgba(104,66,255,0.85);}.game-stage.fs-active .fs-close{display:inline-flex;}.fs-allgames{display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:30;flex-direction:column;align-items:center;gap:10px;background:rgba(18,19,30,0.78);border:1px solid rgba(255,255,255,0.14);border-left:0;border-radius:0 12px 12px 0;padding:14px 7px;backdrop-filter:blur(6px);}.game-stage.fs-active .fs-allgames{display:flex;}.fs-allgames-label{writing-mode:vertical-rl;transform:rotate(180deg);font-size:0.82rem;font-weight:700;color:var(--text);letter-spacing:0.04em;white-space:nowrap;}.fs-mini-logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent),#a55cff);color:#fff;font-size:0.8rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 10px var(--accent-glow);}.fs-allgames:hover{background:rgba(104,66,255,0.45);}@media (orientation:portrait){.game-stage.fs-active::after{content:"";position:absolute;top:0;left:0;right:0;height:calc(env(safe-area-inset-top,0px) + 64px);background:linear-gradient(rgba(0,0,0,0.78),rgba(0,0,0,0.35) 70%,transparent);z-index:25;pointer-events:none;}.game-stage.fs-active .fs-close{top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));}.game-stage.fs-active .fs-allgames{left:calc(12px + env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));transform:none;flex-direction:row;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(255,255,255,0.14);border-radius:999px;height:40px;}.game-stage.fs-active .fs-allgames .fs-allgames-label{writing-mode:horizontal-tb;transform:none;}.game-stage.fs-active .fs-allgames .fs-mini-logo{width:22px;height:22px;font-size:0.7rem;}}@media (orientation:landscape){.game-stage.fs-active .fs-allgames{padding-left:calc(7px + env(safe-area-inset-left,0px));}.game-stage.fs-active .fs-close{top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));}}.rotate-overlay{display:none;position:absolute;inset:0;z-index:20;background:#15161f;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;}.rotate-title{font-size:1.45rem;font-weight:800;margin-top:10px;}.rotate-sub{color:var(--text-dim);font-size:0.95rem;}@media (orientation:portrait){.game-stage.fs-active[data-orient="landscape"] .rotate-overlay{display:flex;}}.game-splash{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#0a0a14;overflow:hidden;z-index:3;}.game-splash .splash-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(30px) saturate(1.25) brightness(0.9);transform:scale(1.2);z-index:0;}.game-splash::before{content:"";position:absolute;inset:0;background:rgba(10,10,20,0.4);z-index:1;}.game-splash>*{position:relative;z-index:2;}.game-splash .splash-bg{z-index:0;}.game-splash img.splash-thumb{width:120px;height:120px;object-fit:cover;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,0.6);}.play-btn{background:var(--accent);color:#fff;font-weight:800;font-size:1.1rem;padding:14px 44px;border-radius:999px;box-shadow:0 0 24px var(--accent-glow);transition:transform 0.12s,background 0.12s;}.play-btn:hover{background:var(--accent-hover);transform:scale(1.05);}.game-toolbar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);}.game-toolbar h1{font-size:1.05rem;font-weight:800;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.tool-btn{background:var(--surface-2);color:var(--text);padding:8px 14px;border-radius:10px;font-weight:700;font-size:0.88rem;display:inline-flex;align-items:center;gap:6px;transition:background 0.12s;}.tool-btn:hover{background:var(--accent);}.game-info{margin-top:22px;background:var(--surface);border-radius:var(--radius-lg);padding:20px;}.game-info h2{font-size:1rem;margin:14px 0 6px;color:var(--text);}.game-info h2:first-child{margin-top:0;}.game-info p{color:var(--text-dim);font-size:0.95rem;}.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}.tag{background:var(--surface-2);color:var(--text-dim);font-size:0.8rem;font-weight:700;padding:5px 12px;border-radius:999px;}.tag:hover{color:var(--text);background:var(--accent);}.breadcrumbs{font-size:0.85rem;color:var(--text-dim);margin-bottom:12px;}.breadcrumbs a:hover{color:var(--accent-hover);}.dice-btn{background:var(--surface);border:1px solid rgba(255,255,255,0.12);border-radius:999px;height:38px;padding:0 16px;color:var(--text);font-weight:700;font-size:0.9rem;display:inline-flex;align-items:center;gap:8px;transition:transform 0.15s,background 0.15s,box-shadow 0.15s;flex-shrink:0;}.dice-btn:hover{background:var(--accent);transform:scale(1.05);box-shadow:0 0 14px var(--accent-glow);}.dice-btn svg{flex-shrink:0;}.fav-btn{font-size:1.1rem;}.fav-btn.on{background:#e0245e;color:#fff;}.share-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:16px;padding:12px 16px;background:var(--surface);border-radius:var(--radius-lg);}.share-label{color:var(--text-dim);font-size:0.88rem;font-weight:700;margin-right:2px;}.share-btn{width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;border:0;transition:transform 0.15s,box-shadow 0.15s,filter 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.3);}.share-btn svg{display:block;}.share-btn:hover{transform:translateY(-3px) scale(1.08);filter:brightness(1.12);}.share-btn.fb{background:#1877f2;}.share-btn.tw{background:#14171a;border:1px solid rgba(255,255,255,0.18);}.share-btn.wa{background:#25d366;}.share-btn.tg{background:#2aabee;}.share-btn.copy{background:var(--accent);}.share-btn.copy:hover{background:var(--accent-hover);}.cat-sec{content-visibility:auto;contain-intrinsic-size:auto 540px;}.faq-block h2{margin-bottom:14px;}.faq-item{border-bottom:1px solid rgba(255,255,255,0.08);padding:4px 0;}.faq-item summary{cursor:pointer;font-weight:700;font-size:0.98rem;padding:12px 8px 12px 0;list-style:none;position:relative;padding-right:28px;transition:color 0.15s;}.faq-item summary::-webkit-details-marker{display:none;}.faq-item summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:1.3rem;font-weight:400;color:var(--accent-hover);transition:transform 0.2s;}.faq-item[open] summary::after{content:"−";}.faq-item summary:hover{color:var(--accent-hover);}.faq-item p{color:var(--text-dim);font-size:0.94rem;padding:0 8px 14px 0;margin:0;}.faq-item p a{color:var(--accent-hover);}.faq-item p a:hover{text-decoration:underline;}.static-page h1{font-size:1.5rem;margin-bottom:12px;}.static-page h2{margin-top:20px;}.static-page p{margin-top:8px;}.static-page a{color:var(--accent-hover);}.static-page a:hover{text-decoration:underline;}.footer{margin-left:var(--sidebar-w);background:var(--bg-soft);padding:28px 20px;color:var(--text-dim);font-size:0.88rem;border-top:1px solid rgba(255,255,255,0.05);}.footer .links{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:10px;}.footer a:hover{color:var(--text);}.empty{text-align:center;color:var(--text-dim);padding:60px 20px;display:none;}@media (max-width:900px){.menu-btn{display:block;}.dice-btn{padding:0;width:38px;justify-content:center;border-radius:50%;}.dice-label{display:none;}.sidebar{transform:translateX(-100%);transition:transform 0.22s ease;width:250px;box-shadow:8px 0 30px rgba(0,0,0,0.5);}.sidebar.open{transform:translateX(0);}.main,.footer{margin-left:0;}.main{padding:calc(var(--header-h) + 14px) 12px 50px;}.grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}.grid.featured{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}.game-frame-wrap{aspect-ratio:4 / 3;}.search-wrap{width:min(300px,52vw);}}@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none !important;animation:none !important;}html{scroll-behavior:auto;}}</style>
+  <style>:root{--bg:#0e0f1a;--bg-soft:#171929;--surface:#1f2236;--surface-2:#272b45;--accent:#6842ff;--accent-hover:#7d5cff;--accent-glow:rgba(104,66,255,0.45);--text:#f3f4fa;--text-dim:#9aa0b8;--radius:12px;--radius-lg:16px;--sidebar-w:220px;--header-h:60px;--shadow-card:0 4px 14px rgba(0,0,0,0.35);}*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Nunito Sans",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}a{color:inherit;text-decoration:none;}img{display:block;max-width:100%;}button{font:inherit;cursor:pointer;border:0;}.header{position:fixed;inset:0 0 auto 0;height:var(--header-h);background:rgba(14,15,26,0.92);backdrop-filter:blur(10px);display:flex;align-items:center;gap:14px;padding:0 16px;z-index:100;border-bottom:1px solid rgba(255,255,255,0.06);}.logo{font-weight:800;font-size:1.25rem;letter-spacing:-0.02em;white-space:nowrap;display:flex;align-items:center;gap:8px;}.logo .x{color:var(--accent);}.logo-badge{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#a55cff);display:grid;place-items:center;font-size:0.95rem;box-shadow:0 0 14px var(--accent-glow);}.menu-btn{background:none;color:var(--text);font-size:1.4rem;padding:6px 10px;border-radius:8px;display:none;}.menu-btn:hover{background:var(--surface);}.search-wrap{margin-left:auto;position:relative;width:min(420px,46vw);}.search-wrap input{width:100%;height:38px;border-radius:999px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);padding:0 42px 0 16px;font-size:0.95rem;outline:none;transition:border-color 0.15s;}.search-wrap input:focus{border-color:var(--accent);}.search-wrap .search-ico{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-dim);pointer-events:none;}.sidebar{position:fixed;top:var(--header-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--bg-soft);padding:14px 10px 24px;overflow-y:auto;z-index:90;scrollbar-width:thin;scrollbar-color:var(--surface-2) transparent;}.sidebar a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;color:var(--text-dim);font-size:0.93rem;font-weight:600;transition:background 0.12s,color 0.12s;}.sidebar a:hover{background:var(--surface);color:var(--text);}.sidebar a.active{background:var(--accent);color:#fff;box-shadow:0 0 12px var(--accent-glow);}.sidebar .emoji{width:22px;text-align:center;}.main{margin-left:var(--sidebar-w);padding:calc(var(--header-h) + 20px) 20px 60px;min-height:100vh;}.section-title{font-size:1.15rem;font-weight:800;margin:26px 0 12px;display:flex;align-items:center;gap:8px;}.section-title:first-child{margin-top:0;}.section-title .bar{width:4px;height:20px;border-radius:2px;background:var(--accent);display:inline-block;}.view-all{margin-left:auto;font-size:.82rem;color:#b9adff;font-weight:700;}.view-all:hover{color:#d4ccff;text-decoration:underline;}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;}.grid.featured{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}.card{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--surface);aspect-ratio:4 / 3;box-shadow:var(--shadow-card);transition:transform 0.18s ease,box-shadow 0.18s ease;will-change:transform;}.card img{width:100%;height:100%;object-fit:cover;}.card .card-title{position:absolute;inset:auto 0 0 0;padding:26px 10px 8px;font-size:0.85rem;font-weight:700;background:linear-gradient(transparent,rgba(0,0,0,0.85));opacity:0;transform:translateY(6px);transition:opacity 0.18s,transform 0.18s;}.card:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 10px 24px rgba(0,0,0,0.5),0 0 0 2px var(--accent);z-index:2;}.card:hover .card-title{opacity:1;transform:translateY(0);}.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}.game-stage{background:#000;border-radius:var(--radius-lg);overflow:hidden;position:relative;box-shadow:var(--shadow-card);}.game-frame-wrap{position:relative;width:100%;aspect-ratio:16 / 9;max-height:calc(100vh - var(--header-h) - 120px);}.game-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}body.no-scroll{overflow:hidden;}.game-stage.fs-active{position:fixed;inset:0;z-index:1000;border-radius:0;display:flex;flex-direction:column;width:100vw;height:100vh;height:100dvh;}.game-stage.fs-active .game-frame-wrap{flex:1;aspect-ratio:auto;max-height:none;min-height:0;}.game-stage.fs-active .game-toolbar{border-radius:0;padding-bottom:calc(10px + env(safe-area-inset-bottom));padding-left:calc(14px + env(safe-area-inset-left));padding-right:calc(14px + env(safe-area-inset-right));}.close-btn{display:none;background:#e0245e;color:#fff;}.close-btn:hover{background:#ff2f6d;}.game-stage.fs-active .game-toolbar{display:none;}.game-stage.fs-active #fsBtn{display:none;}.fs-close{display:none;position:absolute;top:calc(10px + env(safe-area-inset-top));right:calc(10px + env(safe-area-inset-right));z-index:30;width:40px;height:40px;border-radius:50%;background:rgba(18,19,30,0.72);color:#fff;font-size:1.05rem;font-weight:700;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(6px);align-items:center;justify-content:center;}.fs-close:hover{background:rgba(104,66,255,0.85);}.game-stage.fs-active .fs-close{display:inline-flex;}.fs-allgames{display:none;position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:30;flex-direction:column;align-items:center;gap:10px;background:rgba(18,19,30,0.78);border:1px solid rgba(255,255,255,0.14);border-left:0;border-radius:0 12px 12px 0;padding:14px 7px;backdrop-filter:blur(6px);}.game-stage.fs-active .fs-allgames{display:flex;}.fs-allgames-label{writing-mode:vertical-rl;transform:rotate(180deg);font-size:0.82rem;font-weight:700;color:var(--text);letter-spacing:0.04em;white-space:nowrap;}.fs-mini-logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent),#a55cff);color:#fff;font-size:0.8rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 10px var(--accent-glow);}.fs-allgames:hover{background:rgba(104,66,255,0.45);}@media (orientation:portrait){.game-stage.fs-active::after{content:"";position:absolute;top:0;left:0;right:0;height:calc(env(safe-area-inset-top,0px) + 64px);background:linear-gradient(rgba(0,0,0,0.78),rgba(0,0,0,0.35) 70%,transparent);z-index:25;pointer-events:none;}.game-stage.fs-active .fs-close{top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));}.game-stage.fs-active .fs-allgames{left:calc(12px + env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));transform:none;flex-direction:row;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(255,255,255,0.14);border-radius:999px;height:40px;}.game-stage.fs-active .fs-allgames .fs-allgames-label{writing-mode:horizontal-tb;transform:none;}.game-stage.fs-active .fs-allgames .fs-mini-logo{width:22px;height:22px;font-size:0.7rem;}}@media (orientation:landscape){.game-stage.fs-active .fs-allgames{padding-left:calc(7px + env(safe-area-inset-left,0px));}.game-stage.fs-active .fs-close{top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));}}.rotate-overlay{display:none;position:absolute;inset:0;z-index:20;background:#15161f;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;}.rotate-title{font-size:1.45rem;font-weight:800;margin-top:10px;}.rotate-sub{color:var(--text-dim);font-size:0.95rem;}@media (orientation:portrait){.game-stage.fs-active[data-orient="landscape"] .rotate-overlay{display:flex;}}.game-splash{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#0a0a14;overflow:hidden;z-index:3;}.game-splash .splash-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(30px) saturate(1.25) brightness(0.9);transform:scale(1.2);z-index:0;}.game-splash::before{content:"";position:absolute;inset:0;background:rgba(10,10,20,0.4);z-index:1;}.game-splash>*{position:relative;z-index:2;}.game-splash .splash-bg{z-index:0;}.game-splash img.splash-thumb{width:120px;height:120px;object-fit:cover;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,0.6);}.play-btn{background:var(--accent);color:#fff;font-weight:800;font-size:1.1rem;padding:14px 44px;border-radius:999px;box-shadow:0 0 24px var(--accent-glow);transition:transform 0.12s,background 0.12s;}.play-btn:hover{background:var(--accent-hover);transform:scale(1.05);}.game-toolbar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);}.game-toolbar h1{font-size:1.05rem;font-weight:800;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.tool-btn{background:var(--surface-2);color:var(--text);padding:8px 14px;border-radius:10px;font-weight:700;font-size:0.88rem;display:inline-flex;align-items:center;gap:6px;transition:background 0.12s;}.tool-btn:hover{background:var(--accent);}.game-info{margin-top:22px;background:var(--surface);border-radius:var(--radius-lg);padding:20px;}.game-info h2{font-size:1rem;margin:14px 0 6px;color:var(--text);}.game-info h2:first-child{margin-top:0;}.game-info p{color:var(--text-dim);font-size:0.95rem;}.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}.tag{background:var(--surface-2);color:var(--text-dim);font-size:0.8rem;font-weight:700;padding:5px 12px;border-radius:999px;}.tag:hover{color:var(--text);background:var(--accent);}.breadcrumbs{font-size:0.85rem;color:var(--text-dim);margin-bottom:12px;}.breadcrumbs a:hover{color:var(--accent-hover);}.dice-btn{background:var(--surface);border:1px solid rgba(255,255,255,0.12);border-radius:999px;height:38px;padding:0 16px;color:var(--text);font-weight:700;font-size:0.9rem;display:inline-flex;align-items:center;gap:8px;transition:transform 0.15s,background 0.15s,box-shadow 0.15s;flex-shrink:0;}.dice-btn:hover{background:var(--accent);transform:scale(1.05);box-shadow:0 0 14px var(--accent-glow);}.dice-btn svg{flex-shrink:0;}.fav-btn{font-size:1.1rem;}.fav-btn.on{background:#e0245e;color:#fff;}.share-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:16px;padding:12px 16px;background:var(--surface);border-radius:var(--radius-lg);}.share-label{color:var(--text-dim);font-size:0.88rem;font-weight:700;margin-right:2px;}.share-btn{width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;border:0;transition:transform 0.15s,box-shadow 0.15s,filter 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.3);}.share-btn svg{display:block;}.share-btn:hover{transform:translateY(-3px) scale(1.08);filter:brightness(1.12);}.share-btn.fb{background:#1877f2;}.share-btn.tw{background:#14171a;border:1px solid rgba(255,255,255,0.18);}.share-btn.wa{background:#25d366;}.share-btn.tg{background:#2aabee;}.share-btn.copy{background:var(--accent);}.share-btn.copy:hover{background:var(--accent-hover);}.cat-sec{content-visibility:auto;contain-intrinsic-size:auto 540px;}.row-wrap{position:relative;}.row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(160px,1fr);grid-template-rows:1fr;gap:14px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;padding:4px 2px 8px;scroll-snap-type:x proximity;}.row::-webkit-scrollbar{display:none;}.row .card{scroll-snap-align:start;width:100%;}.row-arrow{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:64px;background:rgba(14,15,26,0.82);color:#fff;font-size:2rem;line-height:1;display:flex;align-items:center;justify-content:center;border-radius:10px;z-index:5;opacity:0;transition:opacity 0.18s,background 0.15s;border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(4px);}.row-arrow.left{left:-6px;}.row-arrow.right{right:-6px;}.row-arrow:hover{background:var(--accent);}.row-arrow.hidden{display:none;}.row-wrap:hover .row-arrow{opacity:1;}@media (hover:none){.row-arrow{display:none;}}.cat-block{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-top:30px;background:var(--bg-soft);border-radius:var(--radius-lg);padding:22px;}.cat-block-intro h2{font-size:1.15rem;margin-bottom:8px;}.cat-block-intro p{color:var(--text-dim);font-size:0.92rem;}.cat-block-link{display:inline-block;margin-top:12px;color:var(--accent-hover);font-weight:700;font-size:0.9rem;}.cat-block-link:hover{text-decoration:underline;}.cat-block-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;align-content:start;}.cat-chip{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:10px;padding:11px 12px;font-size:0.9rem;font-weight:700;color:var(--text-dim);transition:background 0.14s,color 0.14s,transform 0.14s;}.cat-chip:hover{background:var(--accent);color:#fff;transform:translateY(-2px);}.cat-chip-emoji{font-size:1.05rem;}@media (max-width:700px){.cat-block{grid-template-columns:1fr;}}.faq-block h2{margin-bottom:14px;}.faq-item{border-bottom:1px solid rgba(255,255,255,0.08);padding:4px 0;}.faq-item summary{cursor:pointer;font-weight:700;font-size:0.98rem;padding:12px 8px 12px 0;list-style:none;position:relative;padding-right:28px;transition:color 0.15s;}.faq-item summary::-webkit-details-marker{display:none;}.faq-item summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:1.3rem;font-weight:400;color:var(--accent-hover);transition:transform 0.2s;}.faq-item[open] summary::after{content:"−";}.faq-item summary:hover{color:var(--accent-hover);}.faq-item p{color:var(--text-dim);font-size:0.94rem;padding:0 8px 14px 0;margin:0;}.faq-item p a{color:var(--accent-hover);}.faq-item p a:hover{text-decoration:underline;}.static-page h1{font-size:1.5rem;margin-bottom:12px;}.static-page h2{margin-top:20px;}.static-page p{margin-top:8px;}.static-page a{color:var(--accent-hover);}.static-page a:hover{text-decoration:underline;}.footer{margin-left:var(--sidebar-w);background:var(--bg-soft);padding:28px 20px;color:var(--text-dim);font-size:0.88rem;border-top:1px solid rgba(255,255,255,0.05);}.footer .links{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:10px;}.footer a:hover{color:var(--text);}.empty{text-align:center;color:var(--text-dim);padding:60px 20px;display:none;}@media (max-width:900px){.menu-btn{display:block;}.dice-btn{padding:0;width:38px;justify-content:center;border-radius:50%;}.dice-label{display:none;}.sidebar{transform:translateX(-100%);transition:transform 0.22s ease;width:250px;box-shadow:8px 0 30px rgba(0,0,0,0.5);}.sidebar.open{transform:translateX(0);}.main,.footer{margin-left:0;}.main{padding:calc(var(--header-h) + 14px) 12px 50px;}.grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}.grid.featured{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}.game-frame-wrap{aspect-ratio:4 / 3;}.search-wrap{width:min(300px,52vw);}}@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none !important;animation:none !important;}html{scroll-behavior:auto;}}</style>
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"PlayArcadeX","url":"https://playarcadex.com","description":"Play the best free online games on PlayArcadeX! Racing, action, puzzle, sports and more — no downloads, instantly playable on mobile and desktop.","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://playarcadex.com/?q={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org","@type":"ItemList","name":"PlayArcadeX navigation","itemListElement":[{"@type":"SiteNavigationElement","position":1,"name":"All Games","url":"https://playarcadex.com/games/"},{"@type":"SiteNavigationElement","position":2,"name":"Puzzles Games","url":"https://playarcadex.com/category/puzzles/"},{"@type":"SiteNavigationElement","position":3,"name":"Adventure Games","url":"https://playarcadex.com/category/adventure/"},{"@type":"SiteNavigationElement","position":4,"name":"Arcade Games","url":"https://playarcadex.com/category/arcade/"},{"@type":"SiteNavigationElement","position":5,"name":"Hypercasual Games","url":"https://playarcadex.com/category/hypercasual/"},{"@type":"SiteNavigationElement","position":6,"name":"Racing Games","url":"https://playarcadex.com/category/racing/"},{"@type":"SiteNavigationElement","position":7,"name":"Shooting Games","url":"https://playarcadex.com/category/shooting/"},{"@type":"SiteNavigationElement","position":8,"name":"Action Games","url":"https://playarcadex.com/category/action/"},{"@type":"SiteNavigationElement","position":9,"name":"3D Games","url":"https://playarcadex.com/category/3d/"}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are the games on PlayArcadeX free?","acceptedAnswer":{"@type":"Answer","text":"Yes! Every game on PlayArcadeX is 100% free to play. There are no fees, no downloads and no sign-up needed — just open a game and play instantly in your browser."}},{"@type":"Question","name":"Do I need to download or install anything?","acceptedAnswer":{"@type":"Answer","text":"No. All games run directly in your web browser. You can start playing immediately on desktop, laptop, tablet or phone without installing any app."}},{"@type":"Question","name":"Can I play these games on my phone?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. PlayArcadeX works on Android and iOS. Most games support touch controls and many open in fullscreen for the best mobile experience."}},{"@type":"Question","name":"What kind of games can I play?","acceptedAnswer":{"@type":"Answer","text":"We offer free online games across many categories — racing, action, shooting, puzzle, sports, .io, girls, cooking and more. Browse them all on the All Games page."}},{"@type":"Question","name":"Do I need an account to play?","acceptedAnswer":{"@type":"Answer","text":"No account is required. You can play any game right away. Your recently played games and favorites are saved automatically in your browser."}},{"@type":"Question","name":"Are new games added regularly?","acceptedAnswer":{"@type":"Answer","text":"Yes. We regularly refresh our catalog with the best and most popular new HTML5 games, so there is always something fresh to play."}}]}]</script>
   <!-- Google tag (gtag.js) — incarcat dupa ce pagina e gata, ca sa nu blocheze randarea -->
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-X4DF0DZ88J');
@@ -189,18 +189,24 @@
       <div id="catSections">
       
     <section class="cat-sec" data-cat=".IO">
-    <h2 class="section-title"><span class="bar"></span>🎮 .IO <a class="view-all" href="/category/io/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🎮 .IO <a class="view-all" href="/category/io/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/snake-warz/" title="SNAKE WARZ">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/uxv01zwcngh7d3xm1aqdg9t91qfuh59n/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/uxv01zwcngh7d3xm1aqdg9t91qfuh59n/512x384.jpg'" alt="SNAKE WARZ - play free online" width="230" height="173">
       <span class="card-title">SNAKE WARZ</span>
     </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="3D">
-    <h2 class="section-title"><span class="bar"></span>🎮 3D <a class="view-all" href="/category/3d/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🎮 3D <a class="view-all" href="/category/3d/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/blow-kings-game/" title="Blow Kings Game">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/vnaemb0qtvb02asv3q4g5qvviepcd1m6/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/vnaemb0qtvb02asv3q4g5qvviepcd1m6/512x384.jpg'" alt="Blow Kings Game - play free online" width="230" height="173">
       <span class="card-title">Blow Kings Game</span>
@@ -233,12 +239,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/stnjsz9tkk98f02ul6kyhmcrhrv4c5cr/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/stnjsz9tkk98f02ul6kyhmcrhrv4c5cr/512x384.jpg'" alt="Real Excavator Simulator Game - play free online" width="230" height="173">
       <span class="card-title">Real Excavator Simulator Game</span>
     </a>
+      <a class="card" href="/game/basket-ball-for-two-player/" title="Basket Ball For Two Player">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/b5upjvb40xxim12v4ytzt5naxuu7ps3d/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/b5upjvb40xxim12v4ytzt5naxuu7ps3d/512x384.jpg'" alt="Basket Ball For Two Player - play free online" width="230" height="173">
+      <span class="card-title">Basket Ball For Two Player</span>
+    </a>
+      <a class="card" href="/game/saw-machine-io-3d-survival-game/" title="Saw Machine.io - 3D Survival Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/mh2w49xb539wnjgu6d808liynzner1ny/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/mh2w49xb539wnjgu6d808liynzner1ny/512x384.jpg'" alt="Saw Machine.io - 3D Survival Game - play free online" width="230" height="173">
+      <span class="card-title">Saw Machine.io - 3D Survival Game</span>
+    </a>
+      <a class="card" href="/game/party-io-3d-survival-game/" title="Party.io - 3D Survival Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/9j0mf9y3942pekpu2phm9tfj1ou8u3mk/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/9j0mf9y3942pekpu2phm9tfj1ou8u3mk/512x384.jpg'" alt="Party.io - 3D Survival Game - play free online" width="230" height="173">
+      <span class="card-title">Party.io - 3D Survival Game</span>
+    </a>
+      <a class="card" href="/game/water-flow-puzzle-game/" title="Water Flow Puzzle Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/88s6bn1zjqlib883qbnzt0v8xxhnuxo4/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/88s6bn1zjqlib883qbnzt0v8xxhnuxo4/512x384.jpg'" alt="Water Flow Puzzle Game - play free online" width="230" height="173">
+      <span class="card-title">Water Flow Puzzle Game</span>
+    </a>
+      <a class="card" href="/game/jelly-dye-game/" title="Jelly Dye Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/xymr15s0eu8hrh06mig6zsx6nalvfynb/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/xymr15s0eu8hrh06mig6zsx6nalvfynb/512x384.jpg'" alt="Jelly Dye Game - play free online" width="230" height="173">
+      <span class="card-title">Jelly Dye Game</span>
+    </a>
+      <a class="card" href="/game/clown-park-hide-and-seek-game/" title="Clown Park Hide And Seek Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/pylvaxzq54f5lwghdqonah3tayx1qxxd/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/pylvaxzq54f5lwghdqonah3tayx1qxxd/512x384.jpg'" alt="Clown Park Hide And Seek Game - play free online" width="230" height="173">
+      <span class="card-title">Clown Park Hide And Seek Game</span>
+    </a>
+      <a class="card" href="/game/ninja-obby-parkours/" title="Ninja Obby Parkours">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/4x8w3579mcw0j8n4yxu7c05a3ws5k72n/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/4x8w3579mcw0j8n4yxu7c05a3ws5k72n/512x384.jpg'" alt="Ninja Obby Parkours - play free online" width="230" height="173">
+      <span class="card-title">Ninja Obby Parkours</span>
+    </a>
+      <a class="card" href="/game/kill-the-monster-game/" title="Kill The Monster Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/qij756o0jte693nwgseo0y7xv9viyoz3/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/qij756o0jte693nwgseo0y7xv9viyoz3/512x384.jpg'" alt="Kill The Monster Game - play free online" width="230" height="173">
+      <span class="card-title">Kill The Monster Game</span>
+    </a>
+      <a class="card" href="/game/farmers-io/" title="Farmers.io">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/yt7e8qx4za8r805j6i5gwsyzccmf7xi2/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/yt7e8qx4za8r805j6i5gwsyzccmf7xi2/512x384.jpg'" alt="Farmers.io - play free online" width="230" height="173">
+      <span class="card-title">Farmers.io</span>
+    </a>
+      <a class="card" href="/game/wheelie-bike-for-2-players/" title="Wheelie Bike For 2 Players">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/htb93qq9gb9aofwtcwff3ex7jyiov3ga/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/htb93qq9gb9aofwtcwff3ex7jyiov3ga/512x384.jpg'" alt="Wheelie Bike For 2 Players - play free online" width="230" height="173">
+      <span class="card-title">Wheelie Bike For 2 Players</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Action">
-    <h2 class="section-title"><span class="bar"></span>⚔️ Action <a class="view-all" href="/category/action/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>⚔️ Action <a class="view-all" href="/category/action/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/car-parking-simulator-3/" title="Car Parking Simulator 3">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/l85o0eds3415tw2hv8ki8cp70jknqcup/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/l85o0eds3415tw2hv8ki8cp70jknqcup/512x384.jpg'" alt="Car Parking Simulator 3 - play free online" width="230" height="173">
       <span class="card-title">Car Parking Simulator 3</span>
@@ -271,12 +321,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/47lce5e4kb51icu8gbckm8x39aiztmuf/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/47lce5e4kb51icu8gbckm8x39aiztmuf/512x384.jpg'" alt="Street Mayhem: Beat Em Up - play free online" width="230" height="173">
       <span class="card-title">Street Mayhem: Beat Em Up</span>
     </a>
+      <a class="card" href="/game/sniper-master/" title="Sniper Master">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/0gus8yum52pw2fq3mjc3dp1idx4p1pm3/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/0gus8yum52pw2fq3mjc3dp1idx4p1pm3/512x384.jpg'" alt="Sniper Master - play free online" width="230" height="173">
+      <span class="card-title">Sniper Master</span>
+    </a>
+      <a class="card" href="/game/fall-bros/" title="Fall Bros">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/vnvpo9h7zc6phugavlw7xni2thz4no4i/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/vnvpo9h7zc6phugavlw7xni2thz4no4i/512x384.jpg'" alt="Fall Bros - play free online" width="230" height="173">
+      <span class="card-title">Fall Bros</span>
+    </a>
+      <a class="card" href="/game/hill-dash-car-hill-climbing-racing-game/" title="Hill Dash Car - Hill Climbing Racing Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/u3m65yzhs2dxuzhp28h3dqzzz02efggj/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/u3m65yzhs2dxuzhp28h3dqzzz02efggj/512x384.jpg'" alt="Hill Dash Car - Hill Climbing Racing Game - play free online" width="230" height="173">
+      <span class="card-title">Hill Dash Car - Hill Climbing Racing Game</span>
+    </a>
+      <a class="card" href="/game/tom-amp-jerry-run/" title="Tom &amp;amp; Jerry Run">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/a6d9kqfsjxbpdktw6p8j11z8bm776t8h/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/a6d9kqfsjxbpdktw6p8j11z8bm776t8h/512x384.jpg'" alt="Tom &amp;amp; Jerry Run - play free online" width="230" height="173">
+      <span class="card-title">Tom &amp;amp; Jerry Run</span>
+    </a>
+      <a class="card" href="/game/drunken-boxing/" title="Drunken Boxing">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/u7kh677sengcitk8eaib93z7gsiub9f6/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/u7kh677sengcitk8eaib93z7gsiub9f6/512x384.jpg'" alt="Drunken Boxing - play free online" width="230" height="173">
+      <span class="card-title">Drunken Boxing</span>
+    </a>
+      <a class="card" href="/game/stickman-hooks/" title="Stickman: Hooks">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/x3axo95l28dooujainl5kfjrib9dklth/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/x3axo95l28dooujainl5kfjrib9dklth/512x384.jpg'" alt="Stickman: Hooks - play free online" width="230" height="173">
+      <span class="card-title">Stickman: Hooks</span>
+    </a>
+      <a class="card" href="/game/dinosaur-city-hunting-destroy/" title="Dinosaur City Hunting Destroy">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/s5pt5t35wuln49vilycw1j81w5ypdm50/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/s5pt5t35wuln49vilycw1j81w5ypdm50/512x384.jpg'" alt="Dinosaur City Hunting Destroy - play free online" width="230" height="173">
+      <span class="card-title">Dinosaur City Hunting Destroy</span>
+    </a>
+      <a class="card" href="/game/stick-arena-stickmen/" title="Stick Arena: Stickmen">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/2o839x3puukucr9eseld3go95wlb3yyf/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/2o839x3puukucr9eseld3go95wlb3yyf/512x384.jpg'" alt="Stick Arena: Stickmen - play free online" width="230" height="173">
+      <span class="card-title">Stick Arena: Stickmen</span>
+    </a>
+      <a class="card" href="/game/catch-the-roober/" title="Catch the roober">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/r8pd241qeg18dgd4kr136nnxdavcv67p/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/r8pd241qeg18dgd4kr136nnxdavcv67p/512x384.jpg'" alt="Catch the roober - play free online" width="230" height="173">
+      <span class="card-title">Catch the roober</span>
+    </a>
+      <a class="card" href="/game/hero-rescue/" title="Hero Rescue">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/zgkwaeh6phua8b460eg2j70sm5dixkjx/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/zgkwaeh6phua8b460eg2j70sm5dixkjx/512x384.jpg'" alt="Hero Rescue - play free online" width="230" height="173">
+      <span class="card-title">Hero Rescue</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Adventure">
-    <h2 class="section-title"><span class="bar"></span>🗺️ Adventure <a class="view-all" href="/category/adventure/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🗺️ Adventure <a class="view-all" href="/category/adventure/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/shadowgun-war-game/" title="Shadowgun War Game">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/7ti5d19e7syonvvsmruhb36ph9mmzihp/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/7ti5d19e7syonvvsmruhb36ph9mmzihp/512x384.jpg'" alt="Shadowgun War Game - play free online" width="230" height="173">
       <span class="card-title">Shadowgun War Game</span>
@@ -309,12 +403,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/8l9exlpe68dd94wdi2hn95vxn94guue6/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/8l9exlpe68dd94wdi2hn95vxn94guue6/512x384.jpg'" alt="Frog Leap 3D - play free online" width="230" height="173">
       <span class="card-title">Frog Leap 3D</span>
     </a>
+      <a class="card" href="/game/john-is-a-lifeguard/" title="John is a lifeguard">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/v52n81cfw6ry52l6r4y3293rni1x8ygm/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/v52n81cfw6ry52l6r4y3293rni1x8ygm/512x384.jpg'" alt="John is a lifeguard - play free online" width="230" height="173">
+      <span class="card-title">John is a lifeguard</span>
+    </a>
+      <a class="card" href="/game/survival-race/" title="Survival Race">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/9km7avlf26r9se5gam8028uq4p6drmx1/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/9km7avlf26r9se5gam8028uq4p6drmx1/512x384.jpg'" alt="Survival Race - play free online" width="230" height="173">
+      <span class="card-title">Survival Race</span>
+    </a>
+      <a class="card" href="/game/temple-run-2-jungle-fall/" title="Temple Run 2: Jungle Fall">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/pkrsuit51ypgzm64h6ohkjnqvwv1zabz/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/pkrsuit51ypgzm64h6ohkjnqvwv1zabz/512x384.jpg'" alt="Temple Run 2: Jungle Fall - play free online" width="230" height="173">
+      <span class="card-title">Temple Run 2: Jungle Fall</span>
+    </a>
+      <a class="card" href="/game/geometry-man-dash-lite/" title="Geometry Man Dash Lite">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/vy1y98okjee38uizkyjsql41gak66b8a/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/vy1y98okjee38uizkyjsql41gak66b8a/512x384.jpg'" alt="Geometry Man Dash Lite - play free online" width="230" height="173">
+      <span class="card-title">Geometry Man Dash Lite</span>
+    </a>
+      <a class="card" href="/game/gunship-strike-helicopter-game/" title="Gunship Strike Helicopter Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/r3lsomv35849vk879eck7rph9zdhydk4/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/r3lsomv35849vk879eck7rph9zdhydk4/512x384.jpg'" alt="Gunship Strike Helicopter Game - play free online" width="230" height="173">
+      <span class="card-title">Gunship Strike Helicopter Game</span>
+    </a>
+      <a class="card" href="/game/jump-into-wow/" title="Jump Into Wow">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/kuvxeoiruc1t7r4r7mddbpnwcwl7yi1t/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/kuvxeoiruc1t7r4r7mddbpnwcwl7yi1t/512x384.jpg'" alt="Jump Into Wow - play free online" width="230" height="173">
+      <span class="card-title">Jump Into Wow</span>
+    </a>
+      <a class="card" href="/game/bumper-ball-io/" title="Bumper Ball io">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/exr8ozp5gdvau2u6ye32wnh5nxufb570/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/exr8ozp5gdvau2u6ye32wnh5nxufb570/512x384.jpg'" alt="Bumper Ball io - play free online" width="230" height="173">
+      <span class="card-title">Bumper Ball io</span>
+    </a>
+      <a class="card" href="/game/snake-io-war/" title="Snake io war">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/3oeuck11kfyukgvc8zplpnkf3hyuwgr9/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/3oeuck11kfyukgvc8zplpnkf3hyuwgr9/512x384.jpg'" alt="Snake io war - play free online" width="230" height="173">
+      <span class="card-title">Snake io war</span>
+    </a>
+      <a class="card" href="/game/snash-master-snail-fun-game/" title="Snash Master: Snail Fun Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/fa0uhqpk6iywyzimffzccgy80iosayar/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/fa0uhqpk6iywyzimffzccgy80iosayar/512x384.jpg'" alt="Snash Master: Snail Fun Game - play free online" width="230" height="173">
+      <span class="card-title">Snash Master: Snail Fun Game</span>
+    </a>
+      <a class="card" href="/game/forest-survivor-challenge/" title="Forest Survivor Challenge">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/3b94kcpo5w3tl4knnj27ahvqsvd8bc5j/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/3b94kcpo5w3tl4knnj27ahvqsvd8bc5j/512x384.jpg'" alt="Forest Survivor Challenge - play free online" width="230" height="173">
+      <span class="card-title">Forest Survivor Challenge</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Arcade">
-    <h2 class="section-title"><span class="bar"></span>🕹️ Arcade <a class="view-all" href="/category/arcade/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🕹️ Arcade <a class="view-all" href="/category/arcade/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/truck-slam/" title="Truck Slam">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/zzkoub6xkzrqd9v58hl50i25hk86dcjm/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/zzkoub6xkzrqd9v58hl50i25hk86dcjm/512x384.jpg'" alt="Truck Slam - play free online" width="230" height="173">
       <span class="card-title">Truck Slam</span>
@@ -347,12 +485,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/2t3m6pq1pwuepilz4ruhkls1416buo6s/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/2t3m6pq1pwuepilz4ruhkls1416buo6s/512x384.jpg'" alt="DUO SummerBombs - play free online" width="230" height="173">
       <span class="card-title">DUO SummerBombs</span>
     </a>
+      <a class="card" href="/game/hole-upper-for-2-players/" title="Hole Upper For 2 Players">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/fwwj2mbch9lwce11ghcnmy9mp2mn86om/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/fwwj2mbch9lwce11ghcnmy9mp2mn86om/512x384.jpg'" alt="Hole Upper For 2 Players - play free online" width="230" height="173">
+      <span class="card-title">Hole Upper For 2 Players</span>
+    </a>
+      <a class="card" href="/game/zombie-swarm/" title="Zombie swarm">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/jgbxplcymt6ccgoo4j724csv030uthxd/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/jgbxplcymt6ccgoo4j724csv030uthxd/512x384.jpg'" alt="Zombie swarm - play free online" width="230" height="173">
+      <span class="card-title">Zombie swarm</span>
+    </a>
+      <a class="card" href="/game/cocktail-run/" title="Cocktail Run">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/8qxph9epgx7wgcmfcmlh4cebydvtivq8/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/8qxph9epgx7wgcmfcmlh4cebydvtivq8/512x384.jpg'" alt="Cocktail Run - play free online" width="230" height="173">
+      <span class="card-title">Cocktail Run</span>
+    </a>
+      <a class="card" href="/game/boxer-io-fun-io-games/" title="Boxer.io - Fun io games">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/2xuio3yz8k4otg14ugm0m5qyoyxxvpw4/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/2xuio3yz8k4otg14ugm0m5qyoyxxvpw4/512x384.jpg'" alt="Boxer.io - Fun io games - play free online" width="230" height="173">
+      <span class="card-title">Boxer.io - Fun io games</span>
+    </a>
+      <a class="card" href="/game/zombie-city-master/" title="Zombie City Master">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/6irh7byk8usn82u4091yrchxkhm90ux8/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/6irh7byk8usn82u4091yrchxkhm90ux8/512x384.jpg'" alt="Zombie City Master - play free online" width="230" height="173">
+      <span class="card-title">Zombie City Master</span>
+    </a>
+      <a class="card" href="/game/red-ball-bounce/" title="Red Ball Bounce">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/xlfi6hzrldqg68dhxzpg1y6ja8i26a08/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/xlfi6hzrldqg68dhxzpg1y6ja8i26a08/512x384.jpg'" alt="Red Ball Bounce - play free online" width="230" height="173">
+      <span class="card-title">Red Ball Bounce</span>
+    </a>
+      <a class="card" href="/game/roller-ball-adventure/" title="Roller Ball Adventure">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/sgz7bnuhzvnte2qlhn3xqucgymefiycg/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/sgz7bnuhzvnte2qlhn3xqucgymefiycg/512x384.jpg'" alt="Roller Ball Adventure - play free online" width="230" height="173">
+      <span class="card-title">Roller Ball Adventure</span>
+    </a>
+      <a class="card" href="/game/disc-battle-ultimate/" title="Disc Battle Ultimate">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/yt8s3oimt2vvpxfwyktrqv4om5hq9uu6/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/yt8s3oimt2vvpxfwyktrqv4om5hq9uu6/512x384.jpg'" alt="Disc Battle Ultimate - play free online" width="230" height="173">
+      <span class="card-title">Disc Battle Ultimate</span>
+    </a>
+      <a class="card" href="/game/noob-vs-pro-squid-challenge/" title="Noob vs Pro Squid Challenge">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/1bfyeyip9alz66ejp66n57waxv4izy88/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/1bfyeyip9alz66ejp66n57waxv4izy88/512x384.jpg'" alt="Noob vs Pro Squid Challenge - play free online" width="230" height="173">
+      <span class="card-title">Noob vs Pro Squid Challenge</span>
+    </a>
+      <a class="card" href="/game/bazooka-survivors/" title="BAZOOKA SURVIVORS">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/vxkqaeev5g7jth3m0rw871186lz224bg/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/vxkqaeev5g7jth3m0rw871186lz224bg/512x384.jpg'" alt="BAZOOKA SURVIVORS - play free online" width="230" height="173">
+      <span class="card-title">BAZOOKA SURVIVORS</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Boys">
-    <h2 class="section-title"><span class="bar"></span>🎮 Boys <a class="view-all" href="/category/boys/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🎮 Boys <a class="view-all" href="/category/boys/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/stupid-zombies-game/" title="Stupid Zombies Game">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/w40uqcj11jyv8bbtwwhm77jttlo31h13/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/w40uqcj11jyv8bbtwwhm77jttlo31h13/512x384.jpg'" alt="Stupid Zombies Game - play free online" width="230" height="173">
       <span class="card-title">Stupid Zombies Game</span>
@@ -385,12 +567,28 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/iiifrxhcnzl5laslqf3eaedtevjzb2bu/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/iiifrxhcnzl5laslqf3eaedtevjzb2bu/512x384.jpg'" alt="Baldi&#39;s Basics v1.4.3 - play free online" width="230" height="173">
       <span class="card-title">Baldi&#39;s Basics v1.4.3</span>
     </a>
+      <a class="card" href="/game/match-to-paint-game/" title="Match To Paint Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/ejc7qtqyqj9ckxyk4awlw77q0rucgo4r/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/ejc7qtqyqj9ckxyk4awlw77q0rucgo4r/512x384.jpg'" alt="Match To Paint Game - play free online" width="230" height="173">
+      <span class="card-title">Match To Paint Game</span>
+    </a>
+      <a class="card" href="/game/kids-cars-game-online/" title="Kids Cars Game Online">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/2n7exc5eofolojlxc1spthfjujm0s0po/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/2n7exc5eofolojlxc1spthfjujm0s0po/512x384.jpg'" alt="Kids Cars Game Online - play free online" width="230" height="173">
+      <span class="card-title">Kids Cars Game Online</span>
+    </a>
+      <a class="card" href="/game/craft-island-3d-game/" title="Craft Island 3D Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/46kpfecieeb3ao2iyykpp29wvxftotn1/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/46kpfecieeb3ao2iyykpp29wvxftotn1/512x384.jpg'" alt="Craft Island 3D Game - play free online" width="230" height="173">
+      <span class="card-title">Craft Island 3D Game</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Clicker">
-    <h2 class="section-title"><span class="bar"></span>👆 Clicker <a class="view-all" href="/category/clicker/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>👆 Clicker <a class="view-all" href="/category/clicker/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/kill-the-king/" title="Kill The King">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/th53fdzqzvzoq9bn1caf6uynwf82gx5u/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/th53fdzqzvzoq9bn1caf6uynwf82gx5u/512x384.jpg'" alt="Kill The King - play free online" width="230" height="173">
       <span class="card-title">Kill The King</span>
@@ -411,22 +609,30 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/lc3z0glrxydeamakuq96ypstn0ob81eq/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/lc3z0glrxydeamakuq96ypstn0ob81eq/512x384.jpg'" alt="Super Mario Bros Movie - play free online" width="230" height="173">
       <span class="card-title">Super Mario Bros Movie</span>
     </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Cooking">
-    <h2 class="section-title"><span class="bar"></span>🍳 Cooking <a class="view-all" href="/category/cooking/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🍳 Cooking <a class="view-all" href="/category/cooking/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/kids-kitchen-cozy-cooking/" title="Kids Kitchen Cozy Cooking">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/d4ynqqhfdqkac3rypbfc6r2w717vukll/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/d4ynqqhfdqkac3rypbfc6r2w717vukll/512x384.jpg'" alt="Kids Kitchen Cozy Cooking - play free online" width="230" height="173">
       <span class="card-title">Kids Kitchen Cozy Cooking</span>
     </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Fighting">
-    <h2 class="section-title"><span class="bar"></span>🎮 Fighting <a class="view-all" href="/category/fighting/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🎮 Fighting <a class="view-all" href="/category/fighting/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/stickboy-hook/" title="Stickboy Hook">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/mufd844mv45sh8oco61ir6iz31bw0aig/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/mufd844mv45sh8oco61ir6iz31bw0aig/512x384.jpg'" alt="Stickboy Hook - play free online" width="230" height="173">
       <span class="card-title">Stickboy Hook</span>
@@ -451,12 +657,16 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/h0evomipes1po2zkz5zhp9fn7e7yu3fc/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/h0evomipes1po2zkz5zhp9fn7e7yu3fc/512x384.jpg'" alt="Stickman Simulator: Final Battle!! - play free online" width="230" height="173">
       <span class="card-title">Stickman Simulator: Final Battle!!</span>
     </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Girls">
-    <h2 class="section-title"><span class="bar"></span>💄 Girls <a class="view-all" href="/category/girls/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>💄 Girls <a class="view-all" href="/category/girls/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/diana-s-city-fashion-beauty/" title="Diana S City Fashion Beauty">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/4642r8665kprf9ro93k21yukzeojxwed/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/4642r8665kprf9ro93k21yukzeojxwed/512x384.jpg'" alt="Diana S City Fashion Beauty - play free online" width="230" height="173">
       <span class="card-title">Diana S City Fashion Beauty</span>
@@ -489,12 +699,44 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/3rmig7tze8ay3mst0fxforz1ikzmcs82/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/3rmig7tze8ay3mst0fxforz1ikzmcs82/512x384.jpg'" alt="Star Art - Art Game - play free online" width="230" height="173">
       <span class="card-title">Star Art - Art Game</span>
     </a>
+      <a class="card" href="/game/phone-case-diy-2-casetify-game/" title="Phone Case DIY 2 - Casetify Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/chqus7dya051pc02snslpsl5448f4d99/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/chqus7dya051pc02snslpsl5448f4d99/512x384.jpg'" alt="Phone Case DIY 2 - Casetify Game - play free online" width="230" height="173">
+      <span class="card-title">Phone Case DIY 2 - Casetify Game</span>
+    </a>
+      <a class="card" href="/game/fit-and-squezze/" title="Fit And Squezze">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/czfds0s3ts51mf4xlpiluabcrkawqjcu/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/czfds0s3ts51mf4xlpiluabcrkawqjcu/512x384.jpg'" alt="Fit And Squezze - play free online" width="230" height="173">
+      <span class="card-title">Fit And Squezze</span>
+    </a>
+      <a class="card" href="/game/wacky-strike/" title="Wacky Strike">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/ugmuu9ndlbqe9rut5a18ncs1v16239h1/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/ugmuu9ndlbqe9rut5a18ncs1v16239h1/512x384.jpg'" alt="Wacky Strike - play free online" width="230" height="173">
+      <span class="card-title">Wacky Strike</span>
+    </a>
+      <a class="card" href="/game/my-talking-sprunki/" title="My Talking Sprunki">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/x04m81fwr0r936d0ujmw5n8r97d5t5u0/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/x04m81fwr0r936d0ujmw5n8r97d5t5u0/512x384.jpg'" alt="My Talking Sprunki - play free online" width="230" height="173">
+      <span class="card-title">My Talking Sprunki</span>
+    </a>
+      <a class="card" href="/game/pop-it-now/" title="Pop It Now">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/60h28crzdjt3ldx00w5usnexf21pod74/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/60h28crzdjt3ldx00w5usnexf21pod74/512x384.jpg'" alt="Pop It Now - play free online" width="230" height="173">
+      <span class="card-title">Pop It Now</span>
+    </a>
+      <a class="card" href="/game/black-friday-store-manager/" title="Black Friday Store Manager">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/tib6wak2cd3ux9mj8di0eeezdvxtra07/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/tib6wak2cd3ux9mj8di0eeezdvxtra07/512x384.jpg'" alt="Black Friday Store Manager - play free online" width="230" height="173">
+      <span class="card-title">Black Friday Store Manager</span>
+    </a>
+      <a class="card" href="/game/friday-night-funkin-vs-garcello/" title="Friday Night Funkin VS Garcello">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/21nkai3mpyhdmijxkyj2accl4tjm5i0z/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/21nkai3mpyhdmijxkyj2accl4tjm5i0z/512x384.jpg'" alt="Friday Night Funkin VS Garcello - play free online" width="230" height="173">
+      <span class="card-title">Friday Night Funkin VS Garcello</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Hypercasual">
-    <h2 class="section-title"><span class="bar"></span>✨ Hypercasual <a class="view-all" href="/category/hypercasual/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>✨ Hypercasual <a class="view-all" href="/category/hypercasual/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/toss-the-ring/" title="Toss The Ring">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/kcemixza9wmvdkf0ckh52ehwjcdr2ij3/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/kcemixza9wmvdkf0ckh52ehwjcdr2ij3/512x384.jpg'" alt="Toss The Ring - play free online" width="230" height="173">
       <span class="card-title">Toss The Ring</span>
@@ -527,12 +769,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/b8oh3al9pfcfq6ji4iryba3peehvymod/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/b8oh3al9pfcfq6ji4iryba3peehvymod/512x384.jpg'" alt="Cooking Clash - play free online" width="230" height="173">
       <span class="card-title">Cooking Clash</span>
     </a>
+      <a class="card" href="/game/crazy-truck-stunt-i-o/" title="Crazy Truck Stunt i.o">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/hjbz6sh30wwjrhbom6ld7o33sruhq40g/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/hjbz6sh30wwjrhbom6ld7o33sruhq40g/512x384.jpg'" alt="Crazy Truck Stunt i.o - play free online" width="230" height="173">
+      <span class="card-title">Crazy Truck Stunt i.o</span>
+    </a>
+      <a class="card" href="/game/triple-car-jam/" title="Triple Car Jam">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/entlpcg6ar9dpg23gi130rxdom4tu0op/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/entlpcg6ar9dpg23gi130rxdom4tu0op/512x384.jpg'" alt="Triple Car Jam - play free online" width="230" height="173">
+      <span class="card-title">Triple Car Jam</span>
+    </a>
+      <a class="card" href="/game/buttocks-time-3d/" title="Buttocks Time 3D">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/6zzuyh8fb5326dyuz5lbbiedp4o0xuaq/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/6zzuyh8fb5326dyuz5lbbiedp4o0xuaq/512x384.jpg'" alt="Buttocks Time 3D - play free online" width="230" height="173">
+      <span class="card-title">Buttocks Time 3D</span>
+    </a>
+      <a class="card" href="/game/cake-protector/" title="Cake Protector">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/8zigldmipiggmre844ek07d6gvqm6eia/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/8zigldmipiggmre844ek07d6gvqm6eia/512x384.jpg'" alt="Cake Protector - play free online" width="230" height="173">
+      <span class="card-title">Cake Protector</span>
+    </a>
+      <a class="card" href="/game/perfect-salon/" title="Perfect Salon">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/l0p28elntiwzztsyi16raes7yycn6we3/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/l0p28elntiwzztsyi16raes7yycn6we3/512x384.jpg'" alt="Perfect Salon - play free online" width="230" height="173">
+      <span class="card-title">Perfect Salon</span>
+    </a>
+      <a class="card" href="/game/tailor-kids-fashion-designer/" title="Tailor Kids - Fashion Designer">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/1s55u1vcjxcuna67ezodn1l0oms3a6mt/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/1s55u1vcjxcuna67ezodn1l0oms3a6mt/512x384.jpg'" alt="Tailor Kids - Fashion Designer - play free online" width="230" height="173">
+      <span class="card-title">Tailor Kids - Fashion Designer</span>
+    </a>
+      <a class="card" href="/game/arrow-patrol/" title="Arrow Patrol">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/y2qp0wr3xe2uw321nrlsikpmwkgl4ij5/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/y2qp0wr3xe2uw321nrlsikpmwkgl4ij5/512x384.jpg'" alt="Arrow Patrol - play free online" width="230" height="173">
+      <span class="card-title">Arrow Patrol</span>
+    </a>
+      <a class="card" href="/game/princess-fashion-rainbow-hairstyle-design/" title="Princess Fashion Rainbow Hairstyle Design">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/o77epeeloj41gwa2kkzm44ot60j1srt3/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/o77epeeloj41gwa2kkzm44ot60j1srt3/512x384.jpg'" alt="Princess Fashion Rainbow Hairstyle Design - play free online" width="230" height="173">
+      <span class="card-title">Princess Fashion Rainbow Hairstyle Design</span>
+    </a>
+      <a class="card" href="/game/princess-punk-fashion-tattoo-desgin/" title="Princess Punk Fashion - Tattoo Desgin">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/svvtup32pi8yn8ycwusat9md0ce6v5xr/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/svvtup32pi8yn8ycwusat9md0ce6v5xr/512x384.jpg'" alt="Princess Punk Fashion - Tattoo Desgin - play free online" width="230" height="173">
+      <span class="card-title">Princess Punk Fashion - Tattoo Desgin</span>
+    </a>
+      <a class="card" href="/game/shadow-war-idle/" title="Shadow War Idle">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/96i3099giub4zocl0g8kbltqscfyox5k/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/96i3099giub4zocl0g8kbltqscfyox5k/512x384.jpg'" alt="Shadow War Idle - play free online" width="230" height="173">
+      <span class="card-title">Shadow War Idle</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Multiplayer">
-    <h2 class="section-title"><span class="bar"></span>👥 Multiplayer <a class="view-all" href="/category/multiplayer/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>👥 Multiplayer <a class="view-all" href="/category/multiplayer/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/crazysteve-io/" title="CrazySteve.io">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/uqzbzhkjckdjj96mn9sm0mcyoz68tagn/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/uqzbzhkjckdjj96mn9sm0mcyoz68tagn/512x384.jpg'" alt="CrazySteve.io - play free online" width="230" height="173">
       <span class="card-title">CrazySteve.io</span>
@@ -565,12 +851,24 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/i004avdmt9jezvey9tjvuzv9h1l2e9kx/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/i004avdmt9jezvey9tjvuzv9h1l2e9kx/512x384.jpg'" alt="Mine-Craft.io - play free online" width="230" height="173">
       <span class="card-title">Mine-Craft.io</span>
     </a>
+      <a class="card" href="/game/squid-game-online-multiplayer/" title="Squid Game Online Multiplayer">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/f9kc49j4awgatd4pl3yfnns0bu0lcz4c/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/f9kc49j4awgatd4pl3yfnns0bu0lcz4c/512x384.jpg'" alt="Squid Game Online Multiplayer - play free online" width="230" height="173">
+      <span class="card-title">Squid Game Online Multiplayer</span>
+    </a>
+      <a class="card" href="/game/sonik-run/" title="SoniK Run">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/apq6vn2vd1iueahd9upn2uhe2gmihnjs/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/apq6vn2vd1iueahd9upn2uhe2gmihnjs/512x384.jpg'" alt="SoniK Run - play free online" width="230" height="173">
+      <span class="card-title">SoniK Run</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Puzzles">
-    <h2 class="section-title"><span class="bar"></span>🎮 Puzzles <a class="view-all" href="/category/puzzles/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🎮 Puzzles <a class="view-all" href="/category/puzzles/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/worm-puzzle-snake-apple/" title="Worm Puzzle Snake Apple">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/kgc33h43coc5eau51ex5ishqfy6eg2al/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/kgc33h43coc5eau51ex5ishqfy6eg2al/512x384.jpg'" alt="Worm Puzzle Snake Apple - play free online" width="230" height="173">
       <span class="card-title">Worm Puzzle Snake Apple</span>
@@ -603,12 +901,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/bbvuvkre1ua9adh5nov7zybvna19nq9y/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/bbvuvkre1ua9adh5nov7zybvna19nq9y/512x384.jpg'" alt="Pattern Puzzle 3D - play free online" width="230" height="173">
       <span class="card-title">Pattern Puzzle 3D</span>
     </a>
+      <a class="card" href="/game/tall-man-runner-game/" title="Tall Man Runner Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/b7s9xydxdhxet36djov6yuqmhq0tr357/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/b7s9xydxdhxet36djov6yuqmhq0tr357/512x384.jpg'" alt="Tall Man Runner Game - play free online" width="230" height="173">
+      <span class="card-title">Tall Man Runner Game</span>
+    </a>
+      <a class="card" href="/game/car-parking-order/" title="Car Parking Order!">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/dioa7y6lrwlvp78ou3gg4b1rgsio6la7/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/dioa7y6lrwlvp78ou3gg4b1rgsio6la7/512x384.jpg'" alt="Car Parking Order! - play free online" width="230" height="173">
+      <span class="card-title">Car Parking Order!</span>
+    </a>
+      <a class="card" href="/game/boat-viking-war/" title="Boat Viking War">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/xf4uxlbclixsiop1i4qbcnorf2hh53nw/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/xf4uxlbclixsiop1i4qbcnorf2hh53nw/512x384.jpg'" alt="Boat Viking War - play free online" width="230" height="173">
+      <span class="card-title">Boat Viking War</span>
+    </a>
+      <a class="card" href="/game/fliplines-game/" title="FlipLines Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/axcokrtl0jvw5iuzbf023ma3she4j00l/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/axcokrtl0jvw5iuzbf023ma3she4j00l/512x384.jpg'" alt="FlipLines Game - play free online" width="230" height="173">
+      <span class="card-title">FlipLines Game</span>
+    </a>
+      <a class="card" href="/game/death-sentence/" title="Death Sentence">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/yymbhe51az45r61rwn6ji2onrevjtcyw/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/yymbhe51az45r61rwn6ji2onrevjtcyw/512x384.jpg'" alt="Death Sentence - play free online" width="230" height="173">
+      <span class="card-title">Death Sentence</span>
+    </a>
+      <a class="card" href="/game/parking-master-school/" title="Parking Master School">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/gtcjutkj6u2qd92apukiqtdzngi0k7mf/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/gtcjutkj6u2qd92apukiqtdzngi0k7mf/512x384.jpg'" alt="Parking Master School - play free online" width="230" height="173">
+      <span class="card-title">Parking Master School</span>
+    </a>
+      <a class="card" href="/game/stickman-prison-warriors/" title="Stickman Prison Warriors">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/ef5utfw1l3drq2dfojdsef2cc0clga6t/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/ef5utfw1l3drq2dfojdsef2cc0clga6t/512x384.jpg'" alt="Stickman Prison Warriors - play free online" width="230" height="173">
+      <span class="card-title">Stickman Prison Warriors</span>
+    </a>
+      <a class="card" href="/game/link-line/" title="Link Line">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/a10etoj5d0w9lz1q98t4eifffsr08do2/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/a10etoj5d0w9lz1q98t4eifffsr08do2/512x384.jpg'" alt="Link Line - play free online" width="230" height="173">
+      <span class="card-title">Link Line</span>
+    </a>
+      <a class="card" href="/game/puzzle-draw/" title="Puzzle Draw">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/7r699i4e5i9l3lmlsaxi5do26x11upi7/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/7r699i4e5i9l3lmlsaxi5do26x11upi7/512x384.jpg'" alt="Puzzle Draw - play free online" width="230" height="173">
+      <span class="card-title">Puzzle Draw</span>
+    </a>
+      <a class="card" href="/game/house-paint-challenge/" title="House Paint Challenge">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/d5yymum1ygbx4ft8az81lg4ogpdbsno5/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/d5yymum1ygbx4ft8az81lg4ogpdbsno5/512x384.jpg'" alt="House Paint Challenge - play free online" width="230" height="173">
+      <span class="card-title">House Paint Challenge</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Racing">
-    <h2 class="section-title"><span class="bar"></span>🏎️ Racing <a class="view-all" href="/category/racing/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🏎️ Racing <a class="view-all" href="/category/racing/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/car-eats-car-dungeon-adventure/" title="Car Eats Car: Dungeon Adventure">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/2ysdz38kvh0t5zfu64oew4wzbbginajp/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/2ysdz38kvh0t5zfu64oew4wzbbginajp/512x384.jpg'" alt="Car Eats Car: Dungeon Adventure - play free online" width="230" height="173">
       <span class="card-title">Car Eats Car: Dungeon Adventure</span>
@@ -641,12 +983,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/td7r994z5ls02swod3lm0gk9h2jl2jmi/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/td7r994z5ls02swod3lm0gk9h2jl2jmi/512x384.jpg'" alt="Dead Paradise - play free online" width="230" height="173">
       <span class="card-title">Dead Paradise</span>
     </a>
+      <a class="card" href="/game/ultimate-flying-car/" title="Ultimate Flying Car">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/yqbipdebtjz8q97zamh7utwjdrs1bh1e/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/yqbipdebtjz8q97zamh7utwjdrs1bh1e/512x384.jpg'" alt="Ultimate Flying Car - play free online" width="230" height="173">
+      <span class="card-title">Ultimate Flying Car</span>
+    </a>
+      <a class="card" href="/game/crazy-moto/" title="Crazy Moto">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/s74g69865ye0ps8z2bvoc4cyu7r5iock/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/s74g69865ye0ps8z2bvoc4cyu7r5iock/512x384.jpg'" alt="Crazy Moto - play free online" width="230" height="173">
+      <span class="card-title">Crazy Moto</span>
+    </a>
+      <a class="card" href="/game/monster-truck-offroad/" title="Monster Truck Offroad">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/a3jgsz6mwp6ygkkc79pga3s4k9st3i43/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/a3jgsz6mwp6ygkkc79pga3s4k9st3i43/512x384.jpg'" alt="Monster Truck Offroad - play free online" width="230" height="173">
+      <span class="card-title">Monster Truck Offroad</span>
+    </a>
+      <a class="card" href="/game/car-stunt-racing-stylized/" title="Car Stunt Racing Stylized">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/wc1jkzey2mu15um074zx1mgujcp2nc8l/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/wc1jkzey2mu15um074zx1mgujcp2nc8l/512x384.jpg'" alt="Car Stunt Racing Stylized - play free online" width="230" height="173">
+      <span class="card-title">Car Stunt Racing Stylized</span>
+    </a>
+      <a class="card" href="/game/police-bus-simulation/" title="Police Bus Simulation">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/8bj8ydqwu9vy28zeoa34bvv3sump5adx/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/8bj8ydqwu9vy28zeoa34bvv3sump5adx/512x384.jpg'" alt="Police Bus Simulation - play free online" width="230" height="173">
+      <span class="card-title">Police Bus Simulation</span>
+    </a>
+      <a class="card" href="/game/touch-draw-game/" title="Touch Draw Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/0kjcp1ykzydqcuu76bjasns00mmosx97/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/0kjcp1ykzydqcuu76bjasns00mmosx97/512x384.jpg'" alt="Touch Draw Game - play free online" width="230" height="173">
+      <span class="card-title">Touch Draw Game</span>
+    </a>
+      <a class="card" href="/game/hill-climb-racings-2/" title="HIll climb Racings 2">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/512x384.jpg'" alt="HIll climb Racings 2 - play free online" width="230" height="173">
+      <span class="card-title">HIll climb Racings 2</span>
+    </a>
+      <a class="card" href="/game/bulldozer-crash-race-mad-3d-racing-game/" title="Bulldozer Crash Race - Mad 3D Racing Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/vorhdghwz5j6sg8djron45mdclm1oe6e/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/vorhdghwz5j6sg8djron45mdclm1oe6e/512x384.jpg'" alt="Bulldozer Crash Race - Mad 3D Racing Game - play free online" width="230" height="173">
+      <span class="card-title">Bulldozer Crash Race - Mad 3D Racing Game</span>
+    </a>
+      <a class="card" href="/game/traffic-racer-king/" title="Traffic Racer King">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/1wndvhs7phy774b3ag3tk2bk12fu2kkx/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/1wndvhs7phy774b3ag3tk2bk12fu2kkx/512x384.jpg'" alt="Traffic Racer King - play free online" width="230" height="173">
+      <span class="card-title">Traffic Racer King</span>
+    </a>
+      <a class="card" href="/game/drifty-race-3d-drifting-game/" title="Drifty Race - 3D Drifting Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/jqhn0n0yansb75cboen1ipwnlqmzciuj/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/jqhn0n0yansb75cboen1ipwnlqmzciuj/512x384.jpg'" alt="Drifty Race - 3D Drifting Game - play free online" width="230" height="173">
+      <span class="card-title">Drifty Race - 3D Drifting Game</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Shooting">
-    <h2 class="section-title"><span class="bar"></span>🎯 Shooting <a class="view-all" href="/category/shooting/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🎯 Shooting <a class="view-all" href="/category/shooting/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/stickman3d-shooter/" title="Stickman3D Shooter">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/xkvcj122fc5jpxjc6070xrjlm8i72fvf/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/xkvcj122fc5jpxjc6070xrjlm8i72fvf/512x384.jpg'" alt="Stickman3D Shooter - play free online" width="230" height="173">
       <span class="card-title">Stickman3D Shooter</span>
@@ -679,12 +1065,56 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/l7tc8czsopt46oopaufh222mq7o60527/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/l7tc8czsopt46oopaufh222mq7o60527/512x384.jpg'" alt="Shoot Bubbles - play free online" width="230" height="173">
       <span class="card-title">Shoot Bubbles</span>
     </a>
+      <a class="card" href="/game/my-huggy-wuggy-nightmare/" title="My Huggy Wuggy Nightmare">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/hw2d4tdcdq4az7sf4zy8abjki1s3hocg/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/hw2d4tdcdq4az7sf4zy8abjki1s3hocg/512x384.jpg'" alt="My Huggy Wuggy Nightmare - play free online" width="230" height="173">
+      <span class="card-title">My Huggy Wuggy Nightmare</span>
+    </a>
+      <a class="card" href="/game/evil-granny-must-die-ch1/" title="Evil Granny Must Die Ch1">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/yponinqihtbd9g8dglr27yj264o6nidq/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/yponinqihtbd9g8dglr27yj264o6nidq/512x384.jpg'" alt="Evil Granny Must Die Ch1 - play free online" width="230" height="173">
+      <span class="card-title">Evil Granny Must Die Ch1</span>
+    </a>
+      <a class="card" href="/game/lets-kill-evil-nun/" title="Lets Kill Evil Nun">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/my16xxhd5lj5vq5q3jrd7orr3ssv636j/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/my16xxhd5lj5vq5q3jrd7orr3ssv636j/512x384.jpg'" alt="Lets Kill Evil Nun - play free online" width="230" height="173">
+      <span class="card-title">Lets Kill Evil Nun</span>
+    </a>
+      <a class="card" href="/game/mr-gunslinger-shooting-games/" title="Mr Gunslinger-shooting games">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/f7vjhd1zwyd8mdnxi29uqmuppxak19x2/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/f7vjhd1zwyd8mdnxi29uqmuppxak19x2/512x384.jpg'" alt="Mr Gunslinger-shooting games - play free online" width="230" height="173">
+      <span class="card-title">Mr Gunslinger-shooting games</span>
+    </a>
+      <a class="card" href="/game/biohazard-z-war/" title="Biohazard Z War">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/vq1xpnav3g0dz1wiku00o3twdam4uh3z/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/vq1xpnav3g0dz1wiku00o3twdam4uh3z/512x384.jpg'" alt="Biohazard Z War - play free online" width="230" height="173">
+      <span class="card-title">Biohazard Z War</span>
+    </a>
+      <a class="card" href="/game/evil-granny-city-terror/" title="Evil Granny: City Terror">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/k1l1ptpuibas9nt1zm31tb8gg398lqdo/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/k1l1ptpuibas9nt1zm31tb8gg398lqdo/512x384.jpg'" alt="Evil Granny: City Terror - play free online" width="230" height="173">
+      <span class="card-title">Evil Granny: City Terror</span>
+    </a>
+      <a class="card" href="/game/squid-game-swarm/" title="Squid Game Swarm">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/r6hqc7e7u9x13ufgdr2fd101k9ovl6n2/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/r6hqc7e7u9x13ufgdr2fd101k9ovl6n2/512x384.jpg'" alt="Squid Game Swarm - play free online" width="230" height="173">
+      <span class="card-title">Squid Game Swarm</span>
+    </a>
+      <a class="card" href="/game/counter-craft-2-zombies/" title="Counter Craft 2 Zombies">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/lccvcjui45roecfojxto6j8t5ceags7u/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/lccvcjui45roecfojxto6j8t5ceags7u/512x384.jpg'" alt="Counter Craft 2 Zombies - play free online" width="230" height="173">
+      <span class="card-title">Counter Craft 2 Zombies</span>
+    </a>
+      <a class="card" href="/game/call-of-ops-3-zombies/" title="Call of Ops 3 Zombies">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/cj2i0xkpesbl0e3m3tqf5pqpc6fzvxoh/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/cj2i0xkpesbl0e3m3tqf5pqpc6fzvxoh/512x384.jpg'" alt="Call of Ops 3 Zombies - play free online" width="230" height="173">
+      <span class="card-title">Call of Ops 3 Zombies</span>
+    </a>
+      <a class="card" href="/game/poppy-strike-2/" title="Poppy Strike 2">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/cx3vqjbc622re67nrmgo2vfp26ixamjq/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/cx3vqjbc622re67nrmgo2vfp26ixamjq/512x384.jpg'" alt="Poppy Strike 2 - play free online" width="230" height="173">
+      <span class="card-title">Poppy Strike 2</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Soccer">
-    <h2 class="section-title"><span class="bar"></span>🎮 Soccer <a class="view-all" href="/category/soccer/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>🎮 Soccer <a class="view-all" href="/category/soccer/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/super-saving-football/" title="SUPER SAVING FOOTBALL">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/ldwjgalpmfkuoqpgt93yws5lns4n8ky8/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/ldwjgalpmfkuoqpgt93yws5lns4n8ky8/512x384.jpg'" alt="SUPER SAVING FOOTBALL - play free online" width="230" height="173">
       <span class="card-title">SUPER SAVING FOOTBALL</span>
@@ -693,12 +1123,16 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/spgx5ytd64fptcz6od43gzyyfsottpi8/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/spgx5ytd64fptcz6od43gzyyfsottpi8/512x384.jpg'" alt="Cristiano Ronaldo Kick N Run - play free online" width="230" height="173">
       <span class="card-title">Cristiano Ronaldo Kick N Run</span>
     </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
 
     <section class="cat-sec" data-cat="Sports">
-    <h2 class="section-title"><span class="bar"></span>⚽ Sports <a class="view-all" href="/category/sports/">View all →</a></h2>
-    <div class="grid">
+    <h2 class="section-title"><span class="bar"></span>⚽ Sports <a class="view-all" href="/category/sports/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
       <a class="card" href="/game/line-to-goal-draw-the-path/" title="Line to Goal : Draw The Path">
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/e58bbxx9n6v054fc6yj26lslq4gvqn28/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/e58bbxx9n6v054fc6yj26lslq4gvqn28/512x384.jpg'" alt="Line to Goal : Draw The Path - play free online" width="230" height="173">
       <span class="card-title">Line to Goal : Draw The Path</span>
@@ -731,8 +1165,76 @@
       <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/r859o5fks18qjz7vtal0q5sjwchiq73v/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/r859o5fks18qjz7vtal0q5sjwchiq73v/512x384.jpg'" alt="Birdie Bounce - play free online" width="230" height="173">
       <span class="card-title">Birdie Bounce</span>
     </a>
+      <a class="card" href="/game/dream-football-game/" title="Dream Football Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/9kf9ege0zx40lxndzubqdvgz542eie30/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/9kf9ege0zx40lxndzubqdvgz542eie30/512x384.jpg'" alt="Dream Football Game - play free online" width="230" height="173">
+      <span class="card-title">Dream Football Game</span>
+    </a>
+      <a class="card" href="/game/soccer-drop-game/" title="Soccer Drop Game">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/u0gsr6ochgr8nli5u5v7js0b1rj3sopf/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/u0gsr6ochgr8nli5u5v7js0b1rj3sopf/512x384.jpg'" alt="Soccer Drop Game - play free online" width="230" height="173">
+      <span class="card-title">Soccer Drop Game</span>
+    </a>
+      <a class="card" href="/game/mini-pool-3d/" title="Mini Pool 3D">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/ehi2vjrem0ya35imcjiofupvjerb5mhr/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/ehi2vjrem0ya35imcjiofupvjerb5mhr/512x384.jpg'" alt="Mini Pool 3D - play free online" width="230" height="173">
+      <span class="card-title">Mini Pool 3D</span>
+    </a>
+      <a class="card" href="/game/mini-golf-3d/" title="Mini Golf 3D">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/e3iz4assj31kbmfzgq647codbozk956c/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/e3iz4assj31kbmfzgq647codbozk956c/512x384.jpg'" alt="Mini Golf 3D - play free online" width="230" height="173">
+      <span class="card-title">Mini Golf 3D</span>
+    </a>
+      <a class="card" href="/game/flick-shot-soccer/" title="Flick Shot Soccer">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/t6skn3ximxeitrfklq4g7myypwvhllk2/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/t6skn3ximxeitrfklq4g7myypwvhllk2/512x384.jpg'" alt="Flick Shot Soccer - play free online" width="230" height="173">
+      <span class="card-title">Flick Shot Soccer</span>
+    </a>
+      <a class="card" href="/game/mini-dice-chess/" title="Mini Dice Chess">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/z2ymyafbvxwonucftx7io0ywt4llngkw/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/z2ymyafbvxwonucftx7io0ywt4llngkw/512x384.jpg'" alt="Mini Dice Chess - play free online" width="230" height="173">
+      <span class="card-title">Mini Dice Chess</span>
+    </a>
+      <a class="card" href="/game/golf-battle/" title="Golf Battle">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/w0ij1igcyt8yd96ppelksxcwulp0inye/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/w0ij1igcyt8yd96ppelksxcwulp0inye/512x384.jpg'" alt="Golf Battle - play free online" width="230" height="173">
+      <span class="card-title">Golf Battle</span>
+    </a>
+      <a class="card" href="/game/football-kick-3d/" title="Football Kick 3D">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/faldmlyi3o26ppqc18vmuvsd9dqierk2/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/faldmlyi3o26ppqc18vmuvsd9dqierk2/512x384.jpg'" alt="Football Kick 3D - play free online" width="230" height="173">
+      <span class="card-title">Football Kick 3D</span>
+    </a>
+      <a class="card" href="/game/santa-vs-zomby/" title="Santa Vs Zomby">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/ssyulsswaf3fi5ycarggemnrmysrv3gd/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/ssyulsswaf3fi5ycarggemnrmysrv3gd/512x384.jpg'" alt="Santa Vs Zomby - play free online" width="230" height="173">
+      <span class="card-title">Santa Vs Zomby</span>
+    </a>
+      <a class="card" href="/game/crazy-kick-ball/" title="Crazy Kick Ball">
+      <img loading="lazy" decoding="async" src="https://img.gamemonetize.com/b31uzigageic19gw6a7ihijn4p1ni0ro/230x230.jpg" onerror="this.onerror=null;this.src='https://img.gamemonetize.com/b31uzigageic19gw6a7ihijn4p1ni0ro/512x384.jpg'" alt="Crazy Kick Ball - play free online" width="230" height="173">
+      <span class="card-title">Crazy Kick Ball</span>
+    </a>
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>
+      </div>
+      <div class="cat-block">
+        <div class="cat-block-intro">
+          <h2>Free Online Games at PlayArcadeX</h2>
+          <p>PlayArcadeX features the latest and best free online games. Enjoy fun games without downloads or installs — just load up your favourites and start playing instantly on desktop or mobile.</p>
+          <a href="/games/" class="cat-block-link">Browse all games →</a>
+        </div>
+        <div class="cat-block-grid">
+          <a class="cat-chip" href="/category/io/"><span class="cat-chip-emoji">🎮</span><span>.IO</span></a>
+          <a class="cat-chip" href="/category/3d/"><span class="cat-chip-emoji">🎮</span><span>3D</span></a>
+          <a class="cat-chip" href="/category/action/"><span class="cat-chip-emoji">⚔️</span><span>Action</span></a>
+          <a class="cat-chip" href="/category/adventure/"><span class="cat-chip-emoji">🗺️</span><span>Adventure</span></a>
+          <a class="cat-chip" href="/category/arcade/"><span class="cat-chip-emoji">🕹️</span><span>Arcade</span></a>
+          <a class="cat-chip" href="/category/boys/"><span class="cat-chip-emoji">🎮</span><span>Boys</span></a>
+          <a class="cat-chip" href="/category/clicker/"><span class="cat-chip-emoji">👆</span><span>Clicker</span></a>
+          <a class="cat-chip" href="/category/cooking/"><span class="cat-chip-emoji">🍳</span><span>Cooking</span></a>
+          <a class="cat-chip" href="/category/fighting/"><span class="cat-chip-emoji">🎮</span><span>Fighting</span></a>
+          <a class="cat-chip" href="/category/girls/"><span class="cat-chip-emoji">💄</span><span>Girls</span></a>
+          <a class="cat-chip" href="/category/hypercasual/"><span class="cat-chip-emoji">✨</span><span>Hypercasual</span></a>
+          <a class="cat-chip" href="/category/multiplayer/"><span class="cat-chip-emoji">👥</span><span>Multiplayer</span></a>
+          <a class="cat-chip" href="/category/puzzles/"><span class="cat-chip-emoji">🎮</span><span>Puzzles</span></a>
+          <a class="cat-chip" href="/category/racing/"><span class="cat-chip-emoji">🏎️</span><span>Racing</span></a>
+          <a class="cat-chip" href="/category/shooting/"><span class="cat-chip-emoji">🎯</span><span>Shooting</span></a>
+          <a class="cat-chip" href="/category/soccer/"><span class="cat-chip-emoji">🎮</span><span>Soccer</span></a>
+          <a class="cat-chip" href="/category/sports/"><span class="cat-chip-emoji">⚽</span><span>Sports</span></a>
+        </div>
       </div>
       <div class="game-info faq-block" style="margin-top:30px">
         <h2>Frequently Asked Questions</h2>

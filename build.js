@@ -224,9 +224,13 @@ function buildHome() {
 
   const categorySections = categories.map(c => `
     <section class="cat-sec" data-cat="${esc(c)}">
-    <h2 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} <a class="view-all" href="/category/${catSlug(c)}/">View all →</a></h2>
-    <div class="grid">
-      ${byCategory[c].slice(0, 8).map(g => cardHTML(g)).join("\n      ")}
+    <h2 class="section-title"><span class="bar"></span>${CATEGORY_EMOJI[c] || "🎮"} ${esc(c)} <a class="view-all" href="/category/${catSlug(c)}/">View more →</a></h2>
+    <div class="row-wrap">
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <div class="row" tabindex="0">
+      ${byCategory[c].slice(0, 18).map(g => cardHTML(g)).join("\n      ")}
+      </div>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
     </section>`).join("\n");
 
@@ -260,6 +264,16 @@ function buildHome() {
       </div>
       <div id="catSections">
       ${categorySections}
+      </div>
+      <div class="cat-block">
+        <div class="cat-block-intro">
+          <h2>Free Online Games at ${SITE_NAME}</h2>
+          <p>${SITE_NAME} features the latest and best free online games. Enjoy fun games without downloads or installs — just load up your favourites and start playing instantly on desktop or mobile.</p>
+          <a href="/games/" class="cat-block-link">Browse all games →</a>
+        </div>
+        <div class="cat-block-grid">
+          ${categories.map(c => `<a class="cat-chip" href="/category/${catSlug(c)}/"><span class="cat-chip-emoji">${CATEGORY_EMOJI[c] || "🎮"}</span><span>${esc(c)}</span></a>`).join("\n          ")}
+        </div>
       </div>
       <div class="game-info faq-block" style="margin-top:30px">
         <h2>Frequently Asked Questions</h2>

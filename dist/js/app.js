@@ -348,4 +348,36 @@
       navigator.serviceWorker.register("/sw.js").catch(function () {});
     });
   }
+
+  /* ---------- Horizontal carousel arrows (stil CrazyGames) ---------- */
+  function setupRows() {
+    var wraps = document.querySelectorAll(".row-wrap");
+    wraps.forEach(function (wrap) {
+      var row = wrap.querySelector(".row");
+      var left = wrap.querySelector(".row-arrow.left");
+      var right = wrap.querySelector(".row-arrow.right");
+      if (!row || !left || !right) return;
+
+      function update() {
+        var max = row.scrollWidth - row.clientWidth - 4;
+        left.classList.toggle("hidden", row.scrollLeft <= 4);
+        right.classList.toggle("hidden", row.scrollLeft >= max);
+      }
+      function step() {
+        // derulam ~80% din latimea vizibila
+        return Math.max(200, Math.round(row.clientWidth * 0.8));
+      }
+      left.addEventListener("click", function () {
+        row.scrollBy({ left: -step(), behavior: "smooth" });
+      });
+      right.addEventListener("click", function () {
+        row.scrollBy({ left: step(), behavior: "smooth" });
+      });
+      row.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    });
+  }
+  if (document.readyState !== "loading") setupRows();
+  else document.addEventListener("DOMContentLoaded", setupRows);
 })();

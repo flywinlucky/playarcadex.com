@@ -560,6 +560,99 @@ body.no-scroll { overflow: hidden; }
   contain-intrinsic-size: auto 540px;
 }
 
+/* ---------- Horizontal carousel rows (stil CrazyGames) ---------- */
+.row-wrap {
+  position: relative;
+}
+.row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(160px, 1fr);
+  grid-template-rows: 1fr;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 4px 2px 8px;
+  scroll-snap-type: x proximity;
+}
+.row::-webkit-scrollbar { display: none; }
+.row .card { scroll-snap-align: start; width: 100%; }
+
+/* sageti de navigare — apar la hover pe rand (desktop) */
+.row-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 64px;
+  background: rgba(14, 15, 26, 0.82);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.18s, background 0.15s;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+}
+.row-arrow.left { left: -6px; }
+.row-arrow.right { right: -6px; }
+.row-arrow:hover { background: var(--accent); }
+.row-arrow.hidden { display: none; }
+.row-wrap:hover .row-arrow { opacity: 1; }
+@media (hover: none) { .row-arrow { display: none; } } /* pe touch ascundem, userul da swipe */
+
+/* ---------- Category block (stil CrazyGames "Free Online Games at...") ---------- */
+.cat-block {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 16px;
+  margin-top: 30px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+}
+.cat-block-intro h2 { font-size: 1.15rem; margin-bottom: 8px; }
+.cat-block-intro p { color: var(--text-dim); font-size: 0.92rem; }
+.cat-block-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--accent-hover);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.cat-block-link:hover { text-decoration: underline; }
+.cat-block-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  align-content: start;
+}
+.cat-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 11px 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  transition: background 0.14s, color 0.14s, transform 0.14s;
+}
+.cat-chip:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+.cat-chip-emoji { font-size: 1.05rem; }
+
+@media (max-width: 700px) {
+  .cat-block { grid-template-columns: 1fr; }
+}
+
 /* ---------- FAQ ---------- */
 .faq-block h2 { margin-bottom: 14px; }
 .faq-item {
