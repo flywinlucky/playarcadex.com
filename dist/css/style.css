@@ -42,8 +42,7 @@ button { font: inherit; cursor: pointer; border: 0; }
   position: fixed;
   inset: 0 0 auto 0;
   height: var(--header-h);
-  background: rgba(14, 15, 26, 0.92);
-  backdrop-filter: blur(10px);
+  background: #1a1b28;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -146,6 +145,7 @@ button { font: inherit; cursor: pointer; border: 0; }
 }
 
 /* ---------- Sidebar ---------- */
+.sidebar-overlay { display: none; }
 .sidebar {
   position: fixed;
   top: var(--header-h);
@@ -616,6 +616,8 @@ body.no-scroll { overflow: hidden; }
   padding: 4px 2px 8px;
   scroll-snap-type: x proximity;
   justify-content: start;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
 }
 .row::-webkit-scrollbar { display: none; }
 .row .card {
@@ -811,6 +813,17 @@ body.no-scroll { overflow: hidden; }
     box-shadow: 8px 0 30px rgba(0, 0, 0, 0.5);
   }
   .sidebar.open { transform: translateX(0); }
+  /* overlay care intuneca si BLOCHEAZA restul ecranului cand sidebar-ul e deschis */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: var(--header-h) 0 0 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 85;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .sidebar-overlay.show { display: block; opacity: 1; }
   .main, .footer { margin-left: 0; }
   .main { padding: calc(var(--header-h) + 14px) 12px 50px; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }

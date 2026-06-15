@@ -23,14 +23,31 @@
   var menuBtn = document.getElementById("menuBtn");
   var sidebar = document.getElementById("sidebar");
   if (menuBtn && sidebar) {
-    menuBtn.addEventListener("click", function () {
-      sidebar.classList.toggle("open");
+    // overlay care acopera restul ecranului cand sidebar-ul e deschis
+    var sbOverlay = document.createElement("div");
+    sbOverlay.className = "sidebar-overlay";
+    document.body.appendChild(sbOverlay);
+
+    function openSidebar() {
+      sidebar.classList.add("open");
+      sbOverlay.classList.add("show");
+      document.body.classList.add("no-scroll");
+    }
+    function closeSidebar() {
+      sidebar.classList.remove("open");
+      sbOverlay.classList.remove("show");
+      document.body.classList.remove("no-scroll");
+    }
+    menuBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (sidebar.classList.contains("open")) closeSidebar();
+      else openSidebar();
     });
-    document.addEventListener("click", function (e) {
-      if (sidebar.classList.contains("open") &&
-          !sidebar.contains(e.target) && e.target !== menuBtn) {
-        sidebar.classList.remove("open");
-      }
+    // tap pe overlay (zona goala) inchide sidebar-ul
+    sbOverlay.addEventListener("click", closeSidebar);
+    // tap pe un link din sidebar inchide si el (navigare curata)
+    sidebar.addEventListener("click", function (e) {
+      if (e.target.closest("a")) closeSidebar();
     });
   }
 
