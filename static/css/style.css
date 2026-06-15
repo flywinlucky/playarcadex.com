@@ -849,6 +849,39 @@ body.no-scroll { overflow: hidden; }
 .static-page p { margin-top: 8px; }
 .static-page a { color: var(--accent-hover); }
 .static-page a:hover { text-decoration: underline; }
+/* liste ordonate frumoase in paginile legale */
+.legal-list {
+  margin: 12px 0 8px;
+  padding-left: 4px;
+  list-style: none;
+  counter-reset: legal;
+}
+.legal-list li {
+  counter-increment: legal;
+  position: relative;
+  padding: 8px 0 8px 40px;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.legal-list li:last-child { border-bottom: 0; }
+.legal-list li::before {
+  content: counter(legal);
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* ---------- Footer ---------- */
 .footer {

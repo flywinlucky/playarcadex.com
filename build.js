@@ -636,7 +636,14 @@ const STATIC_PAGES = [
       <p>${SITE_NAME} respects the intellectual property rights of others. Games on this site are distributed through our partner GameMonetize, and we will promptly address valid copyright concerns.</p>
       <h2>Filing a notice</h2>
       <p>If you believe content on this site infringes your copyright, send a notice to <a class="cmail" data-u="flystudiosgames" data-d="gmail.com" href="#">[enable JavaScript to view email]</a> including:</p>
-      <p>1) identification of the copyrighted work; 2) the exact URL(s) on ${SITE_URL} where it appears; 3) your contact information; 4) a statement of good-faith belief that the use is not authorized; 5) a statement, under penalty of perjury, that the information is accurate and you are the rights holder or authorized to act on their behalf; 6) your physical or electronic signature.</p>
+      <ol class="legal-list">
+        <li>Identification of the copyrighted work.</li>
+        <li>The exact URL(s) on ${SITE_URL} where it appears.</li>
+        <li>Your contact information (name, email, address).</li>
+        <li>A statement of good-faith belief that the use is not authorized by the copyright owner, its agent, or the law.</li>
+        <li>A statement, under penalty of perjury, that the information is accurate and that you are the rights holder or authorized to act on their behalf.</li>
+        <li>Your physical or electronic signature.</li>
+      </ol>
       <h2>What happens next</h2>
       <p>Upon receiving a valid notice we will remove or disable access to the content in question and, where applicable, forward the notice to the game's distributor.</p>`
   }
