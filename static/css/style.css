@@ -99,6 +99,14 @@ button { font: inherit; cursor: pointer; border: 0; }
   transition: border-color 0.15s;
 }
 .search-wrap input:focus { border-color: var(--accent); }
+/* ascundem butonul X nativ de clear pe care iOS/Safari il adauga la type=search
+   (el doar sterge textul si deruteaza — pastram doar X-ul nostru de inchidere) */
+.search-wrap input::-webkit-search-cancel-button,
+.search-wrap input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
 .search-wrap .search-ico {
   position: absolute; right: 14px; top: 50%;
   transform: translateY(-50%);
