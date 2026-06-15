@@ -536,7 +536,7 @@ const STATIC_PAGES = [
     html: `
       <h1>Contact Us</h1>
       <p>We'd love to hear from you. For any questions, feedback, bug reports, partnership inquiries or content removal requests, reach us at:</p>
-      <p><strong>Email:</strong> <a href="mailto:contact@playarcadex.com">contact@playarcadex.com</a></p>
+      <p><strong>Email:</strong> <a class="cmail" data-u="flystudiosgames" data-d="gmail.com" href="#">[enable JavaScript to view email]</a></p>
       <h2>Before you write</h2>
       <p>If a game isn't loading, try refreshing the page or another browser first — most games need a modern browser with JavaScript enabled. For copyright matters, please see our <a href="/dmca/">DMCA page</a>.</p>
       <p>We usually reply within 48 hours.</p>`
@@ -558,13 +558,13 @@ const STATIC_PAGES = [
       <h2>Cookies</h2>
       <p>We use Google Analytics cookies as described above. Additionally, third-party game and ad providers embedded on this site may set their own cookies. You can control or delete cookies through your browser settings.</p>
       <h2>Children's privacy</h2>
-      <p>This website offers general-audience games and does not knowingly collect personal information from children. Parents and guardians who believe a third-party service embedded here has collected information from a child should contact that provider and us at contact@playarcadex.com.</p>
+      <p>This website offers general-audience games and does not knowingly collect personal information from children. Parents and guardians who believe a third-party service embedded here has collected information from a child should contact that provider and us at <span class="cmail" data-u="flystudiosgames" data-d="gmail.com">[enable JavaScript to view email]</span>.</p>
       <h2>Your rights</h2>
       <p>Depending on your location (e.g. GDPR in the EU, CCPA in California), you may have rights to access, correct or delete personal data held by the third-party providers mentioned above. Please direct such requests to the relevant provider; we will assist where we can.</p>
       <h2>Changes</h2>
       <p>We may update this policy from time to time. The latest version will always be available on this page.</p>
       <h2>Contact</h2>
-      <p>Questions about this policy: <a href="mailto:contact@playarcadex.com">contact@playarcadex.com</a></p>`
+      <p>Questions about this policy: <a class="cmail" data-u="flystudiosgames" data-d="gmail.com" href="#">[enable JavaScript to view email]</a></p>`
   },
   {
     slug: "terms-of-service",
@@ -588,7 +588,7 @@ const STATIC_PAGES = [
       <h2>7. Changes</h2>
       <p>We may update these terms; continued use of the site after changes means you accept the updated terms.</p>
       <h2>8. Contact</h2>
-      <p><a href="mailto:contact@playarcadex.com">contact@playarcadex.com</a></p>`
+      <p><a class="cmail" data-u="flystudiosgames" data-d="gmail.com" href="#">[enable JavaScript to view email]</a></p>`
   },
   {
     slug: "dmca",
@@ -598,7 +598,7 @@ const STATIC_PAGES = [
       <h1>DMCA / Content Removal</h1>
       <p>${SITE_NAME} respects the intellectual property rights of others. Games on this site are distributed through our partner GameMonetize, and we will promptly address valid copyright concerns.</p>
       <h2>Filing a notice</h2>
-      <p>If you believe content on this site infringes your copyright, send a notice to <a href="mailto:contact@playarcadex.com">contact@playarcadex.com</a> including:</p>
+      <p>If you believe content on this site infringes your copyright, send a notice to <a class="cmail" data-u="flystudiosgames" data-d="gmail.com" href="#">[enable JavaScript to view email]</a> including:</p>
       <p>1) identification of the copyrighted work; 2) the exact URL(s) on ${SITE_URL} where it appears; 3) your contact information; 4) a statement of good-faith belief that the use is not authorized; 5) a statement, under penalty of perjury, that the information is accurate and you are the rights holder or authorized to act on their behalf; 6) your physical or electronic signature.</p>
       <h2>What happens next</h2>
       <p>Upon receiving a valid notice we will remove or disable access to the content in question and, where applicable, forward the notice to the game's distributor.</p>`

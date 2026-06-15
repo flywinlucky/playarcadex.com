@@ -4,6 +4,21 @@
 
   var BASE = document.documentElement.getAttribute("data-base") || "";
 
+  /* ---------- Email anti-spam: reasamblam emailul din parti (botii nu-l vad) ---------- */
+  (function () {
+    var els = document.querySelectorAll(".cmail");
+    els.forEach(function (el) {
+      var u = el.getAttribute("data-u");
+      var d = el.getAttribute("data-d");
+      if (!u || !d) return;
+      var addr = u + "@" + d;
+      if (el.tagName === "A") {
+        el.setAttribute("href", "mailto:" + addr);
+      }
+      el.textContent = addr;
+    });
+  })();
+
   /* ---------- Mobile sidebar ---------- */
   var menuBtn = document.getElementById("menuBtn");
   var sidebar = document.getElementById("sidebar");
@@ -353,16 +368,32 @@
   var searchToggle = document.getElementById("searchToggle");
   var searchWrap = document.getElementById("searchWrap");
   if (searchToggle && searchWrap) {
-    searchToggle.addEventListener("click", function () {
-      searchWrap.classList.toggle("open");
-      if (searchWrap.classList.contains("open")) {
-        var inp = searchWrap.querySelector("input");
-        if (inp) inp.focus();
-      }
-    });
-    // inchide la Escape
+    function openSearch() {
+      searchWrap.classList.add("open");
+      var inp = searchWrap.querySelector("input");
+      if (inp) setTimeout(function () { inp.focus(); }, 50);
+    }
+    function closeSearch() { searchWrap.classList.remove("open"); }
+    function toggleSearch(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      if (searchWrap.classList.contains("open")) closeSearch();
+      else openSearch();
+    }
+    // click + touchend pentru iOS Safari (unde click pe butoane custom uneori rateaza)
+    searchToggle.addEventListener("click", toggleSearch);
+    searchToggle.addEventListener("touchend", toggleSearch, { passive: false });
+
+    // buton X de inchidere in bara de search (esential pe mobil)
+    var closeBtn = document.createElement("button");
+    closeBtn.type = "button";
+    closeBtn.className = "search-close";
+    closeBtn.setAttribute("aria-label", "Close search");
+    closeBtn.textContent = "✕";
+    closeBtn.addEventListener("click", function (e) { e.preventDefault(); closeSearch(); });
+    searchWrap.appendChild(closeBtn);
+
     searchWrap.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") searchWrap.classList.remove("open");
+      if (e.key === "Escape") closeSearch();
     });
   }
 
