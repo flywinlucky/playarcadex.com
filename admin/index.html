@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayArcadeX — Admin Panel</title>
+<style>
+  :root{
+    --bg:#0e0f1a; --soft:#171929; --surface:#1f2236; --surface2:#272b45;
+    --accent:#6842ff; --accent2:#7d5cff; --text:#f3f4fa; --dim:#9aa0b8;
+    --green:#22c55e; --red:#ef4444; --radius:10px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:14px}
+  a{color:var(--accent2)}
+  button{font:inherit;cursor:pointer;border:0;border-radius:8px;padding:8px 14px;font-weight:600;background:var(--surface2);color:var(--text);transition:background .15s,transform .1s}
+  button:hover{background:var(--accent)}
+  button:active{transform:scale(.97)}
+  button.primary{background:var(--accent)}
+  button.primary:hover{background:var(--accent2)}
+  button.danger{background:transparent;color:var(--red);padding:4px 8px}
+  button.danger:hover{background:var(--red);color:#fff}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,.15)}
+  input,select,textarea{font:inherit;background:var(--surface);color:var(--text);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:7px 10px;outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+
+  header{position:sticky;top:0;z-index:50;background:var(--soft);border-bottom:1px solid rgba(255,255,255,.08);padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{font-size:1.1rem;display:flex;align-items:center;gap:8px}
+  header .badge{background:var(--accent);width:30px;height:30px;border-radius:7px;display:grid;place-items:center;font-weight:800}
+  header .stats{color:var(--dim);font-size:.85rem}
+  header .spacer{margin-left:auto}
+  .save-status{font-size:.82rem;color:var(--dim);margin-right:8px}
+
+  .tabs{display:flex;gap:6px;padding:12px 20px 0;flex-wrap:wrap}
+  .tab{background:transparent;color:var(--dim);border-bottom:2px solid transparent;border-radius:8px 8px 0 0}
+  .tab.active{color:var(--text);background:var(--surface);border-bottom-color:var(--accent)}
+
+  .panel{padding:16px 20px;display:none}
+  .panel.active{display:block}
+
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+  .toolbar input[type=search]{flex:1;min-width:200px}
+
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:middle}
+  th{position:sticky;top:62px;background:var(--soft);color:var(--dim);font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;z-index:10}
+  tr:hover{background:rgba(255,255,255,.02)}
+  td img{width:54px;height:40px;object-fit:cover;border-radius:6px;display:block}
+  td input,td select{width:100%;padding:5px 8px;font-size:.85rem}
+  .col-thumb{width:64px}
+  .col-order{width:80px;white-space:nowrap}
+  .col-feat{width:60px;text-align:center}
+  .col-act{width:70px;text-align:center}
+  .move-btn{padding:2px 7px;background:var(--surface2);font-size:.9rem}
+  .pos-input{width:54px!important;text-align:center}
+  .star{font-size:1.2rem;cursor:pointer;color:var(--dim)}
+  .star.on{color:#fbbf24}
+
+  .chip{display:inline-block;background:var(--surface2);color:var(--dim);padding:2px 9px;border-radius:999px;font-size:.78rem;margin:2px}
+
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .cat-card{background:var(--surface);border-radius:var(--radius);padding:14px}
+  .cat-card h3{font-size:1rem;margin-bottom:4px}
+  .cat-card .count{color:var(--dim);font-size:.82rem;margin-bottom:10px}
+  .cat-card .row{display:flex;gap:6px;flex-wrap:wrap}
+
+  .drop{border:2px dashed rgba(255,255,255,.18);border-radius:var(--radius);padding:30px;text-align:center;color:var(--dim);transition:border-color .15s,background .15s;margin-bottom:14px}
+  .drop.over{border-color:var(--accent);background:rgba(104,66,255,.08)}
+  .import-list{margin:10px 0}
+  .import-list li{padding:6px 0;color:var(--dim)}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--soft);border-radius:14px;padding:22px;width:min(560px,100%);max-height:90vh;overflow:auto}
+  .modal h2{margin-bottom:14px}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:.82rem;color:var(--dim);margin-bottom:4px}
+  .field input,.field select,.field textarea{width:100%}
+  .field textarea{min-height:70px;resize:vertical}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;z-index:200;opacity:0;transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  .toast.err{background:var(--red)}
+  .hint{color:var(--dim);font-size:.82rem;margin-top:8px}
+  .pager{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:14px;color:var(--dim)}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="badge">X</span> PlayArcadeX Admin</h1>
+  <span class="stats" id="stats">—</span>
+  <div class="spacer"></div>
+  <span class="save-status" id="saveStatus"></span>
+  <button class="primary" id="saveBtn">💾 Salvează games.json</button>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="games">🎮 Jocuri</button>
+  <button class="tab" data-tab="categories">📂 Categorii</button>
+  <button class="tab" data-tab="import">⬆️ Import premium</button>
+</div>
+
+<!-- ===== TAB JOCURI ===== -->
+<div class="panel active" id="tab-games">
+  <div class="toolbar">
+    <input type="search" id="search" placeholder="🔍 Caută după titlu, categorie, tag...">
+    <select id="filterCat"><option value="">Toate categoriile</option></select>
+    <select id="filterFeat">
+      <option value="">Featured: toate</option>
+      <option value="1">Doar Featured ⭐</option>
+      <option value="0">Doar non-Featured</option>
+    </select>
+    <select id="filterOrient">
+      <option value="">Orientare: toate</option>
+      <option value="landscape">Landscape</option>
+      <option value="portrait">Portrait</option>
+      <option value="adaptive">Adaptive</option>
+    </select>
+    <span class="hint" id="resultCount"></span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th class="col-order">Ordine</th>
+        <th class="col-thumb"></th>
+        <th>Titlu</th>
+        <th style="width:140px">Categorie</th>
+        <th style="width:120px">Orientare</th>
+        <th class="col-feat">⭐</th>
+        <th class="col-act"></th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="pager" id="pager"></div>
+</div>
+
+<!-- ===== TAB CATEGORII ===== -->
+<div class="panel" id="tab-categories">
+  <div class="toolbar">
+    <span class="hint">Redenumește sau contopește categorii. Modificările se aplică tuturor jocurilor din acea categorie. Nu uita să salvezi.</span>
+  </div>
+  <div class="cat-grid" id="catGrid"></div>
+</div>
+
+<!-- ===== TAB IMPORT ===== -->
+<div class="panel" id="tab-import">
+  <p class="hint" style="margin-bottom:12px">
+    Generează liste JSON din <a href="https://gamemonetize.com/rss-builder" target="_blank">RSS Builder</a>
+    (Best Games, Hot Games, Exclusive, Editor's Picks, Most Popular), salvează-le ca .txt/.json
+    și trage-le aici. Vor fi contopite peste baza existentă cu scor de calitate (cele care apar în
+    mai multe liste urcă sus). Numele fișierului determină greutatea (ex. „editor", „best", „hot").
+  </p>
+  <div class="drop" id="drop">
+    📥 Trage fișierele JSON aici, sau click pentru a selecta
+    <input type="file" id="fileInput" accept=".json,.txt" multiple style="display:none">
+  </div>
+  <ul class="import-list" id="importList"></ul>
+  <button class="primary" id="importBtn" style="display:none">⬆️ Contopește în catalog</button>
+</div>
+
+<!-- ===== MODAL EDITARE ===== -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2>Editează joc</h2>
+    <div class="field"><label>Titlu</label><input id="m-title"></div>
+    <div class="field"><label>Categorie</label><input id="m-category" list="catList"></div>
+    <datalist id="catList"></datalist>
+    <div class="field"><label>Descriere</label><textarea id="m-description"></textarea></div>
+    <div class="field"><label>Instrucțiuni</label><textarea id="m-instructions"></textarea></div>
+    <div class="field"><label>Orientare</label><select id="m-orientation">
+      <option value="landscape">Landscape</option>
+      <option value="portrait">Portrait</option>
+      <option value="adaptive">Adaptive</option>
+    </select></div>
+    <div class="field"><label>Tag-uri (separate prin virgulă)</label><input id="m-tags"></div>
+    <div class="field"><label>URL joc (iframe)</label><input id="m-url"></div>
+    <div class="field"><label>Thumbnail URL</label><input id="m-thumb"></div>
+    <div class="modal-actions">
+      <button class="ghost" id="m-cancel">Anulează</button>
+      <button class="primary" id="m-save">Aplică</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let GAMES = [];
+let dirty = false;
+let page = 0;
+const PER = 50;
+let editIdx = -1;
+let importLists = [];
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function toast(msg, err){ const t=$("#toast"); t.textContent=msg; t.className="toast show"+(err?" err":""); setTimeout(()=>t.className="toast",2200); }
+function setDirty(d){ dirty=d; $("#saveStatus").textContent = d ? "● modificări nesalvate" : ""; }
+
+async function load(){
+  const r = await fetch("/api/games");
+  GAMES = await r.json();
+  refreshCats();
+  render();
+  renderCategories();
+  updateStats();
+}
+
+function updateStats(){
+  const feat = GAMES.filter(g=>g.featured).length;
+  const cats = new Set(GAMES.map(g=>g.category)).size;
+  $("#stats").textContent = `${GAMES.length} jocuri · ${cats} categorii · ${feat} featured`;
+}
+
+function refreshCats(){
+  const cats = [...new Set(GAMES.map(g=>g.category))].sort();
+  const fc = $("#filterCat");
+  fc.innerHTML = '<option value="">Toate categoriile</option>' + cats.map(c=>`<option>${c}</option>`).join("");
+  $("#catList").innerHTML = cats.map(c=>`<option value="${c}">`).join("");
+}
+
+function filtered(){
+  const q = $("#search").value.trim().toLowerCase();
+  const fc = $("#filterCat").value;
+  const ff = $("#filterFeat").value;
+  const fo = $("#filterOrient").value;
+  return GAMES.filter(g=>{
+    if(fc && g.category!==fc) return false;
+    if(ff==="1" && !g.featured) return false;
+    if(ff==="0" && g.featured) return false;
+    if(fo && g.orientation!==fo) return false;
+    if(q){
+      const hay=(g.title+" "+g.category+" "+(g.tags||[]).join(" ")).toLowerCase();
+      if(hay.indexOf(q)===-1) return false;
+    }
+    return true;
+  });
+}
+
+function render(){
+  const list = filtered();
+  $("#resultCount").textContent = `${list.length} rezultate`;
+  const start = page*PER;
+  const pageItems = list.slice(start, start+PER);
+  const tbody = $("#rows");
+  tbody.innerHTML = pageItems.map(g=>{
+    const realIdx = GAMES.indexOf(g);
+    const small = String(g.thumb).replace(/512x384/i,"230x230");
+    return `<tr data-idx="${realIdx}">
+      <td class="col-order">
+        <button class="move-btn" data-act="up">▲</button>
+        <button class="move-btn" data-act="down">▼</button>
+        <input class="pos-input" type="number" value="${realIdx+1}" data-act="pos" title="poziție">
+      </td>
+      <td class="col-thumb"><img src="${small}" loading="lazy" onerror="this.src='${g.thumb}'"></td>
+      <td><strong>${escapeHtml(g.title)}</strong></td>
+      <td><input data-field="category" value="${escapeHtml(g.category)}" list="catList"></td>
+      <td><select data-field="orientation">
+        <option ${g.orientation==='landscape'?'selected':''}>landscape</option>
+        <option ${g.orientation==='portrait'?'selected':''}>portrait</option>
+        <option ${g.orientation==='adaptive'?'selected':''}>adaptive</option>
+      </select></td>
+      <td class="col-feat"><span class="star ${g.featured?'on':''}" data-act="star">${g.featured?'★':'☆'}</span></td>
+      <td class="col-act">
+        <button class="ghost" data-act="edit" style="padding:4px 8px">✎</button>
+        <button class="danger" data-act="del">🗑</button>
+      </td>
+    </tr>`;
+  }).join("");
+  renderPager(list.length);
+}
+
+function renderPager(total){
+  const pages = Math.ceil(total/PER);
+  if(pages<=1){ $("#pager").innerHTML=""; return; }
+  $("#pager").innerHTML = `
+    <button ${page<=0?'disabled':''} id="prev">← Înapoi</button>
+    <span>Pagina ${page+1} / ${pages}</span>
+    <button ${page>=pages-1?'disabled':''} id="next">Înainte →</button>`;
+  if($("#prev")) $("#prev").onclick=()=>{page--;render();window.scrollTo(0,0);};
+  if($("#next")) $("#next").onclick=()=>{page++;render();window.scrollTo(0,0);};
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// ---- evenimente tabel ----
+$("#rows").addEventListener("click", e=>{
+  const tr = e.target.closest("tr"); if(!tr) return;
+  const idx = +tr.dataset.idx;
+  const act = e.target.dataset.act;
+  if(act==="up" && idx>0){ swap(idx,idx-1); }
+  else if(act==="down" && idx<GAMES.length-1){ swap(idx,idx+1); }
+  else if(act==="star"){ GAMES[idx].featured=!GAMES[idx].featured; setDirty(true); render(); updateStats(); }
+  else if(act==="del"){ if(confirm(`Ștergi „${GAMES[idx].title}"?`)){ GAMES.splice(idx,1); setDirty(true); render(); updateStats(); refreshCats(); } }
+  else if(act==="edit"){ openEdit(idx); }
+});
+$("#rows").addEventListener("change", e=>{
+  const tr=e.target.closest("tr"); if(!tr) return;
+  const idx=+tr.dataset.idx;
+  const field=e.target.dataset.field;
+  if(field){ GAMES[idx][field]=e.target.value; setDirty(true); if(field==='category'){refreshCats();updateStats();} }
+  if(e.target.dataset.act==="pos"){
+    let np=parseInt(e.target.value,10)-1;
+    np=Math.max(0,Math.min(GAMES.length-1,np));
+    move(idx,np); setDirty(true); render();
+  }
+});
+function swap(a,b){ [GAMES[a],GAMES[b]]=[GAMES[b],GAMES[a]]; setDirty(true); render(); }
+function move(from,to){ const [it]=GAMES.splice(from,1); GAMES.splice(to,0,it); }
+
+// ---- filtre ----
+["search","filterCat","filterFeat","filterOrient"].forEach(id=>{
+  $("#"+id).addEventListener("input",()=>{page=0;render();});
+});
+
+// ---- modal editare ----
+function openEdit(idx){
+  editIdx=idx; const g=GAMES[idx];
+  $("#m-title").value=g.title; $("#m-category").value=g.category;
+  $("#m-description").value=g.description||""; $("#m-instructions").value=g.instructions||"";
+  $("#m-orientation").value=g.orientation||"adaptive";
+  $("#m-tags").value=(g.tags||[]).join(", ");
+  $("#m-url").value=g.url||""; $("#m-thumb").value=g.thumb||"";
+  $("#modalBg").classList.add("show");
+}
+$("#m-cancel").onclick=()=>$("#modalBg").classList.remove("show");
+$("#modalBg").onclick=e=>{ if(e.target.id==="modalBg") $("#modalBg").classList.remove("show"); };
+$("#m-save").onclick=()=>{
+  const g=GAMES[editIdx];
+  g.title=$("#m-title").value.trim();
+  g.category=$("#m-category").value.trim()||"Arcade";
+  g.description=$("#m-description").value.trim();
+  g.instructions=$("#m-instructions").value.trim();
+  g.orientation=$("#m-orientation").value;
+  g.tags=$("#m-tags").value.split(",").map(t=>t.trim()).filter(Boolean);
+  g.url=$("#m-url").value.trim();
+  g.thumb=$("#m-thumb").value.trim();
+  $("#modalBg").classList.remove("show");
+  setDirty(true); render(); refreshCats(); updateStats();
+  toast("Joc actualizat (nu uita să salvezi)");
+};
+
+// ---- categorii ----
+function renderCategories(){
+  const counts={};
+  GAMES.forEach(g=>counts[g.category]=(counts[g.category]||0)+1);
+  const cats=Object.keys(counts).sort();
+  $("#catGrid").innerHTML = cats.map(c=>`
+    <div class="cat-card" data-cat="${escapeHtml(c)}">
+      <h3>${escapeHtml(c)}</h3>
+      <div class="count">${counts[c]} jocuri</div>
+      <div class="row">
+        <button class="ghost" data-act="rename">✎ Redenumește</button>
+        <button class="ghost" data-act="merge">⤵ Contopește în…</button>
+      </div>
+    </div>`).join("");
+}
+$("#catGrid").addEventListener("click", e=>{
+  const card=e.target.closest(".cat-card"); if(!card) return;
+  const cat=card.dataset.cat; const act=e.target.dataset.act;
+  if(act==="rename"){
+    const nn=prompt(`Redenumește „${cat}" în:`, cat);
+    if(nn && nn.trim() && nn!==cat){
+      GAMES.forEach(g=>{ if(g.category===cat) g.category=nn.trim(); });
+      setDirty(true); refreshCats(); renderCategories(); render(); updateStats();
+      toast(`Categorie redenumită în „${nn.trim()}"`);
+    }
+  } else if(act==="merge"){
+    const target=prompt(`Contopește „${cat}" în care categorie? (toate jocurile vor primi noua categorie)`, "");
+    if(target && target.trim()){
+      GAMES.forEach(g=>{ if(g.category===cat) g.category=target.trim(); });
+      setDirty(true); refreshCats(); renderCategories(); render(); updateStats();
+      toast(`„${cat}" contopit în „${target.trim()}"`);
+    }
+  }
+});
+
+// ---- import ----
+const drop=$("#drop"), fileInput=$("#fileInput");
+drop.onclick=()=>fileInput.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add("over");};
+drop.ondragleave=()=>drop.classList.remove("over");
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove("over");handleFiles(e.dataTransfer.files);};
+fileInput.onchange=()=>handleFiles(fileInput.files);
+
+function handleFiles(files){
+  [...files].forEach(f=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const data=JSON.parse(reader.result);
+        const games=Array.isArray(data)?data:(data.games||[]);
+        importLists.push({name:f.name, games});
+        renderImportList();
+      }catch(err){ toast("Fișier invalid: "+f.name, true); }
+    };
+    reader.readAsText(f);
+  });
+}
+function renderImportList(){
+  $("#importList").innerHTML=importLists.map((l,i)=>
+    `<li>📄 <strong>${escapeHtml(l.name)}</strong> — ${l.games.length} jocuri <button class="danger" data-rm="${i}" style="margin-left:8px">✕</button></li>`
+  ).join("");
+  $("#importBtn").style.display = importLists.length ? "inline-block":"none";
+}
+$("#importList").addEventListener("click",e=>{
+  const i=e.target.dataset.rm;
+  if(i!==undefined){ importLists.splice(+i,1); renderImportList(); }
+});
+$("#importBtn").onclick=async()=>{
+  if(!importLists.length) return;
+  if(!confirm(`Contopești ${importLists.length} liste în catalog? (se face backup automat)`)) return;
+  const r=await fetch("/api/import",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lists:importLists})});
+  const res=await r.json();
+  if(res.ok){
+    toast(`Contopit! Total ${res.total} jocuri (+${res.added} noi)`);
+    importLists=[]; renderImportList();
+    await load(); setDirty(false);
+  } else toast("Eroare: "+(res.error||"necunoscută"), true);
+};
+
+// ---- salvare ----
+$("#saveBtn").onclick=async()=>{
+  const r=await fetch("/api/save",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({games:GAMES})});
+  const res=await r.json();
+  if(res.ok){ setDirty(false); toast(`Salvat! ${res.count} jocuri în games.json`); }
+  else toast("Eroare la salvare", true);
+};
+
+// ---- tabs ----
+$$(".tab").forEach(t=>t.onclick=()=>{
+  $$(".tab").forEach(x=>x.classList.remove("active"));
+  $$(".panel").forEach(x=>x.classList.remove("active"));
+  t.classList.add("active");
+  $("#tab-"+t.dataset.tab).classList.add("active");
+});
+
+// avertizare la inchidere cu modificari nesalvate
+window.addEventListener("beforeunload",e=>{ if(dirty){ e.preventDefault(); e.returnValue=""; } });
+
+load();
+</script>
+</body>
+</html>
