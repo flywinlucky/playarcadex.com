@@ -88,8 +88,11 @@ function copyDir(src, dest) {
 }
 
 /* ---------------- data prep ---------------- */
+
+const categories = [...new Set(games.map(g => g.category))].sort();
+const catSlug = c => slugify(c);
+
 // Iconite SVG (stil Lucide, liniare) pentru categorii — aspect profesional ca CrazyGames.
-// Fiecare e un <svg> de 22x22, stroke=currentColor (preia culoarea textului).
 const SVG_BASE = 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
 function ico(paths) { return `<svg viewBox="0 0 24 24" width="22" height="22" ${SVG_BASE}>${paths}</svg>`; }
 
@@ -124,14 +127,54 @@ const CATEGORY_ICON = {
   Card:        ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/>'),
   Thinky:      ico('<path d="M9 18h6M10 21h4M12 2a7 7 0 0 0-4 13c.6.5 1 1 1 2h6c0-1 .4-1.5 1-2a7 7 0 0 0-4-13z"/>'),
   Trivia:      ico('<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>'),
-  Word:        ico('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h2l1 5 1-5h0l1 5 1-5h2"/>'),
-  Adventure2:  ico('<circle cx="12" cy="12" r="10"/>')
+  Word:        ico('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h2l1 5 1-5h0l1 5 1-5h2"/>')
 };
 const FALLBACK_ICON = ico('<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M16 12h.01M19 11h.01"/>');
 function catIcon(c) { return CATEGORY_ICON[c] || FALLBACK_ICON; }
 
-const categories = [...new Set(games.map(g => g.category))].sort();
-const catSlug = c => slugify(c);
+// ---- Jocuri EXCLUSIVE (gazduite pe Yandex Games / extern) ----
+// Adauga aici jocurile tale exclusive. Fiecare primeste pagina proprie de blog cu SEO,
+// iar butonul Play deschide jocul pe platforma externa (Yandex).
+const EXCLUSIVE_GAMES = [
+  {
+    slug: "fiva-26-football-online",
+    title: "Fiva 26: Football Online",
+    h1: "Fiva 26: Football Online — Play the Best Football Simulator in Your Browser",
+    playUrl: "https://yandex.ru/games/app/464930?force_lang=ru",
+    thumb: SITE_URL + "/img/exclusive-fiva26.jpg",
+    metaTitle: "Fiva 26: Football Online — Free 1v1 PVP Football Game | Play in Browser",
+    metaDesc: "Play Fiva 26: Football Online — a free football simulator with intense 1v1 PVP matches, 3D graphics and realistic ball control. No download, play instantly on PC or mobile.",
+    category: "Sports",
+    studio: "Fly Studios Games",
+    rating: "3.6",
+    ageRating: "6+",
+    tags: ["football", "soccer", "1v1 pvp", "sports", "multiplayer", "fc 25", "simulator", "browser game"],
+    intro: `Looking for the <strong>best football simulator</strong>? Fiva 26: Football Online delivers the ultimate football experience, just like the best, right in your browser! Step into the arena and dominate in intense <strong>1v1 PVP matches</strong>. No download required — play instantly on PC or mobile.`,
+    features: [
+      ["⚽ Intense 1v1 PVP matches", "Compete in real-time 1v1 football battles against players. Fast-paced, competitive and adrenaline-fueled."],
+      ["🎮 Stunning 3D graphics", "Realistic 3D football with detailed players, smooth animations and an immersive stadium atmosphere."],
+      ["🕹️ Realistic ball control", "Advanced football mechanics and intuitive controls — master dribbling, passing, shooting and tackling."],
+      ["🌐 No download, play instantly", "Runs directly in your browser. No installs, no waiting — tap Play and you're on the pitch in seconds."],
+      ["📱 PC & mobile", "Play on desktop with your keyboard or on mobile with touch controls. Fiva 26 works everywhere."],
+      ["🏆 Climb the leaderboard", "Win matches to climb the leaderboard, improve your records and become the football champion."]
+    ],
+    why: `If you're a fan of <strong>FC 25 or classic football gameplay</strong>, Fiva 26: Football Online is built for you. It combines stunning 3D graphics, realistic ball physics and fast-paced action — the perfect choice for sports fans. This simulator tests your reflexes and strategic thinking in real time, with intense 1v1 PVP matches, intuitive controls and no registration required. Ready to become a champion? It's adrenaline, competitive spirit, and top-level football — one of the most popular <strong>online football games</strong> of the year. Join the match and win right now!`,
+    howto: [
+      "Press the Play button — the game opens on Yandex Games.",
+      "Choose a team and start a 1v1 PVP match.",
+      "Use your keyboard (or touch controls on mobile) to move players, pass, shoot and tackle.",
+      "Master dribbling and positioning to break through your opponent's defense.",
+      "Score more goals than your opponent, win matches and climb the leaderboard!"
+    ],
+    faq: [
+      ["Is Fiva 26: Football Online free to play?", "Yes, Fiva 26: Football Online is completely free to play in your browser. No download or registration is required to start playing."],
+      ["Can I play Fiva 26 on mobile?", "Absolutely. The game works on Android and iOS phones and tablets with touch controls, as well as on desktop with a keyboard — all directly in your browser."],
+      ["What is Fiva 26 like?", "Fiva 26 is a fast-paced football simulator with intense 1v1 PVP matches, stunning 3D graphics and realistic ball control — ideal if you enjoy FC 25 or classic football games."],
+      ["Do I need to install anything?", "No. Just press Play and the game launches instantly in your browser. There is nothing to download or install."],
+      ["Who made Fiva 26: Football Online?", "Fiva 26: Football Online is developed by Fly Studios Games and is available to play on Yandex Games."]
+    ]
+  }
+];
 const byCategory = {};
 for (const g of games) (byCategory[g.category] ??= []).push(g);
 
@@ -152,8 +195,10 @@ const ICONS = {
 function sidebarHTML(activeCat) {
   const homeIco = ico('<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>');
   const allIco = ico('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>');
+  const exclIco = ico('<path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"/>');
   const home = `<a href="/" class="${activeCat === "__home" ? "active" : ""}"><span class="emoji">${homeIco}</span>Home</a>
-    <a href="/games/" class="${activeCat === "__all" ? "active" : ""}"><span class="emoji">${allIco}</span>All Games</a>`;
+    <a href="/games/" class="${activeCat === "__all" ? "active" : ""}"><span class="emoji">${allIco}</span>All Games</a>
+    <a href="/exclusive/" class="${activeCat === "__excl" ? "active" : ""}"><span class="emoji excl-star">${exclIco}</span>Exclusive</a>`;
   const cats = categories.map(c =>
     `<a href="/category/${catSlug(c)}/" class="${activeCat === c ? "active" : ""}"><span class="emoji">${catIcon(c)}</span>${esc(c)}</a>`
   ).join("\n    ");
@@ -636,18 +681,140 @@ const STATIC_PAGES = [
       <p>${SITE_NAME} respects the intellectual property rights of others. Games on this site are distributed through our partner GameMonetize, and we will promptly address valid copyright concerns.</p>
       <h2>Filing a notice</h2>
       <p>If you believe content on this site infringes your copyright, send a notice to <a class="cmail" data-u="flystudiosgames" data-d="gmail.com" href="#">[enable JavaScript to view email]</a> including:</p>
-      <ol class="legal-list">
-        <li>Identification of the copyrighted work.</li>
-        <li>The exact URL(s) on ${SITE_URL} where it appears.</li>
-        <li>Your contact information (name, email, address).</li>
-        <li>A statement of good-faith belief that the use is not authorized by the copyright owner, its agent, or the law.</li>
-        <li>A statement, under penalty of perjury, that the information is accurate and that you are the rights holder or authorized to act on their behalf.</li>
-        <li>Your physical or electronic signature.</li>
-      </ol>
+      <p>1) identification of the copyrighted work; 2) the exact URL(s) on ${SITE_URL} where it appears; 3) your contact information; 4) a statement of good-faith belief that the use is not authorized; 5) a statement, under penalty of perjury, that the information is accurate and you are the rights holder or authorized to act on their behalf; 6) your physical or electronic signature.</p>
       <h2>What happens next</h2>
       <p>Upon receiving a valid notice we will remove or disable access to the content in question and, where applicable, forward the notice to the game's distributor.</p>`
   }
 ];
+
+function buildExclusivePages() {
+  // Pagina index: /exclusive/ — listeaza toate jocurile exclusive
+  const cards = EXCLUSIVE_GAMES.map(g => `
+    <a class="excl-card" href="/exclusive/${g.slug}/">
+      <div class="excl-card-img" style="background-image:url('${esc(g.thumb)}')">
+        <span class="excl-badge">★ Exclusive</span>
+      </div>
+      <div class="excl-card-body">
+        <h3>${esc(g.title)}</h3>
+        <p>${esc(g.metaDesc).slice(0, 110)}…</p>
+        <span class="excl-play-link">Play now →</span>
+      </div>
+    </a>`).join("\n");
+
+  const indexBody = `
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › Exclusive Games</nav>
+    <div class="game-info">
+      <h1>Exclusive Games on ${SITE_NAME}</h1>
+      <p style="color:var(--text-dim);margin-bottom:20px">Hand-picked exclusive games you won't find everywhere — including our featured FIFA-style football game. Free to play, no download required.</p>
+      <div class="excl-grid">${cards}</div>
+    </div>`;
+
+  const indexJsonld = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `Exclusive Games | ${SITE_NAME}`,
+    url: SITE_URL + "/exclusive/",
+    description: "Exclusive free online games on PlayArcadeX, including a FIFA-style football game playable in your browser."
+  };
+
+  write("exclusive/index.html", page({
+    title: `Exclusive Games | ${SITE_NAME}`,
+    description: "Play exclusive free online games on PlayArcadeX, including a FIFA-style football game — no download, play in your browser.",
+    canonical: SITE_URL + "/exclusive/",
+    body: indexBody, jsonld: indexJsonld
+  }));
+
+  // Pagina individuala pentru fiecare joc exclusive: /exclusive/<slug>/
+  for (const g of EXCLUSIVE_GAMES) {
+    const canonical = `${SITE_URL}/exclusive/${g.slug}/`;
+    const featuresHtml = g.features.map(([t, d]) =>
+      `<li><strong>${esc(t)}</strong><br>${esc(d)}</li>`).join("\n        ");
+    const howtoHtml = g.howto.map(s => `<li>${esc(s)}</li>`).join("\n        ");
+    const faqHtml = g.faq.map(([q, a]) => `<details class="faq-item">
+        <summary>${esc(q)}</summary>
+        <p>${esc(a)}</p>
+      </details>`).join("\n      ");
+
+    const body = `
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/exclusive/">Exclusive</a> › ${esc(g.title)}</nav>
+    <div class="game-info excl-article">
+
+      <div class="excl-hero" style="background-image:url('${esc(g.thumb)}')">
+        <div class="excl-hero-overlay">
+          <span class="excl-badge">★ Exclusive Game</span>
+          <h1>${esc(g.h1)}</h1>
+          <div class="excl-meta">
+            ${g.studio ? `<span>by ${esc(g.studio)}</span>` : ""}
+            ${g.rating ? `<span>★ ${esc(g.rating)}</span>` : ""}
+            ${g.ageRating ? `<span>${esc(g.ageRating)}</span>` : ""}
+            <span>${esc(g.category)}</span>
+          </div>
+          <a class="excl-play-btn" href="${esc(g.playUrl)}" target="_blank" rel="noopener" id="exclPlay" data-slug="${esc(g.slug)}">▶ Play Now (free)</a>
+          <span class="excl-host-note">Opens on Yandex Games · no download</span>
+        </div>
+      </div>
+
+      <p class="excl-intro">${g.intro}</p>
+
+      <h2>Why play ${esc(g.title.split("—")[0].trim())}?</h2>
+      <p>${g.why}</p>
+
+      <h2>Game features</h2>
+      <ul class="excl-features">
+        ${featuresHtml}
+      </ul>
+
+      <h2>How to play</h2>
+      <ol class="legal-list">
+        ${howtoHtml}
+      </ol>
+
+      <div class="excl-cta">
+        <a class="excl-play-btn" href="${esc(g.playUrl)}" target="_blank" rel="noopener" data-slug="${esc(g.slug)}">▶ Play ${esc(g.title.split("—")[0].trim())} Now</a>
+      </div>
+
+      <h2>Frequently Asked Questions</h2>
+      ${faqHtml}
+
+      <p class="excl-tags">${g.tags.map(t => `<span class="tag">${esc(t)}</span>`).join(" ")}</p>
+    </div>`;
+
+    const jsonld = [{
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      name: g.title,
+      url: canonical,
+      description: g.metaDesc,
+      image: g.thumb,
+      genre: g.category,
+      keywords: g.tags.join(", "),
+      gamePlatform: ["Web Browser", "Mobile", "Desktop"],
+      applicationCategory: "Game",
+      operatingSystem: "Any"
+    }, {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL + "/" },
+        { "@type": "ListItem", position: 2, name: "Exclusive", item: SITE_URL + "/exclusive/" },
+        { "@type": "ListItem", position: 3, name: g.title, item: canonical }
+      ]
+    }, {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: g.faq.map(([q, a]) => ({
+        "@type": "Question", name: q,
+        acceptedAnswer: { "@type": "Answer", text: a }
+      }))
+    }];
+
+    write(`exclusive/${g.slug}/index.html`, page({
+      title: g.metaTitle,
+      description: g.metaDesc,
+      canonical, body, jsonld, ogImage: g.thumb
+    }));
+  }
+}
 
 function buildStaticPages() {
   for (const p of STATIC_PAGES) {
@@ -747,6 +914,8 @@ function buildSitemap() {
     { loc: SITE_URL + "/", priority: "1.0", changefreq: "daily" },
     { loc: SITE_URL + "/games/", priority: "0.9", changefreq: "daily" },
     ...categories.map(c => ({ loc: `${SITE_URL}/category/${catSlug(c)}/`, priority: "0.8", changefreq: "daily" })),
+    { loc: SITE_URL + "/exclusive/", priority: "0.9", changefreq: "weekly" },
+    ...EXCLUSIVE_GAMES.map(g => ({ loc: `${SITE_URL}/exclusive/${g.slug}/`, priority: "0.8", changefreq: "weekly" })),
     ...games.map(g => ({ loc: `${SITE_URL}/game/${g.slug}/`, priority: "0.7", changefreq: "weekly" })),
     ...STATIC_PAGES.map(p => ({ loc: `${SITE_URL}/${p.slug}/`, priority: "0.3", changefreq: "monthly" }))
   ];
@@ -761,7 +930,6 @@ ${urls.map(u => `  <url><loc>${u.loc}</loc><lastmod>${nowISO}</lastmod><changefr
 }
 
 function build404() {
-  // 12 jocuri populare reale (din baza premium, primele = cele mai bune)
   const popular = games.slice(0, 12);
   const body = `
     <div class="notfound">
@@ -807,6 +975,7 @@ buildHome();
 buildGamePages();
 buildCategoryPages();
 buildAllGamesPage();
+buildExclusivePages();
 buildStaticPages();
 buildPWA();
 buildSitemap();
