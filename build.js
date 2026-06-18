@@ -320,6 +320,7 @@ function buildHome() {
     </section>`).join("\n");
 
   const body = `
+    <h1 class="home-h1">Free Online Games — Play ${games.length}+ Games on ${SITE_NAME}</h1>
     <div id="searchResults" class="grid" style="display:none"></div>
     <div id="emptyState" class="empty">😕 No games found. Try another search.</div>
     <div id="defaultSections">
@@ -420,7 +421,7 @@ function buildHome() {
   ];
 
   write("index.html", page({
-    title: `${SITE_NAME} — ${SITE_TAGLINE} | ${games.length}+ Free Browser Games`,
+    title: `${SITE_NAME} — Play ${games.length}+ Free Online Games`,
     description: SITE_DESC,
     canonical: SITE_URL + "/",
     body, jsonld, activeCat: "__home"
@@ -432,7 +433,20 @@ function buildGamePages() {
   for (const g of games) {
     const related = (byCategory[g.category] || []).filter(x => x.slug !== g.slug).slice(0, 12);
     const canonical = `${SITE_URL}/game/${g.slug}/`;
-    const desc = (g.description || `Play ${g.title} free online on ${SITE_NAME}.`).slice(0, 158);
+    // Descriere SEO: taiem la cuvant complet (nu la mijloc) si garantam keyword-uri.
+    let rawDesc = g.description || "";
+    let desc;
+    if (rawDesc.length > 120) {
+      // taiem elegant la ultimul cuvant inainte de ~150 caractere
+      desc = rawDesc.slice(0, 150);
+      const lastSpace = desc.lastIndexOf(" ");
+      if (lastSpace > 100) desc = desc.slice(0, lastSpace);
+      desc = desc.replace(/[,;:.\s]+$/, "") + "…";
+    } else {
+      // descriere scurta sau lipsa -> construim una bogata in keyword-uri
+      desc = `Play ${g.title}, a free online ${g.category.toLowerCase()} game on ${SITE_NAME}. No download — play instantly in your browser on mobile and desktop.`;
+      if (desc.length > 158) desc = desc.slice(0, 158);
+    }
 
     // FAQ specific jocului — targeteaza cautari conversationale ("is X free",
     // "how to play X", "can I play X on mobile"). Raspunsuri scurte, directe.
@@ -558,7 +572,7 @@ function buildGamePages() {
     </div>` : ""}`;
 
     write(`game/${g.slug}/index.html`, page({
-      title: `${g.title} 🎮 Play Free Online | ${SITE_NAME}`,
+      title: `${g.title} — Play Free Online | ${SITE_NAME}`,
       description: desc,
       canonical, body, jsonld,
       ogImage: g.thumb,
@@ -590,7 +604,7 @@ function buildCategoryPages() {
 
     write(`category/${catSlug(c)}/index.html`, page({
       title: `${c} Games — Play Free Online ${c} Games | ${SITE_NAME}`,
-      description: `Play ${list.length}+ free ${c.toLowerCase()} games online, no download needed. The best ${c.toLowerCase()} browser games on ${SITE_NAME}.`,
+      description: `Play ${list.length}+ of the best free ${c.toLowerCase()} games online, no download required. Enjoy ${c.toLowerCase()} browser games instantly on mobile and desktop at ${SITE_NAME}.`,
       canonical, body, jsonld, activeCat: c
     }));
   }

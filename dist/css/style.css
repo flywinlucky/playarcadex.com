@@ -774,6 +774,15 @@ body.no-scroll { overflow: hidden; }
   .notfound-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
+/* H1 SEO homepage — discret dar prezent pentru Google */
+.home-h1 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin: 0 0 14px;
+  letter-spacing: 0.01em;
+}
+
 /* ---------- Bottom actions (Random game / Back to top) ---------- */
 .bottom-actions {
   display: flex;
