@@ -783,6 +783,108 @@ body.no-scroll { overflow: hidden; }
   letter-spacing: 0.01em;
 }
 
+/* ---------- PWA install button + iOS modal ---------- */
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow: 0 0 16px var(--accent-glow);
+  transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.install-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.install-btn[hidden] { display: none; }
+@media (max-width: 560px) {
+  .install-label { display: none; } /* pe mobil doar iconita, economie de spatiu */
+  .install-btn { padding: 8px 11px; }
+}
+
+.pwa-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 20px;
+  animation: pwaFade 0.2s ease;
+}
+@keyframes pwaFade { from { opacity: 0; } to { opacity: 1; } }
+.pwa-modal {
+  background: var(--soft, #171929);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px 22px;
+  width: min(420px, 100%);
+  position: relative;
+}
+.pwa-modal h3 { font-size: 1.2rem; margin-bottom: 10px; }
+.pwa-modal p { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 14px; line-height: 1.5; }
+.pwa-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: var(--surface-2, #272b45);
+  border: 0; color: var(--text);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.pwa-steps {
+  list-style: none;
+  counter-reset: pwa;
+  margin: 0 0 14px;
+  padding: 0;
+}
+.pwa-steps li {
+  counter-increment: pwa;
+  position: relative;
+  padding: 10px 0 10px 40px;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.pwa-steps li:last-child { border-bottom: 0; }
+.pwa-steps li::before {
+  content: counter(pwa);
+  position: absolute;
+  left: 0; top: 9px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pwa-ios-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px; height: 22px;
+  background: var(--surface-2, #272b45);
+  border-radius: 5px;
+  color: #4aa3ff;
+  font-weight: 700;
+  vertical-align: middle;
+  padding: 0 5px;
+}
+.pwa-note { font-size: 0.85rem !important; margin-bottom: 0 !important; }
+
 /* ---------- Bottom actions (Random game / Back to top) ---------- */
 .bottom-actions {
   display: flex;

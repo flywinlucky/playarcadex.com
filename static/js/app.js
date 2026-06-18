@@ -392,6 +392,81 @@
     });
   }
 
+  /* ---------- PWA: Add to Home Screen (Android prompt + iOS instructiuni) ---------- */
+  (function () {
+    var installBtn = document.getElementById("installBtn");
+    if (!installBtn) return;
+
+    // detectam daca ruleaza deja ca aplicatie instalata (standalone)
+    var isStandalone = window.matchMedia("(display-mode: standalone)").matches
+      || window.navigator.standalone === true;
+    if (isStandalone) { installBtn.hidden = true; return; }
+
+    var ua = window.navigator.userAgent || "";
+    var isIOS = /iphone|ipad|ipod/i.test(ua) && !window.MSStream;
+    var isAndroid = /android/i.test(ua);
+    var deferredPrompt = null;
+
+    // Android / Chrome: capturam evenimentul nativ
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.hidden = false;
+    });
+
+    // iOS: nu exista beforeinstallprompt -> aratam butonul daca e Safari mobil
+    if (isIOS) {
+      installBtn.hidden = false;
+    }
+
+    function showIOSInstructions() {
+      var modal = document.createElement("div");
+      modal.className = "pwa-modal-bg";
+      modal.innerHTML =
+        '<div class="pwa-modal">' +
+          '<button class="pwa-close" aria-label="Close">✕</button>' +
+          '<h3>Install PlayArcadeX</h3>' +
+          '<p>Add PlayArcadeX to your Home Screen to play like an app — faster, fullscreen, no browser bars.</p>' +
+          '<ol class="pwa-steps">' +
+            '<li>Tap the <strong>Share</strong> button <span class="pwa-ios-icon">&#x2191;</span> at the bottom of Safari</li>' +
+            '<li>Scroll down and tap <strong>“Add to Home Screen”</strong> <span class="pwa-ios-icon">&#x2295;</span></li>' +
+            '<li>Tap <strong>“Add”</strong> in the top corner</li>' +
+          '</ol>' +
+          '<p class="pwa-note">Then open PlayArcadeX from your Home Screen any time!</p>' +
+        '</div>';
+      document.body.appendChild(modal);
+      function close() { modal.remove(); }
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal || e.target.closest(".pwa-close")) close();
+      });
+    }
+
+    installBtn.addEventListener("click", function () {
+      track("pwa_install_click", { platform: isIOS ? "ios" : (isAndroid ? "android" : "other") });
+      if (deferredPrompt) {
+        // Android: declansam promptul nativ
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function (choice) {
+          track("pwa_install_result", { outcome: choice.outcome });
+          deferredPrompt = null;
+          if (choice.outcome === "accepted") installBtn.hidden = true;
+        });
+      } else if (isIOS) {
+        // iOS: aratam instructiunile (Apple nu permite prompt automat)
+        showIOSInstructions();
+      } else {
+        // fallback desktop: instructiuni scurte
+        showIOSInstructions();
+      }
+    });
+
+    // dupa instalare reusita, ascundem butonul
+    window.addEventListener("appinstalled", function () {
+      installBtn.hidden = true;
+      track("pwa_installed");
+    });
+  })();
+
   /* ---------- Mobile search toggle ---------- */
   var searchToggle = document.getElementById("searchToggle");
   var searchWrap = document.getElementById("searchWrap");
