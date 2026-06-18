@@ -142,6 +142,7 @@ const EXCLUSIVE_GAMES = [
     h1: "Fiva 26: Football Online — Play the Best Football Simulator in Your Browser",
     playUrl: "https://yandex.ru/games/app/464930?force_lang=ru",
     thumb: SITE_URL + "/img/exclusive-fiva26.jpg",
+    cardThumb: SITE_URL + "/img/exclusive-fiva26-card.jpg",
     metaTitle: "Fiva 26: Football Online — Free 1v1 PVP Football Game | Play in Browser",
     metaDesc: "Play Fiva 26: Football Online — a free football simulator with intense 1v1 PVP matches, 3D graphics and realistic ball control. No download, play instantly on PC or mobile.",
     category: "Sports",
@@ -691,7 +692,7 @@ function buildExclusivePages() {
   // Pagina index: /exclusive/ — listeaza toate jocurile exclusive
   const cards = EXCLUSIVE_GAMES.map(g => `
     <a class="excl-card" href="/exclusive/${g.slug}/">
-      <div class="excl-card-img" style="background-image:url('${esc(g.thumb)}')">
+      <div class="excl-card-img" style="background-image:url('${esc(g.cardThumb || g.thumb)}')">
         <span class="excl-badge">★ Exclusive</span>
       </div>
       <div class="excl-card-body">
