@@ -738,6 +738,9 @@ body.no-scroll { overflow: hidden; }
   .cat-block { grid-template-columns: 1fr; }
 }
 
+/* Pe mobil ascundem jocurile marcate DOAR pentru PC (nu merg pe touch) */
+html.is-mobile .card[data-platform="pc"] { display: none !important; }
+
 /* ---------- 404 page (stil CrazyGames) ---------- */
 .notfound {
   max-width: 760px;

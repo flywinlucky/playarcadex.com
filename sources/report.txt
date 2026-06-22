@@ -1,0 +1,28 @@
+==================================================
+RAPORT — Generator surse PlayArcadeX
+==================================================
+PC games:      1999
+Mobile games:  2000
+Total unic:    2389
+
+Pe categorii:
+  Puzzle               815
+  Hypercasual          445
+  Arcade               331
+  Adventure            166
+  Shooting             140
+  Racing               118
+  Sports               88
+  Girls                84
+  Action               69
+  Clicker              61
+  Stickman             28
+  Multiplayer          12
+  Boys                 11
+  Soccer               8
+  3D                   7
+  Cooking              4
+  .IO                  2
+
+Pe publisher (top 15):
+  (unknown)                      2389

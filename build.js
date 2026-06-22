@@ -250,7 +250,8 @@ function cardHTML(g, eager = false) {
   const fallback = small !== g.thumb
     ? ` onerror="this.onerror=null;this.src='${esc(g.thumb)}'"`
     : "";
-  return `<a class="card" href="/game/${g.slug}/" title="${esc(g.title)}">
+  const platform = g.platform || "both";
+  return `<a class="card" data-platform="${platform}" href="/game/${g.slug}/" title="${esc(g.title)}">
       <img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" draggable="false" src="${esc(small)}"${fallback} alt="${esc(g.title)} - play free online" width="230" height="173">
       <span class="card-title">${esc(g.title)}</span>
     </a>`;
@@ -974,10 +975,11 @@ function build404() {
 }
 
 function buildSearchIndex() {
-  // versiune light pentru căutarea client-side
+  // versiune light pentru căutarea client-side (include platform pentru filtrare mobil)
   const light = games.map(g => ({
     title: g.title, slug: g.slug, category: g.category,
-    tags: g.tags, thumb: g.thumb
+    tags: g.tags, thumb: g.thumb,
+    platform: g.platform || "both"
   }));
   write("games.json", JSON.stringify(light));
 }
