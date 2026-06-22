@@ -25,6 +25,29 @@ const TRENDING_API = "";
 // Google Analytics 4 (lasa gol "" ca sa dezactivezi)
 const GA_ID = "G-X4DF0DZ88J";
 
+// Google AdSense publisher ID (lasa gol "" ca sa dezactivezi).
+// Auto ads e gestionat din dashboard-ul AdSense; aici doar includem scriptul.
+const ADSENSE_ID = "ca-pub-8814611374359683";
+
+// Ad Slot ID-uri pentru reclame MANUALE (din AdSense -> By ad unit -> Display ads).
+// Lasa "" la oricare ca sa NU apara reclama in acel loc.
+// Inlocuieste cu numerele tale (ex. "1234567890").
+const AD_SLOTS = {
+  homepage: "2604092541",   // banner intre categorii pe homepage
+  gamePage: "8672853045",   // banner sub joc pe pagina de joc
+  category: "2933441201"    // banner in pagina de categorie
+};
+
+// Helper: genereaza un bloc de reclama responsive (clean, in-feed style).
+// Returneaza "" daca nu e configurat slot-ul (deci nu apare nimic gol).
+function adUnit(slot, label = "Advertisement") {
+  if (!ADSENSE_ID || !slot) return "";
+  return `<div class="ad-slot"><span class="ad-label">${label}</span>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="${ADSENSE_ID}" data-ad-slot="${slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>`;
+}
+
 // FAQ general pentru homepage — targeteaza cautari conversationale despre site.
 // Raspunsurile pot contine linkuri interne (bune pentru UX + SEO).
 const HOME_FAQ = [
@@ -285,6 +308,8 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
+  ${ADSENSE_ID ? `<!-- Google AdSense (Auto ads gestionat din dashboard) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}" crossorigin="anonymous"></script>` : ""}
   <style>${CSS_MIN}</style>
   ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
   ${GA_ID ? `<!-- Google tag (gtag.js) — incarcat dupa ce pagina e gata, ca sa nu blocheze randarea -->
@@ -351,6 +376,7 @@ function buildHome() {
       <div class="grid">
         ${newest.map(g => cardHTML(g)).join("\n        ")}
       </div>
+      ${adUnit(AD_SLOTS.homepage)}
       <div id="catSections">
       ${categorySections}
       </div>
@@ -556,6 +582,7 @@ function buildGamePages() {
         <p>${esc(f.a)}</p>
       </details>`).join("\n      ")}
     </div>
+    ${adUnit(AD_SLOTS.gamePage)}
     ${related.length ? `
     <h2 class="section-title"><span class="bar"></span>More ${esc(g.category)} Games</h2>
     <div class="grid">
@@ -582,7 +609,8 @@ function buildCategoryPages() {
     <h1 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> ${esc(c)} Games <span style="color:var(--text-dim);font-size:.85rem;font-weight:600">(${list.length})</span></h1>
     <div class="grid">
       ${list.map((g, i) => cardHTML(g, i < 6)).join("\n      ")}
-    </div>`;
+    </div>
+    ${adUnit(AD_SLOTS.category)}`;
 
     const jsonld = {
       "@context": "https://schema.org",
