@@ -520,22 +520,10 @@ function buildGamePages() {
           <img class="splash-thumb" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
         </div>
-        <div class="rotate-overlay" aria-hidden="true">
-          <svg viewBox="0 0 120 100" width="130" height="108" fill="none" aria-hidden="true">
-            <rect x="62" y="8" width="42" height="78" rx="9" stroke="#5a5d75" stroke-width="4"/>
-            <rect x="14" y="46" width="74" height="42" rx="9" fill="#2a2d40" stroke="#fff" stroke-width="4"/>
-            <rect x="18" y="58" width="5" height="18" rx="2.5" fill="#fff"/>
-            <path d="M58 28 C 50 16, 34 14, 24 24" stroke="#6842ff" stroke-width="6" stroke-linecap="round"/>
-            <path d="M22 14 L 23 26 L 35 25" stroke="#6842ff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          <div class="rotate-title">Rotate device</div>
-          <div class="rotate-sub">This game supports only landscape orientation</div>
-        </div>
-        <button class="fs-close" id="fsCloseFloat" aria-label="Close game">✕</button>
-        <a class="fs-allgames" href="/" aria-label="Back to all games">
+        <button class="fs-allgames" id="fsAllGames" aria-label="Exit game, back to all games">
           <span class="fs-allgames-label">🎮 All Games</span>
           <span class="fs-mini-logo">X</span>
-        </a>
+        </button>
       </div>
       <div class="game-toolbar">
         <h1>${esc(g.title)}</h1>

@@ -303,6 +303,17 @@ body.no-scroll { overflow: hidden; }
   aspect-ratio: auto;
   max-height: none;
   min-height: 0;
+  /* iframe-ul jocului respecta zona sigura (Dynamic Island, notch, home bar)
+     ca sa nu iasa din rame; intins pe toata inaltimea disponibila */
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  box-sizing: border-box;
+  background: #000;
+}
+.game-stage.fs-active .game-frame-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 .game-stage.fs-active .game-toolbar {
   border-radius: 0;
@@ -421,11 +432,21 @@ body.no-scroll { overflow: hidden; }
   }
 }
 
-/* LANDSCAPE: tab vertical pe marginea stanga (ca acum), X dreapta-sus,
-   amandoua impinse de notch-ul lateral prin safe-area */
+/* LANDSCAPE: tab vertical "All Games" pe TOATA inaltimea marginii stangi,
+   impins de notch-ul lateral prin safe-area (stil bara laterala) */
 @media (orientation: landscape) {
   .game-stage.fs-active .fs-allgames {
-    padding-left: calc(7px + env(safe-area-inset-left, 0px));
+    top: 0;
+    bottom: 0;
+    transform: none;
+    height: 100%;
+    justify-content: center;
+    border-radius: 0;
+    padding-left: calc(10px + env(safe-area-inset-left, 0px));
+    padding-right: 10px;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(18, 19, 30, 0.92);
   }
   .game-stage.fs-active .fs-close {
     top: calc(10px + env(safe-area-inset-top, 0px));
@@ -448,11 +469,10 @@ body.no-scroll { overflow: hidden; }
   text-align: center;
   padding: 24px;
 }
+/* Rotate overlay DEZACTIVAT — jocurile se incarca in orice orientare.
+   Userul roteste daca vrea, nu fortam (multe jocuri HTML5 merg si portrait). */
 .rotate-title { font-size: 1.45rem; font-weight: 800; margin-top: 10px; }
 .rotate-sub { color: var(--text-dim); font-size: 0.95rem; }
-@media (orientation: portrait) {
-  .game-stage.fs-active[data-orient="landscape"] .rotate-overlay { display: flex; }
-}
 .game-splash {
   position: absolute; inset: 0;
   display: flex;
