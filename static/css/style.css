@@ -293,21 +293,31 @@ body.no-scroll { overflow: hidden; }
   z-index: 1000;
   border-radius: 0;
   display: flex;
-  flex-direction: column;
   width: 100vw;
   height: 100vh;
-  height: 100dvh; /* iPhone: tine cont de bara Safari */
+  height: 100dvh;
+  background: #000;
+  /* tot ecranul respecta zona sigura (Dynamic Island, notch, home bar) */
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  box-sizing: border-box;
+}
+/* PORTRAIT: bara All Games sus (orizontala), jocul dedesubt */
+@media (orientation: portrait) {
+  .game-stage.fs-active { flex-direction: column; }
+}
+/* LANDSCAPE: bara All Games in stanga (verticala), jocul in dreapta */
+@media (orientation: landscape) {
+  .game-stage.fs-active { flex-direction: row; }
 }
 .game-stage.fs-active .game-frame-wrap {
   flex: 1;
   aspect-ratio: auto;
   max-height: none;
   min-height: 0;
-  /* iframe-ul jocului respecta zona sigura (Dynamic Island, notch, home bar)
-     ca sa nu iasa din rame; intins pe toata inaltimea disponibila */
-  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  min-width: 0;
   box-sizing: border-box;
   background: #000;
+  position: relative;
 }
 .game-stage.fs-active .game-frame-wrap iframe {
   width: 100%;
@@ -351,28 +361,47 @@ body.no-scroll { overflow: hidden; }
 .fs-close:hover { background: rgba(104, 66, 255, 0.85); }
 .game-stage.fs-active .fs-close { display: inline-flex; }
 
-/* Tab vertical "All Games" pe marginea stanga (stil Yandex) — doar in fullscreen */
+/* Bara "All Games" — ocupa propriul spatiu langa joc (NU peste el), stil Yandex.
+   In portrait: bara orizontala sus. In landscape: bara verticala stanga. */
 .fs-allgames {
   display: none;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 30;
-  flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  background: rgba(18, 19, 30, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-left: 0;
-  border-radius: 0 12px 12px 0;
-  padding: 14px 7px;
-  backdrop-filter: blur(6px);
+  background: #000;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .game-stage.fs-active .fs-allgames { display: flex; }
+
+@media (orientation: portrait) {
+  .game-stage.fs-active .fs-allgames {
+    flex-direction: row;
+    width: 100%;
+    height: 48px;
+    gap: 10px;
+  }
+  .game-stage.fs-active .fs-allgames .fs-allgames-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+}
+@media (orientation: landscape) {
+  .game-stage.fs-active .fs-allgames {
+    flex-direction: column;
+    width: 46px;
+    height: 100%;
+    gap: 12px;
+  }
+  .game-stage.fs-active .fs-allgames .fs-allgames-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+}
 .fs-allgames-label {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text);
@@ -397,63 +426,6 @@ body.no-scroll { overflow: hidden; }
 /* PORTRAIT: controalele stau SUS — All Games pill orizontal in stanga, X in dreapta,
    cu o banda de gradient negru in spate (safe zone) ca sa nu se amestece cu
    status bar-ul / ceasul / widgeturile telefonului */
-@media (orientation: portrait) {
-  .game-stage.fs-active::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: calc(env(safe-area-inset-top, 0px) + 64px);
-    background: linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35) 70%, transparent);
-    z-index: 25;
-    pointer-events: none;
-  }
-  .game-stage.fs-active .fs-close {
-    top: calc(12px + env(safe-area-inset-top, 0px));
-    right: calc(12px + env(safe-area-inset-right, 0px));
-  }
-  .game-stage.fs-active .fs-allgames {
-    left: calc(12px + env(safe-area-inset-left, 0px));
-    top: calc(12px + env(safe-area-inset-top, 0px));
-    transform: none;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 999px;
-    height: 40px;
-  }
-  .game-stage.fs-active .fs-allgames .fs-allgames-label {
-    writing-mode: horizontal-tb;
-    transform: none;
-  }
-  .game-stage.fs-active .fs-allgames .fs-mini-logo {
-    width: 22px; height: 22px; font-size: 0.7rem;
-  }
-}
-
-/* LANDSCAPE: tab vertical "All Games" pe TOATA inaltimea marginii stangi,
-   impins de notch-ul lateral prin safe-area (stil bara laterala) */
-@media (orientation: landscape) {
-  .game-stage.fs-active .fs-allgames {
-    top: 0;
-    bottom: 0;
-    transform: none;
-    height: 100%;
-    justify-content: center;
-    border-radius: 0;
-    padding-left: calc(10px + env(safe-area-inset-left, 0px));
-    padding-right: 10px;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: rgba(18, 19, 30, 0.92);
-  }
-  .game-stage.fs-active .fs-close {
-    top: calc(10px + env(safe-area-inset-top, 0px));
-    right: calc(10px + env(safe-area-inset-right, 0px));
-  }
-}
-
 /* Overlay "Rotate device" pe tot ecranul (stil Yandex):
    acopera jocul cat timp un joc landscape e tinut portrait, in fullscreen */
 .rotate-overlay {
