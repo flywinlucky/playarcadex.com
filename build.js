@@ -514,16 +514,16 @@ function buildGamePages() {
       <a href="/">Home</a> › <a href="/category/${catSlug(g.category)}/">${esc(g.category)}</a> › ${esc(g.title)}
     </nav>
     <div class="game-stage" data-orient="${orient}">
+      <button class="fs-allgames" id="fsAllGames" aria-label="Exit game, back to all games">
+        <span class="fs-allgames-label">🎮 All Games</span>
+        <span class="fs-mini-logo">X</span>
+      </button>
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
         <div class="game-splash" id="gameSplash">
           <img class="splash-bg" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="" aria-hidden="true" loading="eager">
           <img class="splash-thumb" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
         </div>
-        <button class="fs-allgames" id="fsAllGames" aria-label="Exit game, back to all games">
-          <span class="fs-allgames-label">🎮 All Games</span>
-          <span class="fs-mini-logo">X</span>
-        </button>
       </div>
       <div class="game-toolbar">
         <h1>${esc(g.title)}</h1>

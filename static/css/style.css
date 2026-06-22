@@ -362,13 +362,14 @@ body.no-scroll { overflow: hidden; }
 .game-stage.fs-active .fs-close { display: inline-flex; }
 
 /* Bara "All Games" — ocupa propriul spatiu langa joc (NU peste el), stil Yandex.
-   In portrait: bara orizontala sus. In landscape: bara verticala stanga. */
+   In portrait: bara orizontala sus. In landscape: bara verticala stanga.
+   Subtire, neagra, cu o linie subtila de separare de joc. */
 .fs-allgames {
   display: none;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 9px;
   background: #000;
   border: 0;
   cursor: pointer;
@@ -381,8 +382,9 @@ body.no-scroll { overflow: hidden; }
   .game-stage.fs-active .fs-allgames {
     flex-direction: row;
     width: 100%;
-    height: 48px;
-    gap: 10px;
+    height: 38px;
+    gap: 9px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
   .game-stage.fs-active .fs-allgames .fs-allgames-label {
     writing-mode: horizontal-tb;
@@ -392,9 +394,10 @@ body.no-scroll { overflow: hidden; }
 @media (orientation: landscape) {
   .game-stage.fs-active .fs-allgames {
     flex-direction: column;
-    width: 46px;
+    width: 38px;
     height: 100%;
     gap: 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
   }
   .game-stage.fs-active .fs-allgames .fs-allgames-label {
     writing-mode: vertical-rl;
@@ -402,18 +405,18 @@ body.no-scroll { overflow: hidden; }
   }
 }
 .fs-allgames-label {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--text);
-  letter-spacing: 0.04em;
+  color: #fff;
+  letter-spacing: 0.03em;
   white-space: nowrap;
 }
 .fs-mini-logo {
-  width: 26px; height: 26px;
-  border-radius: 7px;
+  width: 24px; height: 24px;
+  border-radius: 6px;
   background: linear-gradient(135deg, var(--accent), #a55cff);
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 800;
   display: grid;
   place-items: center;
