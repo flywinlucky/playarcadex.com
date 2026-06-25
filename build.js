@@ -337,7 +337,7 @@ function buildHome() {
 
   const categorySections = categories.map(c => `
     <section class="cat-sec" data-cat="${esc(c)}">
-    <h2 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> ${esc(c)} <a class="view-all" href="/category/${catSlug(c)}/">View more →</a></h2>
+    <h2 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> <a class="cat-link" href="/category/${catSlug(c)}/">${esc(c)}</a></h2>
     <div class="row-wrap">
       <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
       <div class="row" tabindex="0">

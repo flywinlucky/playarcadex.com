@@ -42,12 +42,15 @@ button { font: inherit; cursor: pointer; border: 0; }
 .header {
   position: fixed;
   inset: 0 0 auto 0;
-  height: var(--header-h);
+  height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+  padding-top: env(safe-area-inset-top, 0px);
   background: #1a1b28;
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 0 16px;
+  /* respecta zona sigura (Dynamic Island / notch) pe iPhone */
+  padding-left: calc(16px + env(safe-area-inset-left, 0px));
+  padding-right: calc(16px + env(safe-area-inset-right, 0px));
   z-index: 100;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -149,7 +152,7 @@ button { font: inherit; cursor: pointer; border: 0; }
 .sidebar-overlay { display: none; }
 .sidebar {
   position: fixed;
-  top: var(--header-h);
+  top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
   left: 0;
   bottom: 0;
   width: var(--sidebar-w);
@@ -188,7 +191,9 @@ button { font: inherit; cursor: pointer; border: 0; }
 /* ---------- Layout ---------- */
 .main {
   margin-left: var(--sidebar-w);
-  padding: calc(var(--header-h) + 20px) 20px 60px;
+  padding: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 20px) 20px 60px;
+  padding-left: calc(20px + env(safe-area-inset-left, 0px));
+  padding-right: calc(20px + env(safe-area-inset-right, 0px));
   min-height: 100vh;
 }
 
@@ -207,13 +212,14 @@ button { font: inherit; cursor: pointer; border: 0; }
   background: var(--accent);
   display: inline-block;
 }
-.view-all {
-  margin-left: auto;
-  font-size: .82rem;
-  color: #b9adff; /* contrast AA pe fundal inchis */
-  font-weight: 700;
+/* Titlul categoriei este acum link catre pagina categoriei */
+.cat-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color .15s ease;
 }
-.view-all:hover { color: #d4ccff; text-decoration: underline; }
+.cat-link:hover,
+.cat-link:focus-visible { color: var(--accent); }
 
 /* ---------- Game grid & cards ---------- */
 .grid {
@@ -293,16 +299,37 @@ body.no-scroll { overflow: hidden; }
   z-index: 1000;
   border-radius: 0;
   display: flex;
-  flex-direction: column;
   width: 100vw;
   height: 100vh;
-  height: 100dvh; /* iPhone: tine cont de bara Safari */
+  height: 100dvh;
+  background: #000;
+  /* tot ecranul respecta zona sigura (Dynamic Island, notch, home bar) */
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  box-sizing: border-box;
+}
+/* PORTRAIT: bara All Games sus (orizontala), jocul dedesubt */
+@media (orientation: portrait) {
+  .game-stage.fs-active { flex-direction: column; }
+}
+/* LANDSCAPE: bara All Games in stanga (verticala), jocul in dreapta */
+@media (orientation: landscape) {
+  .game-stage.fs-active { flex-direction: row; }
 }
 .game-stage.fs-active .game-frame-wrap {
   flex: 1;
   aspect-ratio: auto;
   max-height: none;
   min-height: 0;
+  min-width: 0;
+  box-sizing: border-box;
+  background: #000;
+  position: relative;
+}
+.game-stage.fs-active .game-frame-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 .game-stage.fs-active .game-toolbar {
   border-radius: 0;
@@ -340,40 +367,62 @@ body.no-scroll { overflow: hidden; }
 .fs-close:hover { background: rgba(104, 66, 255, 0.85); }
 .game-stage.fs-active .fs-close { display: inline-flex; }
 
-/* Tab vertical "All Games" pe marginea stanga (stil Yandex) — doar in fullscreen */
+/* Bara "All Games" — ocupa propriul spatiu langa joc (NU peste el), stil Yandex.
+   In portrait: bara orizontala sus. In landscape: bara verticala stanga.
+   Subtire, neagra, cu o linie subtila de separare de joc. */
 .fs-allgames {
   display: none;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 30;
-  flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
-  gap: 10px;
-  background: rgba(18, 19, 30, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-left: 0;
-  border-radius: 0 12px 12px 0;
-  padding: 14px 7px;
-  backdrop-filter: blur(6px);
+  justify-content: center;
+  gap: 9px;
+  background: #000;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .game-stage.fs-active .fs-allgames { display: flex; }
+
+@media (orientation: portrait) {
+  .game-stage.fs-active .fs-allgames {
+    flex-direction: row;
+    width: 100%;
+    height: 38px;
+    gap: 9px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .game-stage.fs-active .fs-allgames .fs-allgames-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+}
+@media (orientation: landscape) {
+  .game-stage.fs-active .fs-allgames {
+    flex-direction: column;
+    width: 38px;
+    height: 100%;
+    gap: 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .game-stage.fs-active .fs-allgames .fs-allgames-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+}
 .fs-allgames-label {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--text);
-  letter-spacing: 0.04em;
+  color: #fff;
+  letter-spacing: 0.03em;
   white-space: nowrap;
 }
 .fs-mini-logo {
-  width: 26px; height: 26px;
-  border-radius: 7px;
+  width: 24px; height: 24px;
+  border-radius: 6px;
   background: linear-gradient(135deg, var(--accent), #a55cff);
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 800;
   display: grid;
   place-items: center;
@@ -386,53 +435,6 @@ body.no-scroll { overflow: hidden; }
 /* PORTRAIT: controalele stau SUS — All Games pill orizontal in stanga, X in dreapta,
    cu o banda de gradient negru in spate (safe zone) ca sa nu se amestece cu
    status bar-ul / ceasul / widgeturile telefonului */
-@media (orientation: portrait) {
-  .game-stage.fs-active::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: calc(env(safe-area-inset-top, 0px) + 64px);
-    background: linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35) 70%, transparent);
-    z-index: 25;
-    pointer-events: none;
-  }
-  .game-stage.fs-active .fs-close {
-    top: calc(12px + env(safe-area-inset-top, 0px));
-    right: calc(12px + env(safe-area-inset-right, 0px));
-  }
-  .game-stage.fs-active .fs-allgames {
-    left: calc(12px + env(safe-area-inset-left, 0px));
-    top: calc(12px + env(safe-area-inset-top, 0px));
-    transform: none;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 999px;
-    height: 40px;
-  }
-  .game-stage.fs-active .fs-allgames .fs-allgames-label {
-    writing-mode: horizontal-tb;
-    transform: none;
-  }
-  .game-stage.fs-active .fs-allgames .fs-mini-logo {
-    width: 22px; height: 22px; font-size: 0.7rem;
-  }
-}
-
-/* LANDSCAPE: tab vertical pe marginea stanga (ca acum), X dreapta-sus,
-   amandoua impinse de notch-ul lateral prin safe-area */
-@media (orientation: landscape) {
-  .game-stage.fs-active .fs-allgames {
-    padding-left: calc(7px + env(safe-area-inset-left, 0px));
-  }
-  .game-stage.fs-active .fs-close {
-    top: calc(10px + env(safe-area-inset-top, 0px));
-    right: calc(10px + env(safe-area-inset-right, 0px));
-  }
-}
-
 /* Overlay "Rotate device" pe tot ecranul (stil Yandex):
    acopera jocul cat timp un joc landscape e tinut portrait, in fullscreen */
 .rotate-overlay {
@@ -448,11 +450,10 @@ body.no-scroll { overflow: hidden; }
   text-align: center;
   padding: 24px;
 }
+/* Rotate overlay DEZACTIVAT — jocurile se incarca in orice orientare.
+   Userul roteste daca vrea, nu fortam (multe jocuri HTML5 merg si portrait). */
 .rotate-title { font-size: 1.45rem; font-weight: 800; margin-top: 10px; }
 .rotate-sub { color: var(--text-dim); font-size: 0.95rem; }
-@media (orientation: portrait) {
-  .game-stage.fs-active[data-orient="landscape"] .rotate-overlay { display: flex; }
-}
 .game-splash {
   position: absolute; inset: 0;
   display: flex;
@@ -738,6 +739,9 @@ body.no-scroll { overflow: hidden; }
   .cat-block { grid-template-columns: 1fr; }
 }
 
+/* Pe mobil ascundem jocurile marcate DOAR pentru PC (nu merg pe touch) */
+html.is-mobile .card[data-platform="pc"] { display: none !important; }
+
 /* ---------- 404 page (stil CrazyGames) ---------- */
 .notfound {
   max-width: 760px;
@@ -884,6 +888,25 @@ body.no-scroll { overflow: hidden; }
   padding: 0 5px;
 }
 .pwa-note { font-size: 0.85rem !important; margin-bottom: 0 !important; }
+
+/* ---------- Reclame AdSense (manuale, clean) ---------- */
+.ad-slot {
+  margin: 24px auto;
+  max-width: 970px;
+  text-align: center;
+  min-height: 90px;
+  overflow: hidden;
+}
+.ad-label {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+.ad-slot ins { min-height: 90px; }
 
 /* ---------- Bottom actions (Random game / Back to top) ---------- */
 .bottom-actions {
@@ -1118,13 +1141,14 @@ body.no-scroll { overflow: hidden; }
     transition: transform 0.22s ease;
     width: 250px;
     box-shadow: 8px 0 30px rgba(0, 0, 0, 0.5);
+    padding-left: env(safe-area-inset-left, 0px);
   }
   .sidebar.open { transform: translateX(0); }
   /* overlay care intuneca si BLOCHEAZA restul ecranului cand sidebar-ul e deschis */
   .sidebar-overlay {
     display: none;
     position: fixed;
-    inset: var(--header-h) 0 0 0;
+    inset: calc(var(--header-h) + env(safe-area-inset-top, 0px)) 0 0 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 85;
     opacity: 0;
@@ -1132,7 +1156,11 @@ body.no-scroll { overflow: hidden; }
   }
   .sidebar-overlay.show { display: block; opacity: 1; }
   .main, .footer { margin-left: 0; }
-  .main { padding: calc(var(--header-h) + 14px) 12px 50px; }
+  .main {
+    padding: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 14px) 12px 50px;
+    padding-left: calc(12px + env(safe-area-inset-left, 0px));
+    padding-right: calc(12px + env(safe-area-inset-right, 0px));
+  }
   .grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
   .grid.featured { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .game-frame-wrap { aspect-ratio: 4 / 3; }
@@ -1142,7 +1170,7 @@ body.no-scroll { overflow: hidden; }
   .search-toggle { display: flex; align-items: center; justify-content: center; }
   .search-wrap {
     position: fixed;
-    top: var(--header-h); left: 0; right: 0;
+    top: calc(var(--header-h) + env(safe-area-inset-top, 0px)); left: 0; right: 0;
     width: 100%;
     height: 54px;
     margin: 0;

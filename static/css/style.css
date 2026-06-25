@@ -212,13 +212,14 @@ button { font: inherit; cursor: pointer; border: 0; }
   background: var(--accent);
   display: inline-block;
 }
-.view-all {
-  margin-left: auto;
-  font-size: .82rem;
-  color: #b9adff; /* contrast AA pe fundal inchis */
-  font-weight: 700;
+/* Titlul categoriei este acum link catre pagina categoriei */
+.cat-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color .15s ease;
 }
-.view-all:hover { color: #d4ccff; text-decoration: underline; }
+.cat-link:hover,
+.cat-link:focus-visible { color: var(--accent); }
 
 /* ---------- Game grid & cards ---------- */
 .grid {

@@ -64,7 +64,8 @@
     var fallback = small !== g.thumb
       ? ' onerror="this.onerror=null;this.src=\'' + escapeAttr(g.thumb) + '\'"'
       : "";
-    return '<a class="card" href="' + BASE + '/game/' + g.slug + '/" title="' + escapeAttr(g.title) + '">' +
+    var platform = g.platform || "both";
+    return '<a class="card" data-platform="' + platform + '" href="' + BASE + '/game/' + g.slug + '/" title="' + escapeAttr(g.title) + '">' +
       '<img loading="lazy" decoding="async" draggable="false" src="' + escapeAttr(small) + '"' + fallback + ' alt="' + escapeAttr(g.title) + '" width="230" height="173">' +
       '<span class="card-title">' + escapeHTML(g.title) + '</span></a>';
   }
@@ -133,6 +134,8 @@
   var closeFsBtn = document.getElementById("closeFsBtn");
 
   var isMobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+  // marcam <html> ca mobil -> CSS ascunde jocurile PC-only (data-platform="pc")
+  if (isMobile) document.documentElement.classList.add("is-mobile");
 
   function enterGameFs() {
     if (!gameStage) return;
@@ -211,9 +214,14 @@
   if (closeFsBtn) {
     closeFsBtn.addEventListener("click", exitGameFs);
   }
-  var fsCloseFloat = document.getElementById("fsCloseFloat");
-  if (fsCloseFloat) {
-    fsCloseFloat.addEventListener("click", exitGameFs);
+  // Tabul "All Games" din fullscreen = iesire din joc -> inapoi la site
+  var fsAllGames = document.getElementById("fsAllGames");
+  if (fsAllGames) {
+    fsAllGames.addEventListener("click", function (e) {
+      e.preventDefault();
+      exitGameFs();
+      window.location.href = BASE + "/";
+    });
   }
   // Daca userul iese din fullscreen nativ cu Esc/gestul de sistem, inchidem si overlay-ul
   document.addEventListener("fullscreenchange", function () {
