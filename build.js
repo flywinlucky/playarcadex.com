@@ -270,6 +270,7 @@ function footerHTML() {
   return `<footer class="footer">
     <div class="links">
       <a href="/">Home</a>
+      <a href="/blog/">Blog</a>
       ${categories.slice(0, 6).map(c => `<a href="/category/${catSlug(c)}/">${esc(c)}</a>`).join("\n      ")}
     </div>
     <div class="links">
@@ -301,7 +302,7 @@ function cardHTML(g, eager = false) {
     </a>`;
 }
 
-function page({ title, description, canonical, body, jsonld, ogImage, activeCat = "" }) {
+function page({ title, description, canonical, body, jsonld, ogImage, activeCat = "", ogType = "website" }) {
   return `<!DOCTYPE html>
 <html lang="en" data-base="" data-trending-api="${esc(TRENDING_API)}">
 <head>
@@ -313,12 +314,13 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="yandex-verification" content="addf8873d6751e80">
   <meta name="theme-color" content="#0e0f1a">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${ogType}">
   <meta property="og:site_name" content="${SITE_NAME}">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${esc(ogImage || SITE_URL + "/img/og-default.png")}">
+  ${ogType === "article" ? `<meta property="article:publisher" content="${SITE_URL}">` : ""}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
@@ -348,6 +350,233 @@ ${body}
   <script src="/js/app.js" defer></script>
 </body>
 </html>`;
+}
+
+/* ---------------- BLOG ---------------- */
+/* Sistem de blog tip "drop a file":
+   pui un fisier .md in content/blog/, rulezi build, articolul apare la
+   /blog/<slug>/, intra automat in sitemap, primeste schema SEO si link in footer.
+   Frontmatter sus, intre --- ... ---:
+     title:        Titlul articolului
+     description:  Meta description (SEO, ~155 caractere)
+     date:         2026-06-29
+     cover:        /img/blog/ceva.jpg   (optional)
+     tags:         News, Steam, Viral    (optional, separate prin virgula)
+     draft:        true                  (optional; daca true, nu se publica)
+*/
+const BLOG_DIR = path.join(ROOT, "content", "blog");
+
+// Mic convertor Markdown -> HTML (subset: titluri, paragrafe, bold/italic,
+// linkuri, imagini, liste, citate, hr, cod inline). Zero dependinte.
+function mdInline(s) {
+  return esc(s)
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (m, alt, src) => `<img src="${src}" alt="${alt}" loading="lazy">`)
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, href) => {
+      const ext = /^https?:\/\//.test(href) && !href.includes("playarcadex.com");
+      return `<a href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${txt}</a>`;
+    })
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function mdToHtml(md) {
+  const lines = md.replace(/\r\n/g, "\n").split("\n");
+  const out = [];
+  let para = [];
+  let list = null; // {type:'ul'|'ol', items:[]}
+  const flushPara = () => { if (para.length) { out.push(`<p>${mdInline(para.join(" "))}</p>`); para = []; } };
+  const flushList = () => {
+    if (list) {
+      const tag = list.type;
+      out.push(`<${tag}>${list.items.map(li => `<li>${mdInline(li)}</li>`).join("")}</${tag}>`);
+      list = null;
+    }
+  };
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    if (!line.trim()) { flushPara(); flushList(); continue; }
+    let m;
+    if (/^#{1,3}\s+/.test(line)) {
+      flushPara(); flushList();
+      const lvl = line.match(/^#+/)[0].length;
+      out.push(`<h${lvl}>${mdInline(line.replace(/^#+\s+/, ""))}</h${lvl}>`);
+    } else if (/^(-{3,}|\*{3,})$/.test(line.trim())) {
+      flushPara(); flushList(); out.push("<hr>");
+    } else if ((m = line.match(/^>\s?(.*)$/))) {
+      flushPara(); flushList(); out.push(`<blockquote><p>${mdInline(m[1])}</p></blockquote>`);
+    } else if ((m = line.match(/^[-*]\s+(.*)$/))) {
+      flushPara();
+      if (!list || list.type !== "ul") { flushList(); list = { type: "ul", items: [] }; }
+      list.items.push(m[1]);
+    } else if ((m = line.match(/^\d+\.\s+(.*)$/))) {
+      flushPara();
+      if (!list || list.type !== "ol") { flushList(); list = { type: "ol", items: [] }; }
+      list.items.push(m[1]);
+    } else {
+      flushList();
+      para.push(line.trim());
+    }
+  }
+  flushPara(); flushList();
+  return out.join("\n");
+}
+
+function parseFrontmatter(raw) {
+  const m = raw.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+  if (!m) return { meta: {}, body: raw };
+  const meta = {};
+  for (const line of m[1].split("\n")) {
+    const i = line.indexOf(":");
+    if (i === -1) continue;
+    const key = line.slice(0, i).trim();
+    let val = line.slice(i + 1).trim().replace(/^["']|["']$/g, "");
+    meta[key] = val;
+  }
+  return { meta, body: m[2] };
+}
+
+function loadBlogPosts() {
+  if (!fs.existsSync(BLOG_DIR)) return [];
+  const files = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith(".md") && !f.startsWith("_") && f.toLowerCase() !== "readme.md");
+  const posts = [];
+  for (const f of files) {
+    const raw = fs.readFileSync(path.join(BLOG_DIR, f), "utf8");
+    const { meta, body } = parseFrontmatter(raw);
+    if (String(meta.draft).toLowerCase() === "true") continue;
+    const slug = (meta.slug || f.replace(/\.md$/, "")).toLowerCase();
+    posts.push({
+      slug,
+      title: meta.title || slug,
+      description: meta.description || "",
+      date: meta.date || "",
+      cover: meta.cover || "",
+      tags: (meta.tags || "").split(",").map(t => t.trim()).filter(Boolean),
+      bodyHtml: mdToHtml(body),
+      // excerpt din description sau prima fraza din body
+      excerpt: meta.description || mdToHtml(body).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160)
+    });
+  }
+  // cele mai noi primele
+  posts.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  return posts;
+}
+
+const blogPosts = loadBlogPosts();
+
+function blogCard(p) {
+  return `<a class="blog-card" href="/blog/${p.slug}/">
+      ${p.cover ? `<img class="blog-card-img" src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy">` : `<div class="blog-card-img blog-card-noimg">📰</div>`}
+      <div class="blog-card-body">
+        <h2 class="blog-card-title">${esc(p.title)}</h2>
+        ${p.date ? `<time class="blog-card-date" datetime="${esc(p.date)}">${esc(formatDate(p.date))}</time>` : ""}
+        <p class="blog-card-excerpt">${esc(p.excerpt)}</p>
+      </div>
+    </a>`;
+}
+
+function formatDate(d) {
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
+
+function buildBlog() {
+  if (!blogPosts.length) return;
+
+  // --- index /blog/ ---
+  const canonicalIndex = SITE_URL + "/blog/";
+  const indexBody = `
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › Blog</nav>
+    <h1 class="section-title"><span class="bar"></span>📰 ${SITE_NAME} Blog</h1>
+    <p class="cat-intro" style="max-width:880px;color:var(--text-dim)">News, guides and the most popular free browser games on ${SITE_NAME}. Tips, trending picks and what to play next — updated regularly.</p>
+    <div class="blog-grid">
+      ${blogPosts.map(blogCard).join("\n      ")}
+    </div>`;
+  const indexJsonld = [{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: `${SITE_NAME} Blog`,
+    url: canonicalIndex,
+    description: `News, guides and the best free browser games on ${SITE_NAME}.`,
+    blogPost: blogPosts.map(p => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      url: `${SITE_URL}/blog/${p.slug}/`,
+      datePublished: p.date || undefined
+    }))
+  }, {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL + "/" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: canonicalIndex }
+    ]
+  }];
+  write("blog/index.html", page({
+    title: `Blog — Free Browser Games News & Guides | ${SITE_NAME}`,
+    description: `The ${SITE_NAME} blog: news, guides and the most popular free online browser games. Discover what to play next.`,
+    canonical: canonicalIndex,
+    body: indexBody,
+    jsonld: indexJsonld
+  }));
+
+  // --- fiecare articol /blog/<slug>/ ---
+  for (const p of blogPosts) {
+    const canonical = `${SITE_URL}/blog/${p.slug}/`;
+    const related = blogPosts.filter(x => x.slug !== p.slug).slice(0, 3);
+    const body = `
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/blog/">Blog</a> › ${esc(p.title)}</nav>
+    <article class="blog-article">
+      <h1 class="blog-article-title">${esc(p.title)}</h1>
+      <div class="blog-article-meta">
+        ${p.date ? `<time datetime="${esc(p.date)}">${esc(formatDate(p.date))}</time>` : ""}
+        ${p.tags.length ? `<span class="blog-tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</span>` : ""}
+      </div>
+      ${p.cover ? `<img class="blog-article-cover" src="${esc(p.cover)}" alt="${esc(p.title)}">` : ""}
+      <div class="blog-article-body">
+        ${p.bodyHtml}
+      </div>
+    </article>
+    ${adUnit(AD_SLOTS.gamePage)}
+    ${related.length ? `
+    <h2 class="section-title"><span class="bar"></span>More from the Blog</h2>
+    <div class="blog-grid">
+      ${related.map(blogCard).join("\n      ")}
+    </div>` : ""}`;
+
+    const jsonld = [{
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: p.title,
+      description: p.description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      datePublished: p.date || undefined,
+      dateModified: p.date || undefined,
+      image: p.cover ? (p.cover.startsWith("http") ? p.cover : SITE_URL + p.cover) : SITE_URL + "/img/og-default.png",
+      author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+      publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL, logo: { "@type": "ImageObject", url: SITE_URL + "/img/icon-192.png" } }
+    }, {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL + "/" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: SITE_URL + "/blog/" },
+        { "@type": "ListItem", position: 3, name: p.title, item: canonical }
+      ]
+    }];
+
+    write(`blog/${p.slug}/index.html`, page({
+      title: `${p.title} | ${SITE_NAME}`,
+      description: p.description || p.excerpt,
+      canonical,
+      body,
+      jsonld,
+      ogImage: p.cover ? (p.cover.startsWith("http") ? p.cover : SITE_URL + p.cover) : undefined,
+      ogType: "article"
+    }));
+  }
 }
 
 /* ---------------- HOME ---------------- */
@@ -1063,6 +1292,8 @@ function buildSitemap() {
     ...categories.map(c => ({ loc: `${SITE_URL}/category/${catSlug(c)}/`, priority: "0.8", changefreq: "daily" })),
     { loc: SITE_URL + "/exclusive/", priority: "0.9", changefreq: "weekly" },
     ...EXCLUSIVE_GAMES.map(g => ({ loc: `${SITE_URL}/exclusive/${g.slug}/`, priority: "0.8", changefreq: "weekly" })),
+    ...(blogPosts.length ? [{ loc: SITE_URL + "/blog/", priority: "0.7", changefreq: "weekly" }] : []),
+    ...blogPosts.map(p => ({ loc: `${SITE_URL}/blog/${p.slug}/`, priority: "0.6", changefreq: "monthly" })),
     ...games.map(g => ({ loc: `${SITE_URL}/game/${g.slug}/`, priority: "0.7", changefreq: "weekly" })),
     ...STATIC_PAGES.map(p => ({ loc: `${SITE_URL}/${p.slug}/`, priority: "0.3", changefreq: "monthly" }))
   ];
@@ -1124,6 +1355,7 @@ buildGamePages();
 buildCategoryPages();
 buildAllGamesPage();
 buildExclusivePages();
+buildBlog();
 buildStaticPages();
 buildPWA();
 buildSitemap();
@@ -1134,4 +1366,5 @@ console.log(`✔ Done -> ${DIST}`);
 console.log(`  - index.html`);
 console.log(`  - ${games.length} game pages`);
 console.log(`  - ${categories.length} category pages`);
+console.log(`  - ${blogPosts.length} blog post(s) + blog index`);
 console.log(`  - sitemap.xml (${1 + categories.length + games.length} URLs), robots.txt, CNAME, 404.html`);
