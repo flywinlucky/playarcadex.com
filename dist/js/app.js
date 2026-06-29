@@ -530,27 +530,15 @@
 
   /* ---------- Horizontal carousel arrows (stil CrazyGames) ---------- */
   function setupRows() {
-    var wraps = document.querySelectorAll(".row-wrap");
-    wraps.forEach(function (wrap) {
+    var rows = [];
+    document.querySelectorAll(".row-wrap").forEach(function (wrap) {
       var row = wrap.querySelector(".row");
       var left = wrap.querySelector(".row-arrow.left");
       var right = wrap.querySelector(".row-arrow.right");
       if (!row || !left || !right) return;
+      var ctx = { wrap: wrap, row: row, left: left, right: right };
+      rows.push(ctx);
 
-      function update() {
-        var max = row.scrollWidth - row.clientWidth;
-        var hasOverflow = max > 4;
-        if (!hasOverflow) {
-          // toate jocurile incap pe ecran -> ascundem ambele sageti
-          left.classList.add("hidden");
-          right.classList.add("hidden");
-          wrap.classList.add("no-overflow");
-          return;
-        }
-        wrap.classList.remove("no-overflow");
-        left.classList.toggle("hidden", row.scrollLeft <= 4);
-        right.classList.toggle("hidden", row.scrollLeft >= max - 4);
-      }
       function step() {
         return Math.max(200, Math.round(row.clientWidth * 0.8));
       }
@@ -562,17 +550,57 @@
         e.preventDefault();
         row.scrollBy({ left: step(), behavior: "smooth" });
       });
-      row.addEventListener("scroll", update, { passive: true });
-      window.addEventListener("resize", update);
+      // scroll-ul afecteaza doar randul curent
+      row.addEventListener("scroll", function () { schedule([ctx]); }, { passive: true });
 
-      // recalculam dupa ce imaginile lazy se incarca (altfel scrollWidth e gresit)
-      update();
-      setTimeout(update, 300);
-      setTimeout(update, 1200);
-      row.querySelectorAll("img").forEach(function (img) {
-        if (!img.complete) img.addEventListener("load", update, { once: true });
-      });
+      // ResizeObserver prinde si schimbarile de dimensiune cand se incarca imaginile,
+      // fara sa atasam un handler pe fiecare imagine (sursa principala de reflow).
+      if ("ResizeObserver" in window) {
+        new ResizeObserver(function () { schedule([ctx]); }).observe(row);
+      }
     });
+
+    // Batch: acumulam randurile de actualizat si rulam o SINGURA data pe frame,
+    // cu toate CITIRILE de layout grupate inainte de toate SCRIERILE -> zero thrashing.
+    var pending = null, ticking = false;
+    function schedule(list) {
+      if (!pending) pending = [];
+      (list || rows).forEach(function (c) {
+        if (pending.indexOf(c) === -1) pending.push(c);
+      });
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var batch = pending; pending = null;
+        // FAZA 1 — doar citiri
+        var reads = batch.map(function (c) {
+          return { c: c, max: c.row.scrollWidth - c.row.clientWidth, sl: c.row.scrollLeft };
+        });
+        // FAZA 2 — doar scrieri
+        reads.forEach(function (r) {
+          var c = r.c;
+          if (r.max <= 4) {
+            c.left.classList.add("hidden");
+            c.right.classList.add("hidden");
+            c.wrap.classList.add("no-overflow");
+          } else {
+            c.wrap.classList.remove("no-overflow");
+            c.left.classList.toggle("hidden", r.sl <= 4);
+            c.right.classList.toggle("hidden", r.sl >= r.max - 4);
+          }
+        });
+      });
+    }
+
+    window.addEventListener("resize", function () { schedule(rows); });
+    schedule(rows); // initial
+
+    // Fallback daca nu exista ResizeObserver (browsere vechi)
+    if (!("ResizeObserver" in window)) {
+      setTimeout(function () { schedule(rows); }, 400);
+      setTimeout(function () { schedule(rows); }, 1200);
+    }
   }
   if (document.readyState !== "loading") setupRows();
   else document.addEventListener("DOMContentLoaded", setupRows);
