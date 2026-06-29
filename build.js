@@ -385,6 +385,10 @@ function mdToHtml(md) {
   const out = [];
   let para = [];
   let list = null; // {type:'ul'|'ol', items:[]}
+  let imgs = [];   // imagini consecutive -> galerie
+  const imgRe = /^!\[([^\]]*)\]\(([^)]+)\)\s*$/;
+  const figureHtml = (alt, src) =>
+    `<figure>${`<img src="${src}" alt="${alt}" loading="lazy">`}${alt ? `<figcaption>${mdInline(alt)}</figcaption>` : ""}</figure>`;
   const flushPara = () => { if (para.length) { out.push(`<p>${mdInline(para.join(" "))}</p>`); para = []; } };
   const flushList = () => {
     if (list) {
@@ -393,32 +397,47 @@ function mdToHtml(md) {
       list = null;
     }
   };
+  const flushImgs = () => {
+    if (!imgs.length) return;
+    if (imgs.length === 1) {
+      out.push(figureHtml(imgs[0].alt, imgs[0].src));
+    } else {
+      out.push(`<div class="blog-gallery">${imgs.map(i => figureHtml(i.alt, i.src)).join("")}</div>`);
+    }
+    imgs = [];
+  };
+  const flushAll = () => { flushPara(); flushList(); flushImgs(); };
   for (const raw of lines) {
     const line = raw.trimEnd();
-    if (!line.trim()) { flushPara(); flushList(); continue; }
     let m;
-    if (/^#{1,3}\s+/.test(line)) {
+    if (!line.trim()) { flushAll(); continue; }
+    if ((m = line.match(imgRe))) {
       flushPara(); flushList();
+      imgs.push({ alt: m[1], src: m[2] });
+      continue;
+    }
+    if (/^#{1,3}\s+/.test(line)) {
+      flushAll();
       const lvl = line.match(/^#+/)[0].length;
       out.push(`<h${lvl}>${mdInline(line.replace(/^#+\s+/, ""))}</h${lvl}>`);
     } else if (/^(-{3,}|\*{3,})$/.test(line.trim())) {
-      flushPara(); flushList(); out.push("<hr>");
+      flushAll(); out.push("<hr>");
     } else if ((m = line.match(/^>\s?(.*)$/))) {
-      flushPara(); flushList(); out.push(`<blockquote><p>${mdInline(m[1])}</p></blockquote>`);
+      flushAll(); out.push(`<blockquote><p>${mdInline(m[1])}</p></blockquote>`);
     } else if ((m = line.match(/^[-*]\s+(.*)$/))) {
-      flushPara();
+      flushPara(); flushImgs();
       if (!list || list.type !== "ul") { flushList(); list = { type: "ul", items: [] }; }
       list.items.push(m[1]);
     } else if ((m = line.match(/^\d+\.\s+(.*)$/))) {
-      flushPara();
+      flushPara(); flushImgs();
       if (!list || list.type !== "ol") { flushList(); list = { type: "ol", items: [] }; }
       list.items.push(m[1]);
     } else {
-      flushList();
+      flushList(); flushImgs();
       para.push(line.trim());
     }
   }
-  flushPara(); flushList();
+  flushAll();
   return out.join("\n");
 }
 

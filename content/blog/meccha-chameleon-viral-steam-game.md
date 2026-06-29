@@ -2,6 +2,7 @@
 title: MECCHA CHAMELEON Review — The Viral Steam Game Taking Over (2026)
 description: MECCHA CHAMELEON is the viral hide-and-seek painting game blowing up on Steam. Full review: gameplay, price, Workshop maps — plus free browser games to play with friends right now.
 date: 2026-06-29
+cover: /img/blog/meccha-cover.jpg
 tags: News, Steam, Viral, Multiplayer
 ---
 
@@ -16,6 +17,8 @@ So what makes a game with deliberately minimalist graphics go this viral — and
 At first glance the concept looks simple: it's a modern, digital reinvention of classic **Hide and Seek** — or the beloved **Prop Hunt** mode from Garry's Mod. But it adds a genius twist that tests not just your reflexes, but your creativity and your grasp of basic colour theory.
 
 Its explosive popularity is largely thanks to streaming. It's an incredibly fun game to *watch*: the tense moments where a seeker walks right past a hidden player without realising the wall has a "human shape" make perfect viral clips. Combine that with how accessible it is, and it became the ideal pick for group game nights on Discord almost overnight.
+
+![A hider blends into a brick wall — spot the painted figures before the timer runs out](/img/blog/meccha-gameplay-hide.jpg)
 
 ## Gameplay: How do you play MECCHA CHAMELEON?
 
@@ -32,6 +35,9 @@ Unlike games where you simply turn into a prop (a chair, a mug, a barrel), in ME
 
 Once prep time runs out, the Seekers are released onto the map. Their job is to inspect every corner carefully. It looks easy, but the optical illusions other players create can be genuinely confusing. Seekers have to spot the visual anomalies: a geometric pattern that doesn't line up on a wall, a crooked line on a cabinet, or a character that blinked at the wrong moment.
 
+![Seekers hunt down hiders mid-round](/img/blog/meccha-shot-1.jpg)
+![A painted hider tries to disappear into a laundry room](/img/blog/meccha-guide.jpg)
+
 ## How much does MECCHA CHAMELEON cost? What platforms?
 
 One of its biggest strengths is how affordable it is. The standard price is just **$5.99 on Steam** — no pay-to-win microtransactions, no expensive battle passes, no hidden subscriptions. That means your whole friend group can grab it without a second thought.
@@ -43,6 +49,9 @@ It's available natively on **PC (Windows)**. Great news for everyone else: it al
 The default maps are fun, but the real magic — and near-infinite replayability — comes from **Steam Workshop maps**. The active community has already built thousands of custom scenarios and locations, often imported from other famous games.
 
 Want to hide painted as the walls of the famous Office or Dust 2 from Counter-Strike? Or camouflage yourself in the offices of The Stanley Parable, or the rooms of the Backrooms? The process is simple: go to the game's Steam page, open the **Workshop** tab, hit **Subscribe** on the maps you want, and they'll be available automatically when you create a new server for you and your friends.
+
+![Custom community maps add near-endless replayability](/img/blog/meccha-shot-2.jpg)
+![Hide-and-paint chaos on a community map](/img/blog/meccha-shot-3.jpg)
 
 ## Pros and cons: Is MECCHA CHAMELEON worth it?
 
@@ -75,3 +84,5 @@ While MECCHA CHAMELEON lives on Steam, here are some games you can play **instan
 Want more? Browse the full [multiplayer games](https://playarcadex.com/category/multiplayer/) and [.io games](https://playarcadex.com/category/io/) collections, or see what's [trending this week](https://playarcadex.com/) on the homepage.
 
 *We keep an eye on what's blowing up in gaming and match it with the best free browser games to play. Bookmark the [blog](https://playarcadex.com/blog/) and check back for more.*
+
+*Screenshots and cover art via [MECCHA CHAMELEON on Steam](https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/) © lemorion_1224. Used for editorial review purposes.*

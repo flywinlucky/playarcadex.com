@@ -1285,3 +1285,40 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   .blog-article-title { font-size: 1.5rem; }
   .blog-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Blog: figuri & galerie imagini ---------- */
+.blog-article-body figure {
+  margin: 20px 0;
+}
+.blog-article-body figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.blog-article-body figcaption {
+  text-align: center;
+  font-size: .82rem;
+  color: var(--text-dim);
+  margin-top: 8px;
+  font-style: italic;
+}
+.blog-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.blog-gallery figure { margin: 0; }
+.blog-gallery figure img { height: 100%; object-fit: cover; aspect-ratio: 16 / 9; }
+@media (max-width: 640px) {
+  .blog-gallery { grid-template-columns: 1fr; }
+}
+/* cover articol: pastreaza proportia, fara crop urat */
+.blog-article-cover {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 420px;
+}
