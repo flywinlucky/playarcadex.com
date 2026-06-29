@@ -202,6 +202,27 @@ const EXCLUSIVE_GAMES = [
 const byCategory = {};
 for (const g of games) (byCategory[g.category] ??= []).push(g);
 
+/* Completeaza categoriile (mai ales cele mici, ex. .IO / Cooking / Soccer)
+   cu jocuri INRUDITE reale: jocuri care au numele categoriei printre tags.
+   Nu se inventeaza nimic — sunt jocuri existente, taguite cu acea categorie.
+   Jocurile din categoria principala raman primele; cele inrudite se adauga dupa.
+   Astfel randurile de pe home nu mai raman aproape goale, iar pagina de
+   categorie afiseaza acelasi set extins (consistent cu home). */
+{
+  const _norm = s => String(s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  for (const c of categories) {
+    const cn = _norm(c);
+    const have = new Set((byCategory[c] || []).map(g => g.slug));
+    for (const g of games) {
+      if (have.has(g.slug) || g.category === c) continue;
+      if (Array.isArray(g.tags) && g.tags.some(t => _norm(t) === cn)) {
+        (byCategory[c] ??= []).push(g);
+        have.add(g.slug);
+      }
+    }
+  }
+}
+
 const featured = games.filter(g => g.featured);
 const nowISO = new Date().toISOString().slice(0, 10);
 
@@ -341,7 +362,7 @@ function buildHome() {
     <div class="row-wrap">
       <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
       <div class="row" tabindex="0">
-      ${byCategory[c].slice(0, 18).map(g => cardHTML(g)).join("\n      ")}
+      ${byCategory[c].slice(0, 30).map(g => cardHTML(g)).join("\n      ")}
       </div>
       <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
@@ -600,26 +621,118 @@ function buildGamePages() {
 }
 
 /* ---------------- CATEGORY PAGES ---------------- */
+
+// Descriere unica per categorie (ce sunt, de ce sunt fun). Fallback generic
+// pentru orice categorie care nu e in harta. Cheia e numele exact al categoriei.
+const CAT_BLURB = {
+  ".IO": "fast-paced multiplayer arena games where you join an online match in seconds and battle players from around the world to climb the leaderboard.",
+  "3D": "immersive games with real 3D graphics and depth, from driving and shooting to parkour and exploration, all running smoothly right in your browser.",
+  "Action": "high-energy games packed with combat, fast reflexes and non-stop excitement, where quick thinking and quicker fingers decide who wins.",
+  "Adventure": "story-driven games full of exploration, puzzles and discovery, where you travel through worlds, collect items and overcome challenges along the way.",
+  "Arcade": "classic pick-up-and-play games with simple controls and addictive scoring, perfect for a quick break or a long high-score grind.",
+  "Boys": "action-packed favourites like racing, shooting, fighting and sports — fast, competitive games built for non-stop fun.",
+  "Clicker": "satisfying idle and incremental games where every tap counts, numbers keep climbing and upgrades unlock even bigger rewards.",
+  "Cooking": "kitchen and restaurant games where you chop, fry, serve and manage your way through delicious recipes against the clock.",
+  "Fighting": "one-on-one and brawler combat games full of combos, special moves and intense duels to prove who's the strongest.",
+  "Girls": "creative and fun games including dress-up, makeover, cooking, care and design, with bright visuals and relaxing gameplay.",
+  "Hypercasual": "simple, instantly playable games with one-touch controls — easy to learn, hard to put down, and perfect for a quick session.",
+  "Multiplayer": "games you play with or against other people in real time, from team battles and races to co-op challenges and party games.",
+  "Puzzle": "brain-teasing games full of logic, matching and problem-solving that sharpen your mind while keeping you hooked.",
+  "Puzzles": "clever brain games built around logic, matching and strategy, designed to challenge your thinking one level at a time.",
+  "Racing": "high-speed driving games featuring cars, bikes and crazy tracks, where the fastest and most fearless driver takes the win.",
+  "Shooting": "aim-and-fire games from sniper challenges to all-out battles, where precision and reflexes are everything.",
+  "Soccer": "football games covering penalties, free kicks, full matches and tricky skill challenges for every fan of the beautiful game.",
+  "Sports": "games covering football, basketball, pool, racing and more — compete, score and master your favourite sports.",
+  "Stickman": "fun and chaotic games starring stick-figure heroes in fighting, running, shooting and ragdoll-physics adventures."
+};
+
+function catBlurb(c) {
+  return CAT_BLURB[c] || `a great selection of free ${c.toLowerCase()} games you can play instantly in your browser, no download needed.`;
+}
+
+// Genereaza continut SEO unic pentru pagina de categorie: include nume reale de
+// jocuri din categorie (lista difera/roteste -> fiecare pagina e genuin unica).
+function categoryContent(c, list) {
+  const examples = list.slice(0, 5).map(g => g.title);
+  const exHtml = examples.length
+    ? `Popular picks right now include ${examples.slice(0, -1).map(t => esc(t)).join(", ")}${examples.length > 1 ? " and " : ""}${esc(examples[examples.length - 1])}.`
+    : "";
+  const cl = c.toLowerCase();
+
+  const intro = `<p>Welcome to the ${esc(c)} games hub on ${SITE_NAME}. Here you'll find ${list.length} free ${esc(cl)} games — ${catBlurb(c)} ${exHtml} Every game runs straight in your browser, with no download, no installation and no sign-up. Just click and play on your phone, tablet or computer.</p>`;
+
+  const about = `<div class="game-info cat-content">
+      <h2>About ${esc(c)} Games</h2>
+      <p>${esc(c)} games are ${catBlurb(c)} On ${SITE_NAME} we keep this collection fresh, adding new ${esc(cl)} titles regularly so there's always something new to try. Whether you have five minutes or an hour, you'll find a ${esc(cl)} game here that fits.</p>
+      <p>All ${list.length} ${esc(cl)} games on this page are completely free and work on both desktop and mobile. If you enjoy ${esc(cl)} games, bookmark this page and check back often — the lineup keeps growing.</p>
+    </div>`;
+
+  const faq = [
+    {
+      q: `Are these ${c} games free to play?`,
+      a: `Yes. Every ${cl} game on ${SITE_NAME} is 100% free to play, with no download, no installation and no payment required. Just open a game and start playing.`
+    },
+    {
+      q: `Can I play ${c} games on mobile?`,
+      a: `Absolutely. All ${cl} games here run directly in your mobile browser on Android and iOS, as well as on tablets and desktop computers — no app needed.`
+    },
+    {
+      q: `What are the best ${c} games to start with?`,
+      a: examples.length
+        ? `Great starting points include ${examples.slice(0, 3).map(esc).join(", ")}. From there, browse the full list of ${list.length} ${cl} games above and find your favourites.`
+        : `Browse the full list of ${list.length} ${cl} games above — they're all free, so try a few and find your favourites.`
+    }
+  ];
+  const faqHtml = `<div class="game-info faq-block">
+      <h2>Frequently Asked Questions</h2>
+      ${faq.map(f => `<details class="faq-item">
+        <summary>${esc(f.q)}</summary>
+        <p>${f.a}</p>
+      </details>`).join("\n      ")}
+    </div>`;
+
+  return { intro, about, faqHtml, faq, examples };
+}
+
 function buildCategoryPages() {
   for (const c of categories) {
     const list = byCategory[c];
     const canonical = `${SITE_URL}/category/${catSlug(c)}/`;
+    const content = categoryContent(c, list);
     const body = `
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › ${esc(c)}</nav>
     <h1 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> ${esc(c)} Games <span style="color:var(--text-dim);font-size:.85rem;font-weight:600">(${list.length})</span></h1>
+    <div class="cat-intro">${content.intro}</div>
     <div class="grid">
       ${list.map((g, i) => cardHTML(g, i < 6)).join("\n      ")}
     </div>
-    ${adUnit(AD_SLOTS.category)}`;
+    ${adUnit(AD_SLOTS.category)}
+    ${content.about}
+    ${content.faqHtml}`;
 
-    const jsonld = {
+    const jsonld = [{
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: `${c} Games`,
       url: canonical,
       description: `Play ${list.length} free ${c.toLowerCase()} games online on ${SITE_NAME}.`,
       isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL }
-    };
+    }, {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL + "/" },
+        { "@type": "ListItem", position: 2, name: `${c} Games`, item: canonical }
+      ]
+    }, {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: content.faq.map(f => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a }
+      }))
+    }];
 
     write(`category/${catSlug(c)}/index.html`, page({
       title: `${c} Games — Play Free Online ${c} Games | ${SITE_NAME}`,

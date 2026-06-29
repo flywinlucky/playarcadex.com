@@ -531,6 +531,17 @@ body.no-scroll { overflow: hidden; }
 .game-info h2 { font-size: 1rem; margin: 14px 0 6px; color: var(--text); }
 .game-info h2:first-child { margin-top: 0; }
 .game-info p { color: var(--text-dim); font-size: 0.95rem; }
+/* Intro text pe paginile de categorie (deasupra grilei) */
+.cat-intro {
+  margin: 4px 0 18px;
+  max-width: 880px;
+}
+.cat-intro p {
+  color: var(--text-dim);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+.cat-content p + p { margin-top: 10px; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .tag {
   background: var(--surface-2);
