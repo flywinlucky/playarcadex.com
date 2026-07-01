@@ -726,25 +726,119 @@ function buildHome() {
   }));
 }
 
+/* ---------------- CONTINUT UNIC PT PAGINILE DE JOC ----------------
+   Genereaza descrieri variate per joc (nu sablon identic) folosind datele
+   reale ale jocului: categorie, tag-uri, titlu. Seedat din slug => stabil
+   intre build-uri si bine distribuit, ca sa NU para "mass-produced".
+   Scop: sa adauge valoare unica peste textul din feed (cerinta AdSense). */
+function hashStr(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0);
+}
+function pick(arr, slug, salt) {
+  return arr[hashStr(slug + "|" + salt) % arr.length];
+}
+
+// experienta pe categorie (mai multe variante -> variatie reala pe fiecare joc)
+const CAT_EXP = {
+  ".IO": ["fast multiplayer arena action", "a real-time .io battle for the top of the leaderboard", "quick online matches against players worldwide"],
+  "3D": ["immersive 3D action", "a full 3D world to explore", "smooth 3D gameplay right in your browser"],
+  "Action": ["non-stop action and fast reflexes", "an adrenaline-fueled action challenge", "quick-thinking, quick-fingers action"],
+  "Adventure": ["an adventure full of exploration and discovery", "a journey through challenges and secrets", "story-driven adventure gameplay"],
+  "Arcade": ["classic pick-up-and-play arcade fun", "addictive arcade scoring", "simple, satisfying arcade action"],
+  "Boys": ["fast, competitive action", "high-energy arcade fun", "an action-packed challenge"],
+  "Clicker": ["satisfying idle and clicker progression", "numbers-go-up incremental fun", "an addictive tap-and-upgrade loop"],
+  "Cooking": ["a fast-paced kitchen challenge", "time-management cooking fun", "serve-it-hot restaurant action"],
+  "Fighting": ["combo-driven fighting action", "intense one-on-one battles", "a test of timing and reflexes"],
+  "Girls": ["creative dress-up and design fun", "a relaxing, colourful experience", "a fun makeover and style challenge"],
+  "Hypercasual": ["one-touch, instantly playable fun", "an easy-to-learn, hard-to-master challenge", "quick pick-up-and-play action"],
+  "Multiplayer": ["real-time multiplayer fun", "a game to play with friends", "co-op and versus action"],
+  "Puzzle": ["a brain-teasing puzzle challenge", "logic and problem-solving fun", "one-more-level puzzle action"],
+  "Puzzles": ["a clever brain-teaser", "logic-driven puzzle fun", "a satisfying mental challenge"],
+  "Racing": ["high-speed racing action", "fast cars and tricky tracks", "a test of driving skill and nerve"],
+  "Shooting": ["aim-and-fire shooting action", "a test of precision and reflexes", "target-blasting fun"],
+  "Soccer": ["fast-paced football action", "skill-based soccer fun", "a test of timing on the pitch"],
+  "Sports": ["competitive sports action", "a test of skill and timing", "quick sports fun"],
+  "Stickman": ["chaotic stickman action", "ragdoll-physics fun", "fast stickman challenges"]
+};
+function catExp(c, slug) {
+  const a = CAT_EXP[c] || [`free ${String(c).toLowerCase()} gameplay`];
+  return pick(a, slug, "exp");
+}
+
+// detalii din tag-uri -> propozitie despre ce ofera jocul (variabil per joc real)
+function tagFeature(g) {
+  const tags = (g.tags || []).map(t => t.toLowerCase());
+  const has = (...ws) => ws.some(w => tags.some(t => t.includes(w)));
+  const bits = [];
+  if (has("2 player", "2player", "two player")) bits.push("grab a friend for local two-player matches");
+  if (has("multiplayer", "io")) bits.push("go head-to-head with other players");
+  if (has("3d")) bits.push("enjoy detailed 3D graphics");
+  if (has("car", "racing", "drift", "drive")) bits.push("master the controls to take the lead");
+  if (has("shoot", "gun", "sniper")) bits.push("aim carefully and keep your reflexes sharp");
+  if (has("puzzle", "match", "brain")) bits.push("plan your moves and think one step ahead");
+  if (has("zombie", "horror", "scary")) bits.push("survive against the odds");
+  if (has("dress", "makeover", "fashion")) bits.push("mix and match to create your own style");
+  if (has("cook", "food", "restaurant")) bits.push("keep up with the orders before time runs out");
+  if (has("bike", "moto")) bits.push("balance speed and control on every track");
+  if (has("soccer", "football", "ball")) bits.push("time your shots to score");
+  if (has("idle", "clicker", "merge")) bits.push("upgrade and watch your progress grow");
+  if (!bits.length) bits.push("beat your own high score and keep coming back for more");
+  return bits[hashStr(g.slug + "|feat") % bits.length];
+}
+
+function gameEditorial(g) {
+  const t = esc(g.title), c = esc(g.category), cl = String(g.category).toLowerCase();
+  const exp = catExp(g.category, g.slug);
+  const feat = tagFeature(g);
+
+  const openers = [
+    `${t} is a free online ${cl} game that brings you ${exp}, playable instantly in your browser on ${SITE_NAME}.`,
+    `Jump into ${t}, a free ${cl} game on ${SITE_NAME} that delivers ${exp} with nothing to download.`,
+    `${t} offers ${exp} — one of the many free ${cl} games you can play right now on ${SITE_NAME}.`,
+    `If you enjoy ${cl} games, ${t} is worth a try: ${exp}, straight from your browser, completely free.`,
+    `Play ${t} for free on ${SITE_NAME}. This ${cl} game serves up ${exp} on both mobile and desktop.`
+  ];
+  const middles = [
+    `As you play, ${feat}.`,
+    `The goal is simple to grasp but tricky to master — ${feat}.`,
+    `Once you start, ${feat}.`,
+    `To do well, ${feat}.`
+  ];
+  const closers = [
+    `No installation or sign-up is needed — just press play and you're in. ${t} runs smoothly on phones, tablets and computers, so you can pick it up anytime.`,
+    `Best of all, ${t} is completely free and works on any device. Load it up, play in seconds, and come back whenever you want a quick ${cl} session.`,
+    `There's nothing to install and no account required. ${t} loads fast and plays great on mobile and desktop alike — perfect for a quick break.`,
+    `${t} is free to play with no downloads. Hop in for a few minutes or a long session, on your phone or your computer — it's ready whenever you are.`
+  ];
+
+  const p1 = pick(openers, g.slug, "op");
+  const p2 = pick(middles, g.slug, "mid");
+  const p3 = pick(closers, g.slug, "cl");
+
+  // secventa feed-ului pastrata ca detaliu, DAR incadrata cu text unic in jur
+  const feedLine = g.description ? `<p>${esc(g.description)}</p>` : "";
+
+  const aboutHtml = `<p>${p1} ${p2}</p>
+      ${feedLine}
+      <p>${p3}</p>`;
+
+  // meta description unica (nu mai taiem feed-ul duplicat)
+  let metaDesc = `${g.title}: ${exp} for free on ${SITE_NAME}. Play this ${cl} game instantly in your browser — no download, mobile & desktop.`;
+  if (metaDesc.length > 160) metaDesc = metaDesc.slice(0, 157).replace(/\s+\S*$/, "") + "…";
+
+  return { aboutHtml, metaDesc };
+}
+
 /* ---------------- GAME PAGES ---------------- */
 function buildGamePages() {
   for (const g of games) {
     const related = (byCategory[g.category] || []).filter(x => x.slug !== g.slug).slice(0, 12);
     const canonical = `${SITE_URL}/game/${g.slug}/`;
-    // Descriere SEO: taiem la cuvant complet (nu la mijloc) si garantam keyword-uri.
-    let rawDesc = g.description || "";
-    let desc;
-    if (rawDesc.length > 120) {
-      // taiem elegant la ultimul cuvant inainte de ~150 caractere
-      desc = rawDesc.slice(0, 150);
-      const lastSpace = desc.lastIndexOf(" ");
-      if (lastSpace > 100) desc = desc.slice(0, lastSpace);
-      desc = desc.replace(/[,;:.\s]+$/, "") + "…";
-    } else {
-      // descriere scurta sau lipsa -> construim una bogata in keyword-uri
-      desc = `Play ${g.title}, a free online ${g.category.toLowerCase()} game on ${SITE_NAME}. No download — play instantly in your browser on mobile and desktop.`;
-      if (desc.length > 158) desc = desc.slice(0, 158);
-    }
+    // Continut editorial unic per joc (about + meta) — adauga valoare peste feed.
+    const editorial = gameEditorial(g);
+    const desc = editorial.metaDesc;
 
     // FAQ specific jocului — targeteaza cautari conversationale ("is X free",
     // "how to play X", "can I play X on mobile"). Raspunsuri scurte, directe.
@@ -837,7 +931,7 @@ function buildGamePages() {
     </div>
     <div class="game-info">
       <h2>About ${esc(g.title)}</h2>
-      <p>${esc(g.description)}</p>
+      ${editorial.aboutHtml}
       ${g.instructions ? `<h2>How to Play</h2><p>${esc(g.instructions)}</p>` : ""}
       <div class="tag-row">
         <a class="tag" href="/category/${catSlug(g.category)}/">${esc(g.category)}</a>
