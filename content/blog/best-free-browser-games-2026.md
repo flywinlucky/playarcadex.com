@@ -2,6 +2,7 @@
 title: 10 Best Free Browser Games to Play Right Now (2026 Picks)
 description: Our hand-picked list of the 10 best free browser games in 2026 — multiplayer battles, racing, puzzles and 2-player couch games, all playable instantly with no download.
 date: 2026-07-02
+cover: /img/blog/topgames.jpg
 tags: Best Of, 2026, Free Games
 ---
 

@@ -2,6 +2,7 @@
 title: How to Play Free Browser Games on Any Device — The Complete Guide
 description: Everything you need to know to play free browser games on phone, tablet or PC: requirements, controls, fullscreen tips, saving progress and fixing common problems.
 date: 2026-07-01
+cover: /img/blog/how-to-play-cover.jpg
 tags: Guide, Beginners, Browser Games
 ---
 

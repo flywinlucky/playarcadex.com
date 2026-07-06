@@ -2,6 +2,7 @@
 title: Are Free Browser Games Safe? What Players (and Parents) Should Know
 description: Free browser games are safe when you know what to look for. Here's how HTML5 games work, what they can and can't do on your device, and simple safety tips for families.
 date: 2026-06-30
+cover: /img/blog/safety-cover.jpg
 tags: Guide, Safety, Parents
 ---
 

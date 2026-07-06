@@ -365,6 +365,7 @@ ${body}
      draft:        true                  (optional; daca true, nu se publica)
 */
 const BLOG_DIR = path.join(ROOT, "content", "blog");
+const DEFAULT_BLOG_COVER = "/img/blog/default-cover.jpg"; // fallback daca articolul n-are cover
 
 // Mic convertor Markdown -> HTML (subset: titluri, paragrafe, bold/italic,
 // linkuri, imagini, liste, citate, hr, cod inline). Zero dependinte.
@@ -469,7 +470,7 @@ function loadBlogPosts() {
       title: meta.title || slug,
       description: meta.description || "",
       date: meta.date || "",
-      cover: meta.cover || "",
+      cover: meta.cover || DEFAULT_BLOG_COVER,
       tags: (meta.tags || "").split(",").map(t => t.trim()).filter(Boolean),
       bodyHtml: mdToHtml(body),
       // excerpt din description sau prima fraza din body
