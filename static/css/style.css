@@ -1346,3 +1346,21 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
 .partner-host { font-size: .8rem; color: var(--accent-hover); }
 .partner-desc { font-size: .88rem; color: var(--text-dim); margin-top: 4px; line-height: 1.45; }
 @media (max-width: 520px) { .partners-grid { grid-template-columns: 1fr; } }
+
+/* Partner logo (imagine in loc de nume text) */
+.partner-logo {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.partner-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16 / 6;
+  object-fit: contain;
+  background: #000;
+  border-radius: var(--radius);
+}

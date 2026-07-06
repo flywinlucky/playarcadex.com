@@ -1098,9 +1098,10 @@ const PARTNERS = [
   {
     name: "CrazyCubix",
     url: "https://crazycubix.com/",
+    logo: "/img/partners/crazycubix.jpg",
     description: "Free online games portal with a great selection of browser games to play instantly."
   },
-  // { name: "Exemplu", url: "https://exemplu.com/", description: "Scurta descriere a partenerului." },
+  // { name: "Exemplu", url: "https://exemplu.com/", logo: "/img/partners/exemplu.png", description: "Scurta descriere." },
 ];
 
 function partnersHTML() {
@@ -1110,8 +1111,11 @@ function partnersHTML() {
   const cards = PARTNERS.map(p => {
     let host = p.url;
     try { host = new URL(p.url).hostname.replace(/^www\./, ""); } catch (e) {}
+    const logo = p.logo
+      ? `<span class="partner-logo"><img src="${esc(p.logo)}" alt="${esc(p.name)} logo" loading="lazy"></span>`
+      : `<span class="partner-name">${esc(p.name)}</span>`;
     return `<a class="partner-card" href="${esc(p.url)}" target="_blank" rel="noopener">
-        <span class="partner-name">${esc(p.name)}</span>
+        ${logo}
         <span class="partner-host">${esc(host)}</span>
         ${p.description ? `<span class="partner-desc">${esc(p.description)}</span>` : ""}
       </a>`;
