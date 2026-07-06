@@ -271,6 +271,7 @@ function footerHTML() {
     <div class="links">
       <a href="/">Home</a>
       <a href="/blog/">Blog</a>
+      <a href="/partners/">Partners</a>
       ${categories.slice(0, 6).map(c => `<a href="/category/${catSlug(c)}/">${esc(c)}</a>`).join("\n      ")}
     </div>
     <div class="links">
@@ -1086,7 +1087,52 @@ function buildCategoryPages() {
 }
 
 /* ---------------- STATIC / LEGAL PAGES ---------------- */
+/* ---------------- PARTNERS ----------------
+   Adaugi un partener nou = adaugi o linie in lista de mai jos, apoi node build.js.
+   Linkurile sunt DoFollow (fara nofollow/sponsored) si se deschid in tab nou.
+   rel="noopener" e doar securitate, NU afecteaza SEO.
+   NOTA: schimburile reciproce de linkuri, la scara mare, pot fi tratate de Google
+   ca "link scheme". Cateva schimburi cu site-uri relevante (portaluri de jocuri)
+   sunt ok; nu transforma pagina intr-o lista lunga de linkuri reciproce. */
+const PARTNERS = [
+  {
+    name: "CrazyCubix",
+    url: "https://crazycubix.com/",
+    description: "Free online games portal with a great selection of browser games to play instantly."
+  },
+  // { name: "Exemplu", url: "https://exemplu.com/", description: "Scurta descriere a partenerului." },
+];
+
+function partnersHTML() {
+  if (!PARTNERS.length) {
+    return `<p>We're currently building our partner network. Interested in a partnership? <a href="/contact/">Get in touch</a>.</p>`;
+  }
+  const cards = PARTNERS.map(p => {
+    let host = p.url;
+    try { host = new URL(p.url).hostname.replace(/^www\./, ""); } catch (e) {}
+    return `<a class="partner-card" href="${esc(p.url)}" target="_blank" rel="noopener">
+        <span class="partner-name">${esc(p.name)}</span>
+        <span class="partner-host">${esc(host)}</span>
+        ${p.description ? `<span class="partner-desc">${esc(p.description)}</span>` : ""}
+      </a>`;
+  }).join("\n      ");
+  return `<div class="partners-grid">
+      ${cards}
+    </div>`;
+}
+
 const STATIC_PAGES = [
+  {
+    slug: "partners",
+    title: `Partners`,
+    description: `Our partners at ${SITE_NAME} — friends and gaming sites we recommend. Interested in a partnership? Get in touch.`,
+    html: `
+      <h1>Our Partners</h1>
+      <p>We're proud to work alongside these gaming sites and friends of ${SITE_NAME}. Check them out for even more free games and fun.</p>
+      ${partnersHTML()}
+      <h2>Become a partner</h2>
+      <p>Run a gaming site and want to partner with us? We're open to collaborations with relevant, high-quality sites. Reach out via our <a href="/contact/">contact page</a>.</p>`
+  },
   {
     slug: "about",
     title: `About ${SITE_NAME}`,
