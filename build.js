@@ -242,9 +242,11 @@ function sidebarHTML(activeCat) {
   const homeIco = ico('<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>');
   const allIco = ico('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>');
   const exclIco = ico('<path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"/>');
+  const blogIco = ico('<path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><line x1="7" y1="8" x2="14" y2="8"/><line x1="7" y1="12" x2="14" y2="12"/><line x1="7" y1="16" x2="11" y2="16"/>');
   const home = `<a href="/" class="${activeCat === "__home" ? "active" : ""}"><span class="emoji">${homeIco}</span>Home</a>
     <a href="/games/" class="${activeCat === "__all" ? "active" : ""}"><span class="emoji">${allIco}</span>All Games</a>
-    <a href="/exclusive/" class="${activeCat === "__excl" ? "active" : ""}"><span class="emoji excl-star">${exclIco}</span>Exclusive</a>`;
+    <a href="/exclusive/" class="${activeCat === "__excl" ? "active" : ""}"><span class="emoji excl-star">${exclIco}</span>Exclusive</a>
+    <a href="/blog/" class="${activeCat === "__blog" ? "active" : ""}"><span class="emoji">${blogIco}</span>Blog</a>`;
   const cats = categories.map(c =>
     `<a href="/category/${catSlug(c)}/" class="${activeCat === c ? "active" : ""}"><span class="emoji">${catIcon(c)}</span>${esc(c)}</a>`
   ).join("\n    ");
@@ -539,7 +541,8 @@ function buildBlog() {
     description: `The ${SITE_NAME} blog: news, guides and the most popular free online browser games. Discover what to play next.`,
     canonical: canonicalIndex,
     body: indexBody,
-    jsonld: indexJsonld
+    jsonld: indexJsonld,
+    activeCat: "__blog"
   }));
 
   // --- fiecare articol /blog/<slug>/ ---
@@ -595,7 +598,8 @@ function buildBlog() {
       body,
       jsonld,
       ogImage: p.cover ? (p.cover.startsWith("http") ? p.cover : SITE_URL + p.cover) : undefined,
-      ogType: "article"
+      ogType: "article",
+      activeCat: "__blog"
     }));
   }
 }
