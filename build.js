@@ -515,7 +515,8 @@ function buildBlog() {
     <p class="cat-intro" style="max-width:880px;color:var(--text-dim)">News, guides and the most popular free browser games on ${SITE_NAME}. Tips, trending picks and what to play next — updated regularly.</p>
     <div class="blog-grid">
       ${blogPosts.map(blogCard).join("\n      ")}
-    </div>`;
+    </div>
+    ${mascotBand([...games].sort(() => Math.random() - 0.5).slice(0, 12), pickLabel(2), "mascot-excited")}`;
   const indexJsonld = [{
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -605,6 +606,39 @@ function buildBlog() {
 }
 
 /* ---------------- HOME ---------------- */
+
+// Etichete variate pentru benzile mascotei
+const MASCOT_LABELS = [
+  "🎮 The mascot picks for you",
+  "❤️ Mascot loves these games",
+  "🔥 Hot picks from the mascot",
+  "⭐ Mascot's favourites right now",
+  "😎 The mascot says: play these!",
+  "🚀 Handpicked by your arcade buddy"
+];
+let _mascotLabelI = Math.floor(Math.random() * MASCOT_LABELS.length);
+function pickLabel(offset) {
+  return MASCOT_LABELS[(_mascotLabelI + (offset || 0)) % MASCOT_LABELS.length];
+}
+
+// Banda reutilizabila "mascota recomanda". gamesArr = jocuri deja alese (fara dublare).
+function mascotBand(gamesArr, label, pose) {
+  pose = pose || "mascot-point";
+  return `
+    <section class="mascot-reco" aria-label="Game recommendation from our mascot">
+      <div class="mascot-reco-char">
+        <img class="mascot-reco-img" src="/img/mascot/${pose}.png" alt="PlayArcadeX mascot" width="150" height="176" loading="lazy">
+        <div class="mascot-bubble">Try this one for fun!</div>
+      </div>
+      <div class="mascot-reco-body">
+        <p class="mascot-reco-label">${esc(label)}</p>
+        <div class="mascot-reco-games">
+          ${gamesArr.map(g => cardHTML(g)).join("\n          ")}
+        </div>
+      </div>
+    </section>`;
+}
+
 function buildHome() {
   const newest = [...games]
     .sort((a, b) => (a.feedRank ?? 1e9) - (b.feedRank ?? 1e9))
@@ -622,25 +656,14 @@ function buildHome() {
     </div>
     </section>`);
 
-  // Banda "mascota recomanda" — 2 jocuri implicite (fallback), randomizate apoi via JS.
-  const recoDefaults = [...games].sort(() => Math.random() - 0.5).slice(0, 12);
-  const mascotBand = `
-    <section class="mascot-reco" id="mascotReco" aria-label="Game recommendation from our mascot">
-      <div class="mascot-reco-char">
-        <img class="mascot-reco-img" src="/img/mascot/mascot-point.png" alt="PlayArcadeX mascot" width="150" height="176" loading="lazy">
-        <div class="mascot-bubble" id="mascotBubble">Try this one for fun!</div>
-      </div>
-      <div class="mascot-reco-body">
-        <p class="mascot-reco-label">🎮 The mascot picks for you</p>
-        <div class="mascot-reco-games" id="mascotRecoGames">
-          ${recoDefaults.map(g => cardHTML(g)).join("\n          ")}
-        </div>
-      </div>
-    </section>`;
+  // Benzi "mascota recomanda" — jocuri random, fara dublare intre benzi.
+  const recoPool = [...games].sort(() => Math.random() - 0.5);
+  const bandA = mascotBand(recoPool.slice(0, 12), pickLabel(0), "mascot-point");
+  const bandB = mascotBand(recoPool.slice(12, 24), pickLabel(1), "mascot-happy");
 
-  // inseram banda dupa al 3-lea rand de categorii (sau la final daca sunt mai putine)
-  const insertAt = Math.min(3, catSecArr.length);
-  catSecArr.splice(insertAt, 0, mascotBand);
+  // una la inceput (dupa primul rand), una mai jos (dupa al 6-lea)
+  if (catSecArr.length > 1) catSecArr.splice(1, 0, bandA);
+  catSecArr.splice(Math.min(7, catSecArr.length), 0, bandB);
   const categorySections = catSecArr.join("\n");
 
   const body = `

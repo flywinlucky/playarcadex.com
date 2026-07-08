@@ -605,10 +605,10 @@
   if (document.readyState !== "loading") setupRows();
   else document.addEventListener("DOMContentLoaded", setupRows);
 
-  /* ---------- Mascota: roteste mesajul din bula (fara fetch, zero cost) ---------- */
-  (function mascotBubble() {
-    var bubble = document.getElementById("mascotBubble");
-    if (!bubble) return;
+  /* ---------- Mascota: roteste mesajul din bule (fara fetch, zero cost) ---------- */
+  (function mascotBubbles() {
+    var bubbles = document.querySelectorAll(".mascot-bubble");
+    if (!bubbles.length) return;
     var msgs = [
       "Try this one for fun!",
       "You'll love this one!",
@@ -616,17 +616,20 @@
       "This one's super addictive!",
       "Give it a go — it's great!",
       "Trust me, this one's fun!",
-      "Perfect for a quick break!"
+      "Perfect for a quick break!",
+      "Can't stop playing this!"
     ];
-    var i = 0;
-    setInterval(function () {
-      i = (i + 1) % msgs.length;
-      bubble.style.opacity = "0";
-      setTimeout(function () {
-        bubble.textContent = msgs[i];
-        bubble.style.opacity = "1";
-      }, 250);
-    }, 3500);
-    bubble.style.transition = "opacity .25s ease";
+    bubbles.forEach(function (bubble, idx) {
+      var i = idx % msgs.length; // pornire diferita per bula
+      bubble.style.transition = "opacity .25s ease";
+      setInterval(function () {
+        i = (i + 1) % msgs.length;
+        bubble.style.opacity = "0";
+        setTimeout(function () {
+          bubble.textContent = msgs[i];
+          bubble.style.opacity = "1";
+        }, 250);
+      }, 3500 + idx * 700); // usor defazate ca sa nu fie sincron
+    });
   })();
 })();
