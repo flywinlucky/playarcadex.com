@@ -610,7 +610,7 @@ function buildHome() {
     .sort((a, b) => (a.feedRank ?? 1e9) - (b.feedRank ?? 1e9))
     .slice(0, 12);
 
-  const categorySections = categories.map(c => `
+  const catSecArr = categories.map(c => `
     <section class="cat-sec" data-cat="${esc(c)}">
     <h2 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> <a class="cat-link" href="/category/${catSlug(c)}/">${esc(c)}</a></h2>
     <div class="row-wrap">
@@ -620,7 +620,28 @@ function buildHome() {
       </div>
       <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
     </div>
-    </section>`).join("\n");
+    </section>`);
+
+  // Banda "mascota recomanda" — 2 jocuri implicite (fallback), randomizate apoi via JS.
+  const recoDefaults = [...games].sort(() => Math.random() - 0.5).slice(0, 2);
+  const mascotBand = `
+    <section class="mascot-reco" id="mascotReco" aria-label="Game recommendation from our mascot">
+      <div class="mascot-reco-char">
+        <img class="mascot-reco-img" src="/img/mascot/mascot-point.png" alt="PlayArcadeX mascot" width="150" height="176" loading="lazy">
+        <div class="mascot-bubble" id="mascotBubble">Try this one for fun!</div>
+      </div>
+      <div class="mascot-reco-body">
+        <p class="mascot-reco-label">🎮 The mascot picks for you</p>
+        <div class="mascot-reco-games" id="mascotRecoGames">
+          ${recoDefaults.map(g => cardHTML(g)).join("\n          ")}
+        </div>
+      </div>
+    </section>`;
+
+  // inseram banda dupa al 3-lea rand de categorii (sau la final daca sunt mai putine)
+  const insertAt = Math.min(3, catSecArr.length);
+  catSecArr.splice(insertAt, 0, mascotBand);
+  const categorySections = catSecArr.join("\n");
 
   const body = `
     <h1 class="home-h1">Free Online Games — Play ${games.length}+ Games on ${SITE_NAME}</h1>

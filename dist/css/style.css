@@ -1374,3 +1374,68 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
 }
 @keyframes mascot-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @media (prefers-reduced-motion: reduce) { .notfound-mascot { animation: none; } }
+
+/* ---------- Mascota recomanda (banda pe home) ---------- */
+.mascot-reco {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, rgba(104,66,255,.14), rgba(104,66,255,.04));
+  border: 1px solid rgba(104,66,255,.22);
+  border-radius: var(--radius-lg);
+}
+.mascot-reco-char {
+  position: relative;
+  flex: 0 0 auto;
+  width: 140px;
+  text-align: center;
+}
+.mascot-reco-img {
+  width: 130px; height: auto;
+  filter: drop-shadow(0 6px 16px rgba(104,66,255,.4));
+  animation: mascot-bob 3.2s ease-in-out infinite;
+}
+.mascot-bubble {
+  position: relative;
+  background: #fff;
+  color: #1a1c2e;
+  font-weight: 700;
+  font-size: .82rem;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin-bottom: 6px;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+.mascot-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -7px; left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: #fff;
+  border-bottom: 0;
+}
+.mascot-reco-body { flex: 1 1 auto; min-width: 0; }
+.mascot-reco-label {
+  font-weight: 800;
+  color: var(--accent-hover);
+  margin: 0 0 12px;
+  font-size: .95rem;
+}
+.mascot-reco-games {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 220px));
+  gap: 14px;
+}
+/* pe mobil: mascota deasupra, jocurile dedesubt */
+@media (max-width: 680px) {
+  .mascot-reco { flex-direction: column; align-items: stretch; text-align: center; padding: 16px; gap: 12px; }
+  .mascot-reco-char { width: 100%; display: flex; flex-direction: column-reverse; align-items: center; }
+  .mascot-reco-img { width: 96px; }
+  .mascot-bubble { margin-top: 8px; margin-bottom: 0; }
+  .mascot-bubble::after { display: none; }
+  .mascot-reco-games { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
