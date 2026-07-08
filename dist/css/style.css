@@ -70,7 +70,6 @@ button { font: inherit; cursor: pointer; border: 0; }
   border-radius: 9px;
   display: block;
   object-fit: contain;
-  box-shadow: 0 0 14px var(--accent-glow);
 }
 
 .menu-btn {
@@ -1427,9 +1426,15 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
 }
 .mascot-reco-games {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 220px));
-  gap: 14px;
+  grid-auto-flow: column;
+  grid-auto-columns: 160px;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-bottom: 2px;
 }
+.mascot-reco-games::-webkit-scrollbar { display: none; }
 /* pe mobil: mascota deasupra, jocurile dedesubt */
 @media (max-width: 680px) {
   .mascot-reco { flex-direction: column; align-items: stretch; text-align: center; padding: 16px; gap: 12px; }
@@ -1437,5 +1442,5 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   .mascot-reco-img { width: 96px; }
   .mascot-bubble { margin-top: 8px; margin-bottom: 0; }
   .mascot-bubble::after { display: none; }
-  .mascot-reco-games { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .mascot-reco-games { grid-auto-columns: 140px; gap: 10px; }
 }

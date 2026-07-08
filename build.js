@@ -623,7 +623,7 @@ function buildHome() {
     </section>`);
 
   // Banda "mascota recomanda" — 2 jocuri implicite (fallback), randomizate apoi via JS.
-  const recoDefaults = [...games].sort(() => Math.random() - 0.5).slice(0, 2);
+  const recoDefaults = [...games].sort(() => Math.random() - 0.5).slice(0, 12);
   const mascotBand = `
     <section class="mascot-reco" id="mascotReco" aria-label="Game recommendation from our mascot">
       <div class="mascot-reco-char">
