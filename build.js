@@ -256,7 +256,7 @@ function sidebarHTML(activeCat) {
 function headerHTML() {
   return `<header class="header">
     <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
-    <a href="/" class="logo"><span class="logo-badge">🎮</span>PlayArcade<span class="x">X</span></a>
+    <a href="/" class="logo"><img class="logo-badge" src="/img/logo-face.svg" alt="" width="30" height="30">PlayArcade<span class="x">X</span></a>
     <button class="search-toggle" id="searchToggle" aria-label="Search">🔍</button>
     <div class="search-wrap" id="searchWrap">
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
@@ -1479,6 +1479,7 @@ function build404() {
   const popular = games.slice(0, 12);
   const body = `
     <div class="notfound">
+      <img class="notfound-mascot" src="/img/mascot/mascot-happy.png" alt="" width="150" height="176" loading="eager">
       <div class="notfound-title">GAME<br>OVER</div>
       <p class="notfound-sub">Oops, you've reached a dead end!<br>The page you're looking for doesn't exist.</p>
       <a href="/" class="bottom-btn primary notfound-home">🏠 Go back home</a>

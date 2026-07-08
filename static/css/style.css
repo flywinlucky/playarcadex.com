@@ -67,10 +67,9 @@ button { font: inherit; cursor: pointer; border: 0; }
 .logo .x { color: var(--accent); }
 .logo-badge {
   width: 30px; height: 30px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent), #a55cff);
-  display: grid; place-items: center;
-  font-size: 0.95rem;
+  border-radius: 9px;
+  display: block;
+  object-fit: contain;
   box-shadow: 0 0 14px var(--accent-glow);
 }
 
@@ -1364,3 +1363,14 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   background: #000;
   border-radius: var(--radius);
 }
+
+/* Mascota pe 404 */
+.notfound-mascot {
+  display: block;
+  margin: 0 auto 6px;
+  width: 150px; height: auto;
+  filter: drop-shadow(0 8px 20px rgba(104,66,255,.35));
+  animation: mascot-bob 3s ease-in-out infinite;
+}
+@keyframes mascot-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) { .notfound-mascot { animation: none; } }
