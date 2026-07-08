@@ -65,6 +65,12 @@ button { font: inherit; cursor: pointer; border: 0; }
   gap: 8px;
 }
 .logo .x { color: var(--accent); }
+.logo { min-width: 0; }
+.logo-text { white-space: nowrap; overflow: hidden; }
+/* pe ecrane inguste ascundem textul logo-ului ca sa nu intre in search (ramane fata) */
+@media (max-width: 460px) {
+  .logo-text { display: none; }
+}
 .logo-badge {
   width: 30px; height: 30px;
   border-radius: 9px;
@@ -648,6 +654,11 @@ body.no-scroll { overflow: hidden; }
   overscroll-behavior-x: contain;
 }
 .row::-webkit-scrollbar { display: none; }
+/* Home: categoriile arata jocurile pe DOUA randuri (sagetile scroll-eaza ambele) */
+.cat-sec .row {
+  grid-template-rows: repeat(2, 1fr);
+  gap: 12px 14px;
+}
 .row .card {
   scroll-snap-align: start;
   width: 170px;
@@ -664,8 +675,9 @@ body.no-scroll { overflow: hidden; }
   height: 72px;
   background: rgba(14, 15, 26, 0.9);
   color: #fff;
-  font-size: 2rem;
-  line-height: 1;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1389,6 +1401,9 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   position: relative;
   flex: 0 0 auto;
   width: 140px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
   text-align: center;
 }
 .mascot-reco-img {
@@ -1404,7 +1419,7 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   font-size: .82rem;
   padding: 8px 12px;
   border-radius: 12px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   display: inline-block;
   box-shadow: 0 4px 12px rgba(0,0,0,.25);
 }
@@ -1420,21 +1435,13 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
 .mascot-reco-body { flex: 1 1 auto; min-width: 0; }
 .mascot-reco-label {
   font-weight: 800;
-  color: var(--accent-hover);
+  color: #fff;
   margin: 0 0 12px;
-  font-size: .95rem;
+  font-size: .98rem;
+  text-shadow: 0 1px 8px rgba(104,66,255,.5);
 }
-.mascot-reco-games {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 160px;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  padding-bottom: 2px;
-}
-.mascot-reco-games::-webkit-scrollbar { display: none; }
+.mascot-row-wrap { min-width: 0; }
+.mascot-reco-games.row { grid-auto-columns: 158px; grid-template-rows: 1fr; }
 /* pe mobil: mascota deasupra, jocurile dedesubt */
 @media (max-width: 680px) {
   .mascot-reco { flex-direction: column; align-items: stretch; text-align: center; padding: 16px; gap: 12px; }
@@ -1442,5 +1449,5 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   .mascot-reco-img { width: 96px; }
   .mascot-bubble { margin-top: 8px; margin-bottom: 0; }
   .mascot-bubble::after { display: none; }
-  .mascot-reco-games { grid-auto-columns: 140px; gap: 10px; }
+  .mascot-reco-games.row { grid-auto-columns: 140px; }
 }

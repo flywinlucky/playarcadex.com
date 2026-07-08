@@ -32,11 +32,15 @@
       sidebar.classList.add("open");
       sbOverlay.classList.add("show");
       document.body.classList.add("no-scroll");
+      menuBtn.textContent = "✕";
+      menuBtn.setAttribute("aria-label", "Close menu");
     }
     function closeSidebar() {
       sidebar.classList.remove("open");
       sbOverlay.classList.remove("show");
       document.body.classList.remove("no-scroll");
+      menuBtn.textContent = "☰";
+      menuBtn.setAttribute("aria-label", "Open menu");
     }
     menuBtn.addEventListener("click", function (e) {
       e.preventDefault();
@@ -54,7 +58,7 @@
   /* ---------- Instant search (loads games.json on first keystroke) ---------- */
   var searchInput = document.getElementById("searchInput");
   var searchResultsGrid = document.getElementById("searchResults");
-  var defaultSections = document.getElementById("defaultSections");
+  var defaultSections = document.getElementById("pageContent") || document.getElementById("defaultSections");
   var emptyState = document.getElementById("emptyState");
   var gamesIndex = null;
   var loading = false;

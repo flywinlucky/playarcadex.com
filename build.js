@@ -256,7 +256,7 @@ function sidebarHTML(activeCat) {
 function headerHTML() {
   return `<header class="header">
     <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
-    <a href="/" class="logo"><img class="logo-badge" src="/img/logo-face.svg" alt="" width="30" height="30">PlayArcade<span class="x">X</span></a>
+    <a href="/" class="logo"><img class="logo-badge" src="/img/logo-face.svg" alt="" width="30" height="30"><span class="logo-text">PlayArcade<span class="x">X</span></span></a>
     <button class="search-toggle" id="searchToggle" aria-label="Search">🔍</button>
     <div class="search-wrap" id="searchWrap">
       <input type="search" id="searchInput" placeholder="Search games..." autocomplete="off" aria-label="Search games">
@@ -347,7 +347,11 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   ${headerHTML()}
   ${sidebarHTML(activeCat)}
   <main class="main">
+    <div id="searchResults" class="grid" style="display:none"></div>
+    <div id="emptyState" class="empty" style="display:none">😕 No games found. Try another search.</div>
+    <div id="pageContent">
 ${body}
+    </div>
   </main>
   ${footerHTML()}
   <script src="/js/app.js" defer></script>
@@ -632,8 +636,12 @@ function mascotBand(gamesArr, label, pose) {
       </div>
       <div class="mascot-reco-body">
         <p class="mascot-reco-label">${esc(label)}</p>
-        <div class="mascot-reco-games">
+        <div class="row-wrap mascot-row-wrap">
+          <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">❮</button>
+          <div class="row mascot-reco-games" tabindex="0">
           ${gamesArr.map(g => cardHTML(g)).join("\n          ")}
+          </div>
+          <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">❯</button>
         </div>
       </div>
     </section>`;
@@ -648,11 +656,11 @@ function buildHome() {
     <section class="cat-sec" data-cat="${esc(c)}">
     <h2 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> <a class="cat-link" href="/category/${catSlug(c)}/">${esc(c)}</a></h2>
     <div class="row-wrap">
-      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">‹</button>
+      <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">❮</button>
       <div class="row" tabindex="0">
       ${byCategory[c].slice(0, 30).map(g => cardHTML(g)).join("\n      ")}
       </div>
-      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">›</button>
+      <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">❯</button>
     </div>
     </section>`);
 
@@ -668,8 +676,6 @@ function buildHome() {
 
   const body = `
     <h1 class="home-h1">Free Online Games — Play ${games.length}+ Games on ${SITE_NAME}</h1>
-    <div id="searchResults" class="grid" style="display:none"></div>
-    <div id="emptyState" class="empty">😕 No games found. Try another search.</div>
     <div id="defaultSections">
       <section id="recentSection" style="display:none">
         <h2 class="section-title"><span class="bar"></span>🕒 Recently Played</h2>
