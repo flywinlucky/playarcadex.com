@@ -86,3 +86,7 @@ Want more? Browse the full [multiplayer games](https://playarcadex.com/category/
 *We keep an eye on what's blowing up in gaming and match it with the best free browser games to play. Bookmark the [blog](https://playarcadex.com/blog/) and check back for more.*
 
 *Screenshots and cover art via [MECCHA CHAMELEON on Steam](https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/) © lemorion_1224. Used for editorial review purposes.*
+
+## See also
+
+- [Meccha Chameleon Atlas](https://mecchachameleon.art/) — Fan-maintained hide-spots reference, paint-match notes, and seeker counter-tips for the paint-based hide-and-seek game Meccha Chameleon. Unofficial, not affiliated with the developer.
