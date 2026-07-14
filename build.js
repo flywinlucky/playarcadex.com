@@ -705,6 +705,13 @@ function buildHome() {
       <div id="catSections">
       ${categorySections}
       </div>
+      ${blogPosts.length ? `
+      <section class="home-blog">
+        <h2 class="section-title"><span class="bar"></span>📰 <a class="cat-link" href="/blog/">From the Blog</a></h2>
+        <div class="blog-grid">
+          ${blogPosts.slice(0, 3).map(blogCard).join("\n          ")}
+        </div>
+      </section>` : ""}
       <div class="cat-block">
         <div class="cat-block-intro">
           <h2>Free Online Games at ${SITE_NAME}</h2>
@@ -1009,7 +1016,7 @@ function buildGamePages() {
     </div>` : ""}`;
 
     write(`game/${g.slug}/index.html`, page({
-      title: `${g.title} — Play Free Online | ${SITE_NAME}`,
+      title: `${g.title} Online Free — Play Now, No Download | ${SITE_NAME}`,
       description: desc,
       canonical, body, jsonld,
       ogImage: g.thumb,
@@ -1115,6 +1122,17 @@ function buildCategoryPages() {
       url: canonical,
       description: `Play ${list.length} free ${c.toLowerCase()} games online on ${SITE_NAME}.`,
       isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL }
+    }, {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${c} Games on ${SITE_NAME}`,
+      numberOfItems: list.length,
+      itemListElement: list.slice(0, 20).map((g, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: g.title,
+        url: `${SITE_URL}/game/${g.slug}/`
+      }))
     }, {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",

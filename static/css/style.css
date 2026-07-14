@@ -1441,7 +1441,15 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   text-shadow: 0 1px 8px rgba(104,66,255,.5);
 }
 .mascot-row-wrap { min-width: 0; }
-.mascot-reco-games.row { grid-auto-columns: 158px; grid-template-rows: 1fr; }
+.mascot-reco-games.row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 14px;
+}
+.mascot-reco-games.row > .card {
+  flex: 0 0 160px;
+  width: 160px;
+}
 /* pe mobil: mascota deasupra, jocurile dedesubt */
 @media (max-width: 680px) {
   .mascot-reco { flex-direction: column; align-items: stretch; text-align: center; padding: 16px; gap: 12px; }
@@ -1449,5 +1457,5 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   .mascot-reco-img { width: 96px; }
   .mascot-bubble { margin-top: 8px; margin-bottom: 0; }
   .mascot-bubble::after { display: none; }
-  .mascot-reco-games.row { grid-auto-columns: 140px; }
+  .mascot-reco-games.row > .card { flex-basis: 138px; width: 138px; }
 }
