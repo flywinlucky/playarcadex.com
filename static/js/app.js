@@ -96,20 +96,6 @@
       .finally(function () { loading = false; });
   }
 
-  function _norm(s) { return String(s || "").toLowerCase().replace(/[^a-z0-9]/g, ""); }
-  /* Replica EXACT ordinea din build.js (byCategory): intai jocurile cu
-     category===cat, apoi cele "related" (au numele categoriei printre tags).
-     Astfel jocurile apendate lazy continua fix de unde s-a oprit serverul. */
-  function categoryPool(idx, cat) {
-    var cn = _norm(cat), primary = [], related = [];
-    for (var i = 0; i < idx.length; i++) {
-      var g = idx[i];
-      if (g.category === cat) primary.push(g);
-      else if (g.tags && g.tags.some && g.tags.some(function (t) { return _norm(t) === cn; })) related.push(g);
-    }
-    return primary.concat(related);
-  }
-
   function runSearch(q) {
     q = q.trim().toLowerCase();
     if (!searchResultsGrid) return;
@@ -557,30 +543,6 @@
       var ctx = { wrap: wrap, row: row, left: left, right: right };
       rows.push(ctx);
 
-      /* ---- Smart scroll: incarca lazy mai multe jocuri din categorie ----
-         Mentine un buffer de carduri in dreapta pozitiei curente, ca PRIMUL
-         click pe sageata sa deruleze deja in jocuri noi (nu la finalul lotului
-         initial). Apendarea e sincrona odata ce games.json e in cache. */
-      var lazyCat = row.getAttribute("data-cat");
-      var shownN = parseInt(row.getAttribute("data-shown") || "0", 10);
-      var lazyDone = !row.hasAttribute("data-lazy");
-      function fillBuffer() {
-        if (lazyDone) return;
-        if (!gamesIndex) { loadIndex().then(fillBuffer); return; } // incarca apoi reia
-        var pool = categoryPool(gamesIndex, lazyCat);
-        var appended = false;
-        while (shownN < pool.length &&
-               row.scrollWidth - row.clientWidth - row.scrollLeft <= row.clientWidth) {
-          row.insertAdjacentHTML("beforeend", pool.slice(shownN, shownN + 12).map(cardHTML).join(""));
-          shownN = Math.min(shownN + 12, pool.length);
-          appended = true;
-        }
-        if (shownN >= pool.length) { lazyDone = true; row.removeAttribute("data-lazy"); }
-        if (appended) schedule([ctx]); // scrollWidth crescut -> reactualizeaza sagetile
-      }
-      // umple bufferul cand cursorul intra pe rand (inainte de primul click)
-      if (!lazyDone) wrap.addEventListener("mouseenter", fillBuffer);
-
       function step() {
         return Math.max(200, Math.round(row.clientWidth * 0.8));
       }
@@ -590,11 +552,10 @@
       });
       right.addEventListener("click", function (e) {
         e.preventDefault();
-        fillBuffer(); // asigura carduri in dreapta INAINTE de a derula (sincron cu index in cache)
         row.scrollBy({ left: step(), behavior: "smooth" });
       });
       // scroll-ul afecteaza doar randul curent
-      row.addEventListener("scroll", function () { fillBuffer(); schedule([ctx]); }, { passive: true });
+      row.addEventListener("scroll", function () { schedule([ctx]); }, { passive: true });
 
       // ResizeObserver prinde si schimbarile de dimensiune cand se incarca imaginile,
       // fara sa atasam un handler pe fiecare imagine (sursa principala de reflow).
@@ -638,13 +599,6 @@
 
     window.addEventListener("resize", function () { schedule(rows); });
     schedule(rows); // initial
-
-    // Preincarca games.json in idle, ca umplerea bufferului la hover/scroll sa fie
-    // instantanee (fara asteptare de fetch la primul click pe sageata).
-    if (document.querySelector(".row[data-lazy]")) {
-      if ("requestIdleCallback" in window) requestIdleCallback(function () { loadIndex(); }, { timeout: 3000 });
-      else setTimeout(function () { loadIndex(); }, 1500);
-    }
 
     // Fallback daca nu exista ResizeObserver (browsere vechi)
     if (!("ResizeObserver" in window)) {

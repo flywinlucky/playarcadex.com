@@ -647,9 +647,7 @@ body.no-scroll { overflow: hidden; }
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  /* spatiu vertical ca zoom-ul pe hover (.card:hover scale+translateY) sa nu fie
-     taiat de overflow-x:auto (care face overflow-y sa devina auto) */
-  padding: 12px 6px 14px;
+  padding: 4px 2px 8px;
   scroll-snap-type: x proximity;
   justify-content: start;
   touch-action: pan-x pan-y;
