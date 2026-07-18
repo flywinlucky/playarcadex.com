@@ -696,17 +696,25 @@ function buildHome() {
     .sort((a, b) => (a.feedRank ?? 1e9) - (b.feedRank ?? 1e9))
     .slice(0, 12);
 
-  const catSecArr = categories.map(c => `
+  // Randam initial doar un lot; restul jocurilor din categorie se incarca lazy
+  // pe masura ce utilizatorul deruleaza randul (vezi "smart scroll" in app.js).
+  const ROW_INITIAL = 18;
+  const catSecArr = categories.map(c => {
+    const list = byCategory[c] || [];
+    const shown = Math.min(ROW_INITIAL, list.length);
+    const hasMore = list.length > shown;
+    return `
     <section class="cat-sec" data-cat="${esc(c)}">
     <h2 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> <a class="cat-link" href="/category/${catSlug(c)}/">${esc(c)}</a></h2>
     <div class="row-wrap">
       <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">❮</button>
-      <div class="row" tabindex="0">
-      ${byCategory[c].slice(0, 18).map(g => cardHTML(g)).join("\n      ")}
+      <div class="row" tabindex="0" data-cat="${esc(c)}" data-shown="${shown}"${hasMore ? ' data-lazy="1"' : ""}>
+      ${list.slice(0, shown).map(g => cardHTML(g)).join("\n      ")}
       </div>
       <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">❯</button>
     </div>
-    </section>`);
+    </section>`;
+  });
 
   // Benzi "mascota recomanda" — jocuri random, fara dublare intre benzi.
   const recoPool = [...games].sort(() => Math.random() - 0.5);

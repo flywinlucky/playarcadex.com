@@ -96,6 +96,20 @@
       .finally(function () { loading = false; });
   }
 
+  function _norm(s) { return String(s || "").toLowerCase().replace(/[^a-z0-9]/g, ""); }
+  /* Replica EXACT ordinea din build.js (byCategory): intai jocurile cu
+     category===cat, apoi cele "related" (au numele categoriei printre tags).
+     Astfel jocurile apendate lazy continua fix de unde s-a oprit serverul. */
+  function categoryPool(idx, cat) {
+    var cn = _norm(cat), primary = [], related = [];
+    for (var i = 0; i < idx.length; i++) {
+      var g = idx[i];
+      if (g.category === cat) primary.push(g);
+      else if (g.tags && g.tags.some && g.tags.some(function (t) { return _norm(t) === cn; })) related.push(g);
+    }
+    return primary.concat(related);
+  }
+
   function runSearch(q) {
     q = q.trim().toLowerCase();
     if (!searchResultsGrid) return;
@@ -543,6 +557,31 @@
       var ctx = { wrap: wrap, row: row, left: left, right: right };
       rows.push(ctx);
 
+      /* ---- Smart scroll: incarca lazy mai multe jocuri din categorie ---- */
+      var lazyCat = row.getAttribute("data-cat");
+      var shownN = parseInt(row.getAttribute("data-shown") || "0", 10);
+      var lazyDone = !row.hasAttribute("data-lazy");
+      var lazyBusy = false;
+      function maybeAppend() {
+        if (lazyDone || lazyBusy) return;
+        // declanseaza inainte de capat, ca sagata sa nu dispara (prefetch)
+        if (row.scrollWidth - row.clientWidth - row.scrollLeft > 1200) return;
+        lazyBusy = true;
+        loadIndex().then(function (idx) {
+          var pool = categoryPool(idx, lazyCat);
+          var next = pool.slice(shownN, shownN + 12);
+          if (next.length) {
+            row.insertAdjacentHTML("beforeend", next.map(cardHTML).join(""));
+            shownN += next.length;
+          }
+          if (shownN >= pool.length) { lazyDone = true; row.removeAttribute("data-lazy"); }
+          lazyBusy = false;
+          schedule([ctx]); // scrollWidth a crescut -> recalculeaza vizibilitatea sagetilor
+        }).catch(function () { lazyBusy = false; });
+      }
+      // preincarca indexul cand utilizatorul are intentia sa navigheze randul
+      if (!lazyDone) wrap.addEventListener("mouseenter", function () { loadIndex(); }, { once: true });
+
       function step() {
         return Math.max(200, Math.round(row.clientWidth * 0.8));
       }
@@ -555,7 +594,7 @@
         row.scrollBy({ left: step(), behavior: "smooth" });
       });
       // scroll-ul afecteaza doar randul curent
-      row.addEventListener("scroll", function () { schedule([ctx]); }, { passive: true });
+      row.addEventListener("scroll", function () { maybeAppend(); schedule([ctx]); }, { passive: true });
 
       // ResizeObserver prinde si schimbarile de dimensiune cand se incarca imaginile,
       // fara sa atasam un handler pe fiecare imagine (sursa principala de reflow).
