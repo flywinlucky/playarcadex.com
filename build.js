@@ -96,9 +96,41 @@ const esc = s => String(s ?? "")
 const slugify = s => String(s).toLowerCase().normalize("NFKD")
   .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
+/* Minificare HTML — sigura pentru randare:
+   protejeaza <script>/<style>/<pre>/<textarea>, scoate comentariile (nu si cele
+   conditionale) si colapseaza orice rulaj de spatii albe la un singur spatiu.
+   Un singur spatiu intre taguri = exact ce face si browserul cu newline+indent,
+   deci randarea ramane identica (inclusiv spatiile semnificative dintre inline). */
+function minifyHTML(html) {
+  const NUL = String.fromCharCode(0); // marker imposibil in HTML, imun la colapsul de spatii
+  const stash = [];
+  html = html.replace(/<(script|style|pre|textarea)\b[\s\S]*?<\/\1>/gi, m => {
+    stash.push(m);
+    return NUL + (stash.length - 1) + NUL;
+  });
+  html = html
+    .replace(/<!--(?!\[if)[\s\S]*?-->/g, "") // pastreaza comentariile conditionale IE
+    .replace(/\s+/g, " ")
+    .trim();
+  return html.replace(new RegExp(NUL + "(\\d+)" + NUL, "g"), (_, i) => stash[+i]);
+}
+
+/* Minificare JS conservatoare (fara parser, fara dependinte):
+   app.js nu are template literals, deci putem scoate liniile-comentariu si
+   indentarea fara sa atingem string-urile. NU unim tokeni pe linii diferite
+   (pastram ASI intact). */
+function minifyJS(js) {
+  return js
+    .split("\n")
+    .map(l => l.replace(/^\s+/, ""))
+    .filter(l => l && !l.startsWith("//") && !/^\/\*.*\*\/$/.test(l))
+    .join("\n");
+}
+
 function write(rel, content) {
   const file = path.join(DIST, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
+  if (rel.endsWith(".html")) content = minifyHTML(content);
   fs.writeFileSync(file, content);
 }
 
@@ -305,7 +337,7 @@ function cardHTML(g, eager = false) {
     </a>`;
 }
 
-function page({ title, description, canonical, body, jsonld, ogImage, activeCat = "", ogType = "website" }) {
+function page({ title, description, canonical, body, jsonld, ogImage, activeCat = "", ogType = "website", preconnect = [] }) {
   return `<!DOCTYPE html>
 <html lang="en" data-base="" data-trending-api="${esc(TRENDING_API)}">
 <head>
@@ -334,6 +366,7 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
+  ${preconnect.map(u => `<link rel="preconnect" href="${u}"><link rel="dns-prefetch" href="${u}">`).join("\n  ")}
   ${ADSENSE_ID ? `<!-- Google AdSense (Auto ads gestionat din dashboard) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}" crossorigin="anonymous"></script>` : ""}
   <style>${CSS_MIN}</style>
@@ -376,9 +409,20 @@ const DEFAULT_BLOG_COVER = "/img/blog/default-cover.jpg"; // fallback daca artic
 
 // Mic convertor Markdown -> HTML (subset: titluri, paragrafe, bold/italic,
 // linkuri, imagini, liste, citate, hr, cod inline). Zero dependinte.
+// Daca exista un .webp sibling pentru o imagine locala (/img/...), impacheteaza
+// tag-ul <img> intr-un <picture> cu sursa webp + fallback la jpg/png original.
+// Browserele fara suport webp ignora <source> si folosesc <img>. Nu atinge
+// imaginile externe (CDN gamemonetize) sau OG/PWA (care nu trec prin <img>).
+function pic(imgTag, src) {
+  if (typeof src !== "string" || !/^\/img\/.+\.(jpe?g|png)$/i.test(src)) return imgTag;
+  const webp = src.replace(/\.(jpe?g|png)$/i, ".webp");
+  if (!fs.existsSync(path.join(ROOT, "static", webp.replace(/^\//, "")))) return imgTag;
+  return `<picture><source type="image/webp" srcset="${webp}">${imgTag}</picture>`;
+}
+
 function mdInline(s) {
   return esc(s)
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (m, alt, src) => `<img src="${src}" alt="${alt}" loading="lazy">`)
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (m, alt, src) => pic(`<img src="${src}" alt="${alt}" loading="lazy">`, src))
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, href) => {
       const ext = /^https?:\/\//.test(href) && !href.includes("playarcadex.com");
       return `<a href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${txt}</a>`;
@@ -396,7 +440,7 @@ function mdToHtml(md) {
   let imgs = [];   // imagini consecutive -> galerie
   const imgRe = /^!\[([^\]]*)\]\(([^)]+)\)\s*$/;
   const figureHtml = (alt, src) =>
-    `<figure>${`<img src="${src}" alt="${alt}" loading="lazy">`}${alt ? `<figcaption>${mdInline(alt)}</figcaption>` : ""}</figure>`;
+    `<figure>${pic(`<img src="${src}" alt="${alt}" loading="lazy">`, src)}${alt ? `<figcaption>${mdInline(alt)}</figcaption>` : ""}</figure>`;
   const flushPara = () => { if (para.length) { out.push(`<p>${mdInline(para.join(" "))}</p>`); para = []; } };
   const flushList = () => {
     if (list) {
@@ -493,7 +537,7 @@ const blogPosts = loadBlogPosts();
 
 function blogCard(p) {
   return `<a class="blog-card" href="/blog/${p.slug}/">
-      ${p.cover ? `<img class="blog-card-img" src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy">` : `<div class="blog-card-img blog-card-noimg">📰</div>`}
+      ${p.cover ? pic(`<img class="blog-card-img" src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy">`, p.cover) : `<div class="blog-card-img blog-card-noimg">📰</div>`}
       <div class="blog-card-body">
         <h2 class="blog-card-title">${esc(p.title)}</h2>
         ${p.date ? `<time class="blog-card-date" datetime="${esc(p.date)}">${esc(formatDate(p.date))}</time>` : ""}
@@ -562,7 +606,7 @@ function buildBlog() {
         ${p.date ? `<time datetime="${esc(p.date)}">${esc(formatDate(p.date))}</time>` : ""}
         ${p.tags.length ? `<span class="blog-tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</span>` : ""}
       </div>
-      ${p.cover ? `<img class="blog-article-cover" src="${esc(p.cover)}" alt="${esc(p.title)}">` : ""}
+      ${p.cover ? pic(`<img class="blog-article-cover" src="${esc(p.cover)}" alt="${esc(p.title)}">`, p.cover) : ""}
       <div class="blog-article-body">
         ${p.bodyHtml}
       </div>
@@ -658,7 +702,7 @@ function buildHome() {
     <div class="row-wrap">
       <button class="row-arrow left" aria-label="Scroll left" tabindex="-1">❮</button>
       <div class="row" tabindex="0">
-      ${byCategory[c].slice(0, 30).map(g => cardHTML(g)).join("\n      ")}
+      ${byCategory[c].slice(0, 18).map(g => cardHTML(g)).join("\n      ")}
       </div>
       <button class="row-arrow right" aria-label="Scroll right" tabindex="-1">❯</button>
     </div>
@@ -1020,7 +1064,8 @@ function buildGamePages() {
       description: desc,
       canonical, body, jsonld,
       ogImage: g.thumb,
-      activeCat: g.category
+      activeCat: g.category,
+      preconnect: ["https://html5.gamemonetize.co"]
     }));
   }
 }
@@ -1587,6 +1632,11 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
 copyDir(path.join(ROOT, "static"), DIST);
+// Minifica app.js copiat (conservator; app.js nu are template literals)
+{
+  const appJs = path.join(DIST, "js", "app.js");
+  if (fs.existsSync(appJs)) fs.writeFileSync(appJs, minifyJS(fs.readFileSync(appJs, "utf8")));
+}
 buildHome();
 buildGamePages();
 buildCategoryPages();
