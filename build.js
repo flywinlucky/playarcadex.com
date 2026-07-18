@@ -698,7 +698,7 @@ function buildHome() {
 
   // Randam initial doar un lot; restul jocurilor din categorie se incarca lazy
   // pe masura ce utilizatorul deruleaza randul (vezi "smart scroll" in app.js).
-  const ROW_INITIAL = 18;
+  const ROW_INITIAL = 30;
   const catSecArr = categories.map(c => {
     const list = byCategory[c] || [];
     const shown = Math.min(ROW_INITIAL, list.length);

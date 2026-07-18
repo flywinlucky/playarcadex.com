@@ -590,6 +590,7 @@
       });
       right.addEventListener("click", function (e) {
         e.preventDefault();
+        fillBuffer(); // asigura carduri in dreapta INAINTE de a derula (sincron cu index in cache)
         row.scrollBy({ left: step(), behavior: "smooth" });
       });
       // scroll-ul afecteaza doar randul curent
