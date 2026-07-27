@@ -647,7 +647,9 @@ body.no-scroll { overflow: hidden; }
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 4px 2px 8px;
+  /* spatiu vertical ca zoom-ul pe hover (.card:hover scale+translateY) sa nu fie
+     taiat de overflow-x:auto (care face overflow-y sa devina auto) */
+  padding: 12px 6px 14px;
   scroll-snap-type: x proximity;
   justify-content: start;
   touch-action: pan-x pan-y;
@@ -909,25 +911,6 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
   padding: 0 5px;
 }
 .pwa-note { font-size: 0.85rem !important; margin-bottom: 0 !important; }
-
-/* ---------- Reclame AdSense (manuale, clean) ---------- */
-.ad-slot {
-  margin: 24px auto;
-  max-width: 970px;
-  text-align: center;
-  min-height: 90px;
-  overflow: hidden;
-}
-.ad-label {
-  display: block;
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  opacity: 0.6;
-  margin-bottom: 4px;
-}
-.ad-slot ins { min-height: 90px; }
 
 /* ---------- Bottom actions (Random game / Back to top) ---------- */
 .bottom-actions {
