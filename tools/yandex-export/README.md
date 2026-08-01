@@ -1,66 +1,115 @@
-# Export metrici din Yandex Games Console
+# Yandex Games — raport de metrici
 
-Descarca **toate** graficele ca CSV dintr-o data (in loc sa apesi butonul de
-download pe fiecare grafic) si le uneste intr-un singur fisier, usor de dat
-unui AI spre analiza.
+Extensie Chrome care aduna **toate** graficele din consola Yandex Games si
+genereaza **un singur fisier HTML** cu grafice, KPI-uri, tabele si datele brute.
 
-Merge la fel de bine si pentru **Google Search Console** sau orice alt dashboard
-care exporta CSV — pasul 2 (merge) nu e legat de Yandex.
+Fara zeci de CSV-uri imprastiate prin Downloads: datele sunt capturate in
+memorie si comprimate intr-un raport unic, gata de citit sau de dat unui AI
+spre analiza.
 
 ---
 
-## Pasul 1 — descarca CSV-urile
+## Instalare (o singura data)
 
-1. Deschide pagina de metrici a jocului tau:
+1. Chrome → `chrome://extensions`
+2. Porneste **Developer mode** (dreapta sus)
+3. **Load unpacked** → alege folderul `tools/yandex-export/extension`
+4. Click pe iconita de puzzle 🧩 din bara Chrome → fixeaza („pin") extensia
+
+## Folosire
+
+1. Deschide consola jocului:
    `https://games.yandex.ru/console/application/<ID>#metrics/game`
+2. **Alege perioada** dorita (se captureaza exact ce e configurat pe ecran)
+3. Click pe iconita extensiei → **Genereaza raportul**
+4. Extensia trece singura prin cele trei sectiuni:
+   - Product metrics (`#metrics/game`)
+   - Monetization metrics (`#metrics/adv`)
+   - Performance metrics (`#metrics/performance`)
+5. Se descarca in `Downloads/yandex-<ID>-<data>/`:
 
-2. **Alege perioada si filtrele dorite.** Scriptul descarca exact ce e afisat
-   pe ecran — daca vrei 3 luni, seteaza 3 luni inainte sa rulezi.
-
-3. Apasa `F12` → tab-ul **Console**.
-
-4. Deschide `grab-csv.js`, copiaza tot continutul, lipeste-l in consola, Enter.
-
-5. Chrome cere o data **„Allow multiple downloads"** → apasa **Allow**.
-
-Scriptul trece singur prin tab-urile de metrici (Product / Monetization /
-Performance) si apasa fiecare buton de download. Vezi progresul in consola.
-
-> Scriptul ruleaza local, in sesiunea ta, si doar apasa butoane care oricum
-> exista in pagina. Nu trimite nimic nicaieri.
-
-## Pasul 2 — uneste-le intr-un singur fisier
-
-```bash
-node merge-csv.js
+```
+yandex-547145-2026-08-01/
+├── raport.html          ← grafice + tabele, pentru citit
+├── date-pentru-ai.md    ← toate datele, complete, pentru analiza AI
+└── csv/                 ← optional: fisierele brute, separat
+    ├── Rating.csv
+    └── ...
 ```
 
-Ia CSV-urile din `Downloads` (ultimele 24h) si scrie `yandex-raport.md` —
-un singur fisier Markdown cu cate o sectiune si un tabel per raport.
+Bifezi in extensie ce formate vrei. Implicit: HTML + Markdown.
 
-### Optiuni
+Pentru un al doilea joc, deschide consola lui si repeta — raportul e per aplicatie.
 
-| Comanda | Ce face |
+## Ce format pentru ce
+
+| Fisier | Cand il folosesti |
 |---|---|
-| `node merge-csv.js` | Downloads, ultimele 24h (implicit) |
-| `node merge-csv.js --all` | toate CSV-urile, fara filtru de timp |
-| `node merge-csv.js --hours 72` | fisiere din ultimele 72h |
-| `node merge-csv.js --dir "C:/alt/folder"` | alt folder sursa |
-| `node merge-csv.js --out raport.md` | alt fisier de iesire |
-| `node merge-csv.js --max-rows 1000` | cate randuri pastreaza per tabel (implicit 400) |
+| `raport.html` | Vrei sa te uiti tu: grafice, KPI-uri, tabele. Se deschide offline. |
+| `date-pentru-ai.md` | Il dai unui AI spre analiza. Contine **toate** datele, netrunchiate, cu un cuprins care descrie fiecare set si coloanele lui. Blocuri ```csv — compacte si lipsite de ambiguitate. |
+| `csv/*.csv` | Vrei sa le procesezi in Excel / script propriu. |
+
+## Ce contine raportul HTML
+
+- Antet cu ID-ul aplicatiei, perioada si data generarii
+- Cuprins cu linkuri catre fiecare set de date
+- Pentru fiecare grafic:
+  - **KPI-uri** (total pentru volume, medie pentru rate/pozitii/CPM)
+  - **Grafic**: linie pentru serii temporale, bare pentru categorii
+  - **Tabel** de date (pliabil)
+  - **CSV brut** (pliabil) — datele exacte, daca vrei sa le procesezi altfel
+
+Raportul e complet auto-continut: fara librarii, fara fonturi externe, fara
+requesturi. Il poti deschide oricand, offline, sau trimite ca atasament.
 
 ---
 
-## Daca nu descarca nimic
+## Cum functioneaza (si de ce nu se umple Downloads)
 
-- Esti pe pagina de **metrici**? (nu pe Control panel / Published)
-- Graficele s-au randat? Da-i cateva secunde dupa ce se incarca pagina.
-- Butoanele de download apar in coltul dreapta-sus al fiecarui grafic
-  (uneori doar la hover) — daca nu le vezi deloc, Yandex a schimbat interfata
-  si trebuie ajustat selectorul din `grab-csv.js` (constanta `BTN_SELECTORS`).
-- Ai apasat **Allow** la „Allow multiple downloads"? Daca ai apasat Block,
-  reseteaza din iconita de langa bara de adresa.
+Butonul „Download graph data in .csv" din consola construieste un `Blob` si il
+descarca printr-un `<a download>`. Extensia intercepteaza temporar
+`URL.createObjectURL` si `HTMLAnchorElement.click`, ia continutul CSV **in
+memorie** si suprima descarcarea reala. La final restaureaza tot ce a modificat.
 
-## Cerinte
+Are acces **doar** la `games.yandex.ru` (declarat in `manifest.json`) si nu
+contine nicio adresa externa — datele nu pot pleca din browser.
 
-Doar Node.js pentru pasul 2. Zero dependinte externe.
+## Daca nu captureaza nimic
+
+Yandex isi poate schimba interfata. In ordine:
+
+1. Verifica ca esti pe consola jocului si ca graficele s-au randat.
+2. Daca extensia zice „N grafice, dar 0 capturate", mecanismul de download s-a
+   schimbat — ajusteaza interceptarea din `popup.js` (`captureCsvInPage`).
+3. Daca zice „niciun grafic gasit", s-a schimbat butonul — ajusteaza
+   selectorul din acelasi fisier.
+
+### Varianta de rezerva: descarcare clasica
+
+Daca interceptarea nu merge, folosesti metoda veche (descarca fisierele
+separat, apoi le unesti):
+
+- `grab-csv.js` — lipeste in `F12` → Console (Chrome cere intai sa scrii
+  `allow pasting`), sau
+- `bookmarklet.txt` — pune randul `javascript:...` ca URL al unui bookmark
+
+apoi:
+
+```bash
+node merge-csv.js          # uneste CSV-urile din Downloads intr-un .md
+node merge-csv.js --all    # toate CSV-urile, fara filtru de timp
+node merge-csv.js --help   # vezi optiunile in capul fisierului
+```
+
+## Fisiere
+
+| Fisier | Rol |
+|---|---|
+| `extension/` | extensia Chrome (varianta recomandata) |
+| `extension/report.js` | generatorul de HTML: parsare CSV, grafice SVG, layout |
+| `extension/popup.js` | orchestrare: navigare intre sectiuni + capturare |
+| `grab-csv.js` | rezerva: script de consola, descarcare clasica |
+| `bookmarklet.txt` | rezerva: acelasi lucru, ca bookmark |
+| `merge-csv.js` | rezerva: uneste CSV-uri descarcate intr-un singur Markdown |
+
+Pentru `merge-csv.js` iti trebuie Node.js. Extensia nu are nevoie de nimic.
