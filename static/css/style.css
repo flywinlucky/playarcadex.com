@@ -1126,6 +1126,9 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
 }
 .footer .links { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 10px; }
 .footer a:hover { color: var(--text); }
+/* rand "Popular games" — linkuri interne catre jocurile care aduc trafic */
+.footer .links-popular { gap: 12px; align-items: center; }
+.footer .footer-label { font-weight: 700; color: var(--text); opacity: .75; }
 
 /* ---------- Empty state ---------- */
 .empty {
