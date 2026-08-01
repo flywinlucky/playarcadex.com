@@ -323,6 +323,36 @@ const POPULAR_SLUGS = [
   "bubble-shooter-pro-2026"
 ];
 
+/* Jocuri recomandate pentru pagina unui joc.
+   Inainte se luau primele 12 din aceeasi categorie (adesea irelevante).
+   Acum punctam: tag-uri comune > aceeasi categorie, si completam din
+   categorie daca nu sunt destule potriviri. Recomandari mai relevante =
+   sanse mai mari sa joace inca un joc (acum media e 1,1 jocuri/vizitator). */
+function relatedGames(g, n = 12) {
+  const myTags = new Set((g.tags || []).map(t => String(t).toLowerCase()));
+  const pool = games.filter(x => x.slug !== g.slug);
+  const scored = [];
+  for (const x of pool) {
+    let score = 0;
+    if (x.category === g.category) score += 2;
+    if (myTags.size) {
+      for (const t of (x.tags || [])) if (myTags.has(String(t).toLowerCase())) score += 3;
+    }
+    if (score > 0) scored.push({ x, score });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  const out = scored.slice(0, n).map(s => s.x);
+  // completeaza din categorie daca tag-urile n-au dat destule
+  if (out.length < n) {
+    const have = new Set(out.map(x => x.slug));
+    for (const x of (byCategory[g.category] || [])) {
+      if (out.length >= n) break;
+      if (x.slug !== g.slug && !have.has(x.slug)) { out.push(x); have.add(x.slug); }
+    }
+  }
+  return out;
+}
+
 /* Rand de linkuri "Popular games" in footer -> apare pe toate paginile.
    Foloseste titlul real al jocului ca anchor (nu text generic). */
 function popularFooterLinks() {
@@ -955,7 +985,7 @@ function gameEditorial(g) {
 /* ---------------- GAME PAGES ---------------- */
 function buildGamePages() {
   for (const g of games) {
-    const related = (byCategory[g.category] || []).filter(x => x.slug !== g.slug).slice(0, 12);
+    const related = relatedGames(g, 12);
     const canonical = `${SITE_URL}/game/${g.slug}/`;
     // Continut editorial unic per joc (about + meta) — adauga valoare peste feed.
     const editorial = gameEditorial(g);
@@ -1042,6 +1072,14 @@ function buildGamePages() {
         <button class="tool-btn close-btn" id="closeFsBtn" aria-label="Close fullscreen">✕ Close</button>
       </div>
     </div>
+    ${related.length ? `
+    <section id="moreGames" class="more-games">
+      <h2 class="section-title"><span class="bar"></span>🎮 Play Another Game</h2>
+      <div class="grid">
+        ${related.map(r => cardHTML(r)).join("\n        ")}
+      </div>
+      <a class="more-games-all" href="/category/${catSlug(g.category)}/">See all ${esc(g.category)} games →</a>
+    </section>` : ""}
     <div class="share-row" aria-label="Share this game">
       <span class="share-label">Share:</span>
       <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}" aria-label="Share on Facebook">${ICONS.fb}</a>
@@ -1065,12 +1103,7 @@ function buildGamePages() {
         <summary>${esc(f.q)}</summary>
         <p>${esc(f.a)}</p>
       </details>`).join("\n      ")}
-    </div>
-    ${related.length ? `
-    <h2 class="section-title"><span class="bar"></span>More ${esc(g.category)} Games</h2>
-    <div class="grid">
-      ${related.map(r => cardHTML(r)).join("\n      ")}
-    </div>` : ""}`;
+    </div>`;
 
     write(`game/${g.slug}/index.html`, page({
       title: `${g.title} Online Free — Play Now, No Download | ${SITE_NAME}`,

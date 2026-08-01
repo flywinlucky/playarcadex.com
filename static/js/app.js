@@ -174,8 +174,22 @@
     } catch (e) {}
   }
 
-  function exitGameFs() {
+  /* Cand jucatorul iese din fullscreen a terminat (sau s-a plictisit) de joc.
+     E momentul cu cea mai mare sansa sa inceapa altul: il ducem la sectiunea
+     de recomandari in loc sa-l lasam pe o pagina fara directie.
+     `skipScroll` = true cand iesirea e doar un pas intern (ex. "All Games"). */
+  function showMoreGames() {
+    var more = document.getElementById("moreGames");
+    if (!more) return;
+    more.scrollIntoView({ behavior: "smooth", block: "start" });
+    more.classList.add("highlight");
+    setTimeout(function () { more.classList.remove("highlight"); }, 2600);
+    track("more_games_shown");
+  }
+
+  function exitGameFs(skipScroll) {
     if (!gameStage) return;
+    var wasActive = gameStage.classList.contains("fs-active");
     gameStage.classList.remove("fs-active");
     document.body.classList.remove("no-scroll");
     try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (e) {}
@@ -183,6 +197,7 @@
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
       else if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
     } catch (e) {}
+    if (wasActive && skipScroll !== true) setTimeout(showMoreGames, 250);
   }
 
   if (splash && frameWrap) {
@@ -237,7 +252,7 @@
   if (fsAllGames) {
     fsAllGames.addEventListener("click", function (e) {
       e.preventDefault();
-      exitGameFs();
+      exitGameFs(true); // navigam oricum, deci fara scroll la recomandari
       window.location.href = BASE + "/";
     });
   }
@@ -246,6 +261,8 @@
     if (!document.fullscreenElement && gameStage && gameStage.classList.contains("fs-active")) {
       gameStage.classList.remove("fs-active");
       document.body.classList.remove("no-scroll");
+      // acelasi moment ca la butonul Close: arata-i ce poate juca in continuare
+      setTimeout(showMoreGames, 250);
     }
   });
 
