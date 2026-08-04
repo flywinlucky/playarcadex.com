@@ -12,6 +12,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const SITE_URL = "https://playarcadex.com";
 const SITE_NAME = "PlayArcadeX";
@@ -103,6 +104,14 @@ function minifyJS(js) {
     .filter(l => l && !l.startsWith("//") && !/^\/\*.*\*\/$/.test(l))
     .join("\n");
 }
+
+/* app.js e servit cu Cache-Control: max-age=31536000 (un an) si fara hash in
+   nume — deci un vizitator care a mai fost pe site ar ramane cu versiunea
+   veche pana la un an, chiar dupa ce reparam ceva. Punem un ?v=<hash> derivat
+   din CONTINUT: se schimba doar cand se schimba fisierul, deci pastram si
+   cache-ul agresiv, si actualizarea imediata. */
+const APP_JS_MIN = minifyJS(fs.readFileSync(path.join(ROOT, "static", "js", "app.js"), "utf8"));
+const APP_VER = crypto.createHash("sha1").update(APP_JS_MIN).digest("hex").slice(0, 8);
 
 function write(rel, content) {
   const file = path.join(DIST, rel);
@@ -425,7 +434,7 @@ ${body}
     </div>
   </main>
   ${footerHTML()}
-  <script src="/js/app.js" defer></script>
+  <script src="/js/app.js?v=${APP_VER}" defer></script>
 </body>
 </html>`;
 }
@@ -1677,11 +1686,8 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
 copyDir(path.join(ROOT, "static"), DIST);
-// Minifica app.js copiat (conservator; app.js nu are template literals)
-{
-  const appJs = path.join(DIST, "js", "app.js");
-  if (fs.existsSync(appJs)) fs.writeFileSync(appJs, minifyJS(fs.readFileSync(appJs, "utf8")));
-}
+// Scrie versiunea minificata (calculata mai sus, impreuna cu APP_VER)
+fs.writeFileSync(path.join(DIST, "js", "app.js"), APP_JS_MIN);
 buildHome();
 buildGamePages();
 buildCategoryPages();
