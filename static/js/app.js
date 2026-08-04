@@ -581,12 +581,20 @@
       var lazyCat = row.getAttribute("data-cat");
       var shownN = parseInt(row.getAttribute("data-shown") || "0", 10);
       var lazyDone = !row.hasAttribute("data-lazy");
+      var lazyPool = null; // calculat o singura data per rand (parcurge 2600 jocuri)
       function fillBuffer() {
         if (lazyDone) return;
+        /* Randurile din sectiuni off-screen NU au layout (content-visibility:auto
+           pe .cat-sec), deci scrollWidth/clientWidth sunt 0 si conditia de mai jos
+           ar fi mereu adevarata -> bucla ar adauga toata categoria dintr-o data.
+           Daca randul nu e randat, iesim si reluam cand devine vizibil. */
+        if (!row.clientWidth) return;
         if (!gamesIndex) { loadIndex().then(fillBuffer); return; } // incarca apoi reia
-        var pool = categoryPool(gamesIndex, lazyCat);
+        if (!lazyPool) lazyPool = categoryPool(gamesIndex, lazyCat);
+        var pool = lazyPool;
         var appended = false;
-        while (shownN < pool.length &&
+        var guard = 0; // plasa de siguranta: maxim 3 loturi per apel
+        while (shownN < pool.length && guard++ < 3 &&
                row.scrollWidth - row.clientWidth - row.scrollLeft <= row.clientWidth) {
           row.insertAdjacentHTML("beforeend", pool.slice(shownN, shownN + 12).map(cardHTML).join(""));
           shownN = Math.min(shownN + 12, pool.length);
@@ -656,12 +664,9 @@
     window.addEventListener("resize", function () { schedule(rows); });
     schedule(rows); // initial
 
-    // Preincarca games.json in idle, ca umplerea bufferului la hover/scroll sa fie
-    // instantanee (fara asteptare de fetch la primul click pe sageata).
-    if (document.querySelector(".row[data-lazy]")) {
-      if ("requestIdleCallback" in window) requestIdleCallback(function () { loadIndex(); }, { timeout: 3000 });
-      else setTimeout(function () { loadIndex(); }, 1500);
-    }
+    /* Nu preincarcam games.json (645KB) la fiecare vizita — majoritatea
+       vizitatorilor nu deruleaza niciun rand. Se incarca la nevoie, cand
+       utilizatorul chiar intra cu mouse-ul pe un rand (vezi fillBuffer). */
 
     // Fallback daca nu exista ResizeObserver (browsere vechi)
     if (!("ResizeObserver" in window)) {
