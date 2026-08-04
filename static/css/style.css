@@ -912,30 +912,6 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
 }
 .pwa-note { font-size: 0.85rem !important; margin-bottom: 0 !important; }
 
-/* ---------- "Play Another Game" (sub joc) ----------
-   Sectiunea sta imediat sub joc, ca jucatorul sa vada alt joc fix cand
-   termina — inainte era sub About+FAQ si aproape nimeni nu ajungea la ea. */
-.more-games { margin-top: 18px; }
-.more-games-all {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 9px 16px;
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: background 0.15s;
-}
-.more-games-all:hover { background: var(--accent); }
-/* evidentiere scurta cand ajungi aici dupa ce ai iesit din fullscreen */
-@keyframes moreGamesPulse {
-  0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
-  100% { box-shadow: 0 0 0 14px rgba(104, 66, 255, 0); }
-}
-.more-games.highlight .section-title { color: var(--accent); }
-.more-games.highlight { animation: moreGamesPulse 1.1s ease-out 2; border-radius: var(--radius); }
-
 /* ---------- Bottom actions (Random game / Back to top) ---------- */
 .bottom-actions {
   display: flex;
@@ -1150,9 +1126,6 @@ html.is-mobile .card[data-platform="pc"] { display: none !important; }
 }
 .footer .links { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 10px; }
 .footer a:hover { color: var(--text); }
-/* rand "Popular games" — linkuri interne catre jocurile care aduc trafic */
-.footer .links-popular { gap: 12px; align-items: center; }
-.footer .footer-label { font-weight: 700; color: var(--text); opacity: .75; }
 
 /* ---------- Empty state ---------- */
 .empty {
