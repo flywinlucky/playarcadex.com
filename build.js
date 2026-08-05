@@ -957,9 +957,73 @@ function gameEditorial(g) {
 }
 
 /* ---------------- GAME PAGES ---------------- */
+/* ---------------- RECOMANDARI ----------------
+   Traficul vine aproape integral pe pagini de joc individuale, din cautari cu
+   numele jocului ("fidget trading game online free"). Vizitatorul nu vede
+   niciodata homepage-ul, deci singurul loc unde putem sa-i aratam al doilea joc
+   e chiar pagina pe care a aterizat. Recomandarile pe categorie erau prea largi
+   (categoria "Puzzle" are 849 de jocuri); scorul pe tag-uri le face relevante.
+   Scor: 3 puncte per tag comun + 2 puncte pentru aceeasi categorie. */
+let _tagIndex = null;
+function tagIndex() {
+  if (_tagIndex) return _tagIndex;
+  _tagIndex = new Map();
+  for (const x of games) {
+    for (const t of (x.tags || [])) {
+      const k = String(t).toLowerCase().trim();
+      if (!k) continue;
+      if (!_tagIndex.has(k)) _tagIndex.set(k, []);
+      _tagIndex.get(k).push(x);
+    }
+  }
+  return _tagIndex;
+}
+
+function relatedGames(g, n) {
+  const idx = tagIndex();
+  const score = new Map(); // slug -> { g, score }
+  const bump = (x, pts) => {
+    if (x.slug === g.slug) return;
+    const cur = score.get(x.slug);
+    if (cur) cur.score += pts;
+    else score.set(x.slug, { g: x, score: pts });
+  };
+  for (const t of (g.tags || [])) {
+    for (const x of (idx.get(String(t).toLowerCase().trim()) || [])) bump(x, 3);
+  }
+  for (const x of (byCategory[g.category] || [])) bump(x, 2);
+
+  const out = [...score.values()]
+    .sort((a, b) => b.score - a.score || a.g.title.localeCompare(b.g.title))
+    .slice(0, n)
+    .map(s => s.g);
+
+  // completare din categorie daca tag-urile nu au produs destule
+  if (out.length < n) {
+    const have = new Set(out.map(x => x.slug).concat([g.slug]));
+    for (const x of (byCategory[g.category] || [])) {
+      if (out.length >= n) break;
+      if (!have.has(x.slug)) { out.push(x); have.add(x.slug); }
+    }
+  }
+  return out;
+}
+
+/* Card compact pentru coloana de langa joc (mai ingust decat cardul normal). */
+function railCardHTML(g) {
+  return `<a class="rail-card" href="/game/${g.slug}/" title="${esc(g.title)}">
+        <img loading="lazy" decoding="async" draggable="false" src="${esc(g.thumb)}" alt="${esc(g.title)}" width="180" height="135">
+        <span class="rail-card-title">${esc(g.title)}</span>
+      </a>`;
+}
+
 function buildGamePages() {
   for (const g of games) {
-    const related = (byCategory[g.category] || []).filter(x => x.slug !== g.slug).slice(0, 12);
+    /* 18 recomandari: primele 6 in coloana de langa joc (desktop), urmatoarele 12
+       in grila de sub joc. Fara suprapunere => vizitatorul vede 18 jocuri, nu 6. */
+    const reco = relatedGames(g, 18);
+    const railGames = reco.slice(0, 6);
+    const related = reco.slice(6, 18);
     const canonical = `${SITE_URL}/game/${g.slug}/`;
     // Continut editorial unic per joc (about + meta) — adauga valoare peste feed.
     const editorial = gameEditorial(g);
@@ -1027,6 +1091,7 @@ function buildGamePages() {
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="/">Home</a> › <a href="/category/${catSlug(g.category)}/">${esc(g.category)}</a> › ${esc(g.title)}
     </nav>
+    <div class="game-layout">
     <div class="game-stage" data-orient="${orient}">
       <button class="fs-allgames" id="fsAllGames" aria-label="Exit game, back to all games">
         <span class="fs-allgames-label">🎮 All Games</span>
@@ -1046,6 +1111,23 @@ function buildGamePages() {
         <button class="tool-btn close-btn" id="closeFsBtn" aria-label="Close fullscreen">✕ Close</button>
       </div>
     </div>
+    ${railGames.length ? `
+    <aside class="game-rail" aria-label="More games you can play">
+      <p class="game-rail-title">🎮 Up Next</p>
+      <div class="game-rail-list">
+        ${railGames.map(railCardHTML).join("\n        ")}
+      </div>
+      <a class="game-rail-all" href="/category/${catSlug(g.category)}/">All ${esc(g.category)} games →</a>
+    </aside>` : ""}
+    </div>
+    ${related.length ? `
+    <section id="moreGames">
+      <h2 class="section-title"><span class="bar"></span>🎮 Play Another Game
+        <a class="cat-link more-games-all" href="/category/${catSlug(g.category)}/">See all ${esc(g.category)} games →</a></h2>
+      <div class="grid">
+        ${related.map(r => cardHTML(r)).join("\n        ")}
+      </div>
+    </section>` : ""}
     <div class="share-row" aria-label="Share this game">
       <span class="share-label">Share:</span>
       <a class="share-btn fb" rel="nofollow noopener" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}" aria-label="Share on Facebook">${ICONS.fb}</a>
@@ -1069,12 +1151,7 @@ function buildGamePages() {
         <summary>${esc(f.q)}</summary>
         <p>${esc(f.a)}</p>
       </details>`).join("\n      ")}
-    </div>
-    ${related.length ? `
-    <h2 class="section-title"><span class="bar"></span>More ${esc(g.category)} Games</h2>
-    <div class="grid">
-      ${related.map(r => cardHTML(r)).join("\n      ")}
-    </div>` : ""}`;
+    </div>`;
 
     write(`game/${g.slug}/index.html`, page({
       title: `${g.title} Online Free — Play Now, No Download | ${SITE_NAME}`,
