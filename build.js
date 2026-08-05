@@ -296,20 +296,23 @@ function footerHTML() {
   </footer>`;
 }
 
-/* Thumbnail mic pentru grile (230x230 ~ 12KB vs 512x384 ~ 100KB+).
-   Daca varianta mica nu exista pentru un joc, onerror revine la originala. */
+/* ATENTIE — NU rescrie URL-ul thumbnail-ului catre alta dimensiune.
+   Pana in aug 2026 foloseam varianta mica (230x230 ~12KB in loc de 512x384 ~140KB),
+   dar GameMonetize a scos toate dimensiunile mici: azi doar 512x384 si 512x512
+   raspund cu 200/image-jpeg; 230x230, 200x200, 256x256, 320x180 etc. dau
+   302 -> html5.gamemonetize.com/404.html (o pagina HTML, cu no-cache).
+   Efectul: fiecare card cerea o imagine moarta, urma redirectul pe alt host,
+   primea HTML, abia apoi cadea pe onerror la URL-ul bun => doua round-trip-uri
+   per card, cu 6 conexiuni simultane per host => carduri goale si pagina care
+   se incarca la infinit. Verifica intai cu curl daca vrei sa reintroduci asta. */
 function smallThumb(t) {
-  return String(t).replace(/512x384/i, "230x230");
+  return String(t);
 }
 
 function cardHTML(g, eager = false) {
-  const small = smallThumb(g.thumb);
-  const fallback = small !== g.thumb
-    ? ` onerror="this.onerror=null;this.src='${esc(g.thumb)}'"`
-    : "";
   const platform = g.platform || "both";
   return `<a class="card" data-platform="${platform}" href="/game/${g.slug}/" title="${esc(g.title)}">
-      <img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" draggable="false" src="${esc(small)}"${fallback} alt="${esc(g.title)} - play free online" width="230" height="173">
+      <img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" draggable="false" src="${esc(g.thumb)}" alt="${esc(g.title)} - play free online" width="230" height="173">
       <span class="card-title">${esc(g.title)}</span>
     </a>`;
 }
@@ -1031,8 +1034,8 @@ function buildGamePages() {
       </button>
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
         <div class="game-splash" id="gameSplash">
-          <img class="splash-bg" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="" aria-hidden="true" loading="eager">
-          <img class="splash-thumb" src="${esc(smallThumb(g.thumb))}" onerror="this.onerror=null;this.src='${esc(g.thumb)}'" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
+          <img class="splash-bg" src="${esc(g.thumb)}" alt="" aria-hidden="true" loading="eager">
+          <img class="splash-thumb" src="${esc(g.thumb)}" alt="${esc(g.title)}" width="120" height="120" fetchpriority="high">
           <button class="play-btn" id="playBtn">▶ Play Now</button>
         </div>
       </div>

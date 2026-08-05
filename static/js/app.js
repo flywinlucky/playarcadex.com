@@ -63,14 +63,13 @@
   var gamesIndex = null;
   var loading = false;
 
+  /* NU rescrie URL-ul thumbnail-ului catre o dimensiune mai mica — GameMonetize
+     mai serveste doar 512x384 si 512x512; restul dau 302 catre o pagina 404 HTML.
+     Vezi comentariul lung de la smallThumb() din build.js. */
   function cardHTML(g) {
-    var small = String(g.thumb).replace(/512x384/i, "230x230");
-    var fallback = small !== g.thumb
-      ? ' onerror="this.onerror=null;this.src=\'' + escapeAttr(g.thumb) + '\'"'
-      : "";
     var platform = g.platform || "both";
     return '<a class="card" data-platform="' + platform + '" href="' + BASE + '/game/' + g.slug + '/" title="' + escapeAttr(g.title) + '">' +
-      '<img loading="lazy" decoding="async" draggable="false" src="' + escapeAttr(small) + '"' + fallback + ' alt="' + escapeAttr(g.title) + '" width="230" height="173">' +
+      '<img loading="lazy" decoding="async" draggable="false" src="' + escapeAttr(g.thumb) + '" alt="' + escapeAttr(g.title) + '" width="230" height="173">' +
       '<span class="card-title">' + escapeHTML(g.title) + '</span></a>';
   }
 
