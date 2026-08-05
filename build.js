@@ -1101,6 +1101,10 @@ function buildGamePages() {
         <span class="fs-allgames-label">🎮 All Games</span>
         <span class="fs-mini-logo">X</span>
       </button>
+      <!-- Iesire din fullscreen: X in coltul de sus, PESTE joc. Apare doar in
+           fullscreen. NU inchide jocul si nu paraseste pagina — te intoarce la
+           pagina jocului, unde sunt recomandarile, ca sa poti alege altul. -->
+      <button class="fs-close" id="closeFsBtn" aria-label="Exit fullscreen" title="Exit fullscreen">✕</button>
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
         <div class="game-splash" id="gameSplash">
           <img class="splash-bg" src="${esc(g.thumb)}" alt="" aria-hidden="true" loading="eager">
@@ -1112,7 +1116,6 @@ function buildGamePages() {
         <h1>${esc(g.title)}</h1>
         <button class="tool-btn fav-btn" id="favBtn" data-slug="${esc(g.slug)}" aria-label="Add to favorites">♡</button>
         <button class="tool-btn" id="fsBtn" aria-label="Fullscreen">⛶ Fullscreen</button>
-        <button class="tool-btn close-btn" id="closeFsBtn" aria-label="Close fullscreen">✕ Close</button>
       </div>
     </div>
     ${railGames.length ? `

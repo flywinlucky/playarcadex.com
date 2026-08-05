@@ -450,37 +450,39 @@ body.no-scroll { overflow: hidden; }
   padding-right: calc(14px + env(safe-area-inset-right));
 }
 
-/* Butonul Close: apare DOAR dupa ce jocul a pornit — nu poti inchide ceva ce nici
-   nu a inceput. Selectorul are nevoie de ambele clase: `.tool-btn` (definit mai jos
-   in fisier) are `display: inline-flex` cu aceeasi specificitate, deci un simplu
-   `.close-btn { display: none }` era anulat de cascada si butonul aparea mereu. */
-.tool-btn.close-btn { display: none; background: #e0245e; color: #fff; }
-.game-stage.is-playing .tool-btn.close-btn { display: inline-flex; }
-.close-btn:hover { background: #ff2f6d; }
+/* NU pune un buton "Close" in bara de sub joc (modul normal). A existat unul si
+   nu avea ce sa inchida: jocul ruleaza in pagina, nu intr-o fereastra. Iesirea
+   din fullscreen se face din X-ul `.fs-close` de mai jos. */
 
 /* In fullscreen: bara de jos dispare complet — ramane doar X-ul plutitor din colt */
 .game-stage.fs-active .game-toolbar { display: none; }
 .game-stage.fs-active #fsBtn { display: none; }
 
-/* X plutitor, mic, semi-transparent, in coltul din dreapta-sus (stil Yandex) */
+/* X plutitor in coltul din dreapta-sus, PESTE joc (stil Yandex). Singura cale de
+   iesire din fullscreen in afara de Esc. Te lasa pe pagina jocului, langa
+   recomandari — nu inchide jocul si nu te trimite pe alta pagina. */
 .fs-close {
   display: none;
   position: absolute;
   top: calc(10px + env(safe-area-inset-top));
   right: calc(10px + env(safe-area-inset-right));
   z-index: 30;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   border-radius: 50%;
-  background: rgba(18, 19, 30, 0.72);
+  background: rgba(18, 19, 30, 0.82);
   color: #fff;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(6px);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: background 0.14s, transform 0.14s;
 }
-.fs-close:hover { background: rgba(104, 66, 255, 0.85); }
+.fs-close:hover { background: var(--accent); transform: scale(1.08); }
 .game-stage.fs-active .fs-close { display: inline-flex; }
 
 /* Bara "All Games" — ocupa propriul spatiu langa joc (NU peste el), stil Yandex.

@@ -220,9 +220,9 @@
         iframe.setAttribute("title", document.title);
         frameWrap.appendChild(iframe);
       }
-      // ascundem splash-ul (nu-l stergem) ca sa-l putem readuce la Close
+      // ascundem splash-ul in loc sa-l stergem: asa butonul Play isi pastreaza
+      // handlerul si jocul poate fi repornit fara sa reincarcam pagina
       if (splash) splash.style.display = "none";
-      if (gameStage) gameStage.classList.add("is-playing");
       if (goFullscreen) enterGameFs();
       if (slug) rememberPlayed(slug);
       if (gameCat) bumpInterest(gameCat, 3); // a jucat efectiv = semnal puternic
@@ -238,38 +238,26 @@
     }
 
     var playBtn = document.getElementById("playBtn");
-    if (isMobile) {
-      // MOBIL: jocul porneste DOAR la apasarea pe Play (intra si in fullscreen)
-      playBtn.addEventListener("click", function () { launchGame(true); });
-    } else {
-      // PC: autoplay — jocul se lanseaza automat la deschiderea paginii, fara splash
-      launchGame(false);
+    /* Handlerul se ataseaza INTOTDEAUNA, si pe PC. Inainte era doar in ramura
+       mobil: pe PC jocul pornea automat si nimeni nu observa ca butonul Play e
+       mort — pana cand splash-ul redevenea vizibil si apasarea nu facea nimic. */
+    if (playBtn) {
+      playBtn.addEventListener("click", function () { launchGame(isMobile); });
     }
+    // PC: autoplay — jocul se lanseaza singur la deschiderea paginii, fara splash.
+    // Mobil: asteptam apasarea pe Play (si intram direct in fullscreen).
+    if (!isMobile) launchGame(false);
   }
 
   var fsBtn = document.getElementById("fsBtn");
   if (fsBtn && gameStage) {
     fsBtn.addEventListener("click", enterGameFs);
   }
-  /* Opreste jocul si readuce splash-ul cu "Play Now", ca sa poata reporni.
-     Butonul Close e ascuns pana cand jocul chiar ruleaza (clasa `is-playing`),
-     fiindca nu are ce inchide inainte de asta. */
-  function stopGame() {
-    if (!frameWrap) return;
-    var iframe = frameWrap.querySelector("iframe");
-    if (iframe) iframe.remove();
-    if (splash) splash.style.display = "";
-    if (gameStage) gameStage.classList.remove("is-playing");
-    track("stop_game");
-    showMoreGames(); // a terminat jocul — momentul bun sa-i aratam altul
-  }
-
+  /* X-ul din coltul de sus: exista DOAR in fullscreen (CSS `.fs-close`) si face
+     un singur lucru — iese din fullscreen si te lasa pe pagina jocului, langa
+     recomandari. Nu opreste jocul, nu paraseste pagina. */
   if (closeFsBtn) {
-    closeFsBtn.addEventListener("click", function () {
-      // in fullscreen Close inseamna "iesi din fullscreen"; altfel "opreste jocul"
-      if (gameStage && gameStage.classList.contains("fs-active")) exitGameFs();
-      else stopGame();
-    });
+    closeFsBtn.addEventListener("click", function () { exitGameFs(); });
   }
   // Tabul "All Games" din fullscreen = iesire din joc -> inapoi la site
   var fsAllGames = document.getElementById("fsAllGames");
