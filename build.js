@@ -314,7 +314,38 @@ function cardHTML(g, eager = false) {
     </a>`;
 }
 
-function page({ title, description, canonical, body, jsonld, ogImage, activeCat = "", ogType = "website", preconnect = [] }) {
+/* ---------------- Paginare listelor lungi ----------------
+   /games/ avea 2600 de carduri intr-o singura pagina (1,27 MB HTML, 2600 <img>),
+   iar /category/puzzle/ ~900. Pe mobil pagina se blocheaza la randare. Taiem in
+   pagini de PER_PAGE carduri; pagina 1 pastreaza URL-ul vechi (zero pierdere SEO),
+   restul merg pe .../page/N/. Toate paginile raman indexabile si linkate intre ele,
+   deci fiecare joc ramane la un click distanta de lista. */
+const PER_PAGE = 120;
+
+function pageSlice(list, pageNo) {
+  return list.slice((pageNo - 1) * PER_PAGE, pageNo * PER_PAGE);
+}
+function pageUrl(base, pageNo) {
+  return pageNo <= 1 ? base : `${base}page/${pageNo}/`;
+}
+/* Navigatie numerica completa (max ~22 linkuri la 2600 de jocuri) — asa fiecare
+   pagina din serie e la un click distanta si crawlerul le vede pe toate. */
+function paginationHTML(base, pageNo, totalPages) {
+  if (totalPages <= 1) return "";
+  const link = (n, label, cls = "") =>
+    n === pageNo
+      ? `<span class="page-num current" aria-current="page">${label}</span>`
+      : `<a class="page-num ${cls}" href="${pageUrl(base, n)}">${label}</a>`;
+  const nums = [];
+  for (let n = 1; n <= totalPages; n++) nums.push(link(n, String(n)));
+  return `<nav class="pagination" aria-label="Pagination">
+      ${pageNo > 1 ? `<a class="page-num prev" href="${pageUrl(base, pageNo - 1)}" rel="prev">‹ Prev</a>` : ""}
+      ${nums.join("\n      ")}
+      ${pageNo < totalPages ? `<a class="page-num next" href="${pageUrl(base, pageNo + 1)}" rel="next">Next ›</a>` : ""}
+    </nav>`;
+}
+
+function page({ title, description, canonical, body, jsonld, ogImage, activeCat = "", ogType = "website", preconnect = [], prevUrl = "", nextUrl = "" }) {
   return `<!DOCTYPE html>
 <html lang="en" data-base="" data-trending-api="${esc(TRENDING_API)}">
 <head>
@@ -323,6 +354,7 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <link rel="canonical" href="${canonical}">
+  ${prevUrl ? `<link rel="prev" href="${prevUrl}">` : ""}${nextUrl ? `<link rel="next" href="${nextUrl}">` : ""}
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="yandex-verification" content="addf8873d6751e80">
   <meta name="theme-color" content="#0e0f1a">
@@ -672,7 +704,9 @@ function buildHome() {
 
   // Randam initial doar un lot; restul jocurilor din categorie se incarca lazy
   // pe masura ce utilizatorul deruleaza randul (vezi "smart scroll" in app.js).
-  const ROW_INITIAL = 30;
+  // 18 = 9 coloane x 2 randuri de grid. Peste asta, home-ul trece de 600 de carduri
+  // si randarea initiala pe mobil incepe sa se sacadeze (restul vine lazy la scroll).
+  const ROW_INITIAL = 18;
   const catSecArr = categories.map(c => {
     const list = byCategory[c] || [];
     const shown = Math.min(ROW_INITIAL, list.length);
@@ -1127,58 +1161,75 @@ function categoryContent(c, list) {
 function buildCategoryPages() {
   for (const c of categories) {
     const list = byCategory[c];
-    const canonical = `${SITE_URL}/category/${catSlug(c)}/`;
+    const base = `${SITE_URL}/category/${catSlug(c)}/`;
+    const relBase = `/category/${catSlug(c)}/`;
     const content = categoryContent(c, list);
-    const body = `
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › ${esc(c)}</nav>
+    const totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+
+    for (let p = 1; p <= totalPages; p++) {
+      const slice = pageSlice(list, p);
+      const canonical = pageUrl(base, p);
+      /* Textul editorial (intro / about / FAQ) ramane DOAR pe pagina 1 — altfel
+         l-am duplica pe zeci de pagini, exact ce ne-a costat la AdSense. */
+      const body = `
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › ${p > 1 ? `<a href="${relBase}">${esc(c)}</a> › Page ${p}` : esc(c)}</nav>
     <h1 class="section-title"><span class="bar"></span><span class="sec-ico">${catIcon(c)}</span> ${esc(c)} Games <span style="color:var(--text-dim);font-size:.85rem;font-weight:600">(${list.length})</span></h1>
-    <div class="cat-intro">${content.intro}</div>
+    ${p === 1 ? `<div class="cat-intro">${content.intro}</div>` : ""}
+    ${totalPages > 1 ? `<p class="page-count">Showing ${(p - 1) * PER_PAGE + 1}–${(p - 1) * PER_PAGE + slice.length} of ${list.length} ${c.toLowerCase()} games — page ${p} of ${totalPages}.</p>` : ""}
     <div class="grid">
-      ${list.map((g, i) => cardHTML(g, i < 6)).join("\n      ")}
+      ${slice.map((g, i) => cardHTML(g, p === 1 && i < 6)).join("\n      ")}
     </div>
-    ${content.about}
-    ${content.faqHtml}`;
+    ${paginationHTML(relBase, p, totalPages)}
+    ${p === 1 ? content.about + "\n    " + content.faqHtml : ""}`;
 
-    const jsonld = [{
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: `${c} Games`,
-      url: canonical,
-      description: `Play ${list.length} free ${c.toLowerCase()} games online on ${SITE_NAME}.`,
-      isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL }
-    }, {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      name: `${c} Games on ${SITE_NAME}`,
-      numberOfItems: list.length,
-      itemListElement: list.slice(0, 20).map((g, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: g.title,
-        url: `${SITE_URL}/game/${g.slug}/`
-      }))
-    }, {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL + "/" },
-        { "@type": "ListItem", position: 2, name: `${c} Games`, item: canonical }
-      ]
-    }, {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: content.faq.map(f => ({
-        "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a }
-      }))
-    }];
+      const jsonld = [{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: p > 1 ? `${c} Games — Page ${p}` : `${c} Games`,
+        url: canonical,
+        description: `Play ${list.length} free ${c.toLowerCase()} games online on ${SITE_NAME}.`,
+        isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL }
+      }, {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: `${c} Games on ${SITE_NAME}`,
+        numberOfItems: list.length,
+        itemListElement: slice.slice(0, 20).map((g, i) => ({
+          "@type": "ListItem",
+          position: (p - 1) * PER_PAGE + i + 1,
+          name: g.title,
+          url: `${SITE_URL}/game/${g.slug}/`
+        }))
+      }, {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL + "/" },
+          { "@type": "ListItem", position: 2, name: `${c} Games`, item: base },
+          ...(p > 1 ? [{ "@type": "ListItem", position: 3, name: `Page ${p}`, item: canonical }] : [])
+        ]
+      }, ...(p === 1 ? [{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: content.faq.map(f => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a }
+        }))
+      }] : [])];
 
-    write(`category/${catSlug(c)}/index.html`, page({
-      title: `${c} Games — Play Free Online ${c} Games | ${SITE_NAME}`,
-      description: `Play ${list.length}+ of the best free ${c.toLowerCase()} games online, no download required. Enjoy ${c.toLowerCase()} browser games instantly on mobile and desktop at ${SITE_NAME}.`,
-      canonical, body, jsonld, activeCat: c
-    }));
+      write(p === 1 ? `category/${catSlug(c)}/index.html` : `category/${catSlug(c)}/page/${p}/index.html`, page({
+        title: p > 1
+          ? `${c} Games — Page ${p} of ${totalPages} | ${SITE_NAME}`
+          : `${c} Games — Play Free Online ${c} Games | ${SITE_NAME}`,
+        description: p > 1
+          ? `Page ${p} of ${totalPages} — more free ${c.toLowerCase()} games to play online instantly, no download, on mobile and desktop at ${SITE_NAME}.`
+          : `Play ${list.length}+ of the best free ${c.toLowerCase()} games online, no download required. Enjoy ${c.toLowerCase()} browser games instantly on mobile and desktop at ${SITE_NAME}.`,
+        canonical, body, jsonld, activeCat: c,
+        prevUrl: p > 1 ? pageUrl(base, p - 1) : "",
+        nextUrl: p < totalPages ? pageUrl(base, p + 1) : ""
+      }));
+    }
   }
 }
 
@@ -1470,27 +1521,41 @@ function buildStaticPages() {
 
 /* ---------------- ALL GAMES ---------------- */
 function buildAllGamesPage() {
-  const canonical = `${SITE_URL}/games/`;
+  const base = `${SITE_URL}/games/`;
   const sorted = [...games].sort((a, b) => a.title.localeCompare(b.title));
-  const body = `
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › All Games</nav>
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PER_PAGE));
+
+  for (let p = 1; p <= totalPages; p++) {
+    const slice = pageSlice(sorted, p);
+    const canonical = pageUrl(base, p);
+    const body = `
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> › ${p > 1 ? `<a href="/games/">All Games</a> › Page ${p}` : "All Games"}</nav>
     <h1 class="section-title"><span class="bar"></span>📚 All Games <span style="color:var(--text-dim);font-size:.85rem;font-weight:600">(${games.length})</span></h1>
+    ${totalPages > 1 ? `<p class="page-count">Showing ${(p - 1) * PER_PAGE + 1}–${(p - 1) * PER_PAGE + slice.length} of ${sorted.length} games — page ${p} of ${totalPages}, sorted A–Z.</p>` : ""}
     <div class="grid">
-      ${sorted.map((g, i) => cardHTML(g, i < 6)).join("\n      ")}
-    </div>`;
-  const jsonld = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "All Games",
-    url: canonical,
-    description: `Browse all ${games.length} free online games on ${SITE_NAME}.`,
-    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL }
-  };
-  write("games/index.html", page({
-    title: `All Games — Browse ${games.length}+ Free Online Games | ${SITE_NAME}`,
-    description: `Browse the full ${SITE_NAME} catalog: ${games.length}+ free online games across ${categories.length} categories, sorted A-Z.`,
-    canonical, body, jsonld, activeCat: "__all"
-  }));
+      ${slice.map((g, i) => cardHTML(g, p === 1 && i < 6)).join("\n      ")}
+    </div>
+    ${paginationHTML("/games/", p, totalPages)}`;
+    const jsonld = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: p > 1 ? `All Games — Page ${p}` : "All Games",
+      url: canonical,
+      description: `Browse all ${games.length} free online games on ${SITE_NAME}.`,
+      isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL }
+    };
+    write(p === 1 ? "games/index.html" : `games/page/${p}/index.html`, page({
+      title: p > 1
+        ? `All Games — Page ${p} of ${totalPages} | ${SITE_NAME}`
+        : `All Games — Browse ${games.length}+ Free Online Games | ${SITE_NAME}`,
+      description: p > 1
+        ? `Page ${p} of the full ${SITE_NAME} catalog — ${games.length}+ free online games, sorted A-Z.`
+        : `Browse the full ${SITE_NAME} catalog: ${games.length}+ free online games across ${categories.length} categories, sorted A-Z.`,
+      canonical, body, jsonld, activeCat: "__all",
+      prevUrl: p > 1 ? pageUrl(base, p - 1) : "",
+      nextUrl: p < totalPages ? pageUrl(base, p + 1) : ""
+    }));
+  }
 }
 
 /* ---------------- PWA: manifest + service worker ---------------- */
@@ -1546,10 +1611,23 @@ self.addEventListener("fetch", e => {
 
 /* ---------------- SITEMAP / ROBOTS / EXTRAS ---------------- */
 function buildSitemap() {
+  // paginile 2+ ale listelor paginate — prioritate mica, dar prezente ca sa aiba
+  // crawlerul drum spre jocurile din coada listei
+  const allGamesPages = Math.max(1, Math.ceil(games.length / PER_PAGE));
+  const extraListPages = [
+    ...Array.from({ length: allGamesPages - 1 }, (_, i) =>
+      ({ loc: `${SITE_URL}/games/page/${i + 2}/`, priority: "0.4", changefreq: "weekly" })),
+    ...categories.flatMap(c => {
+      const n = Math.max(1, Math.ceil((byCategory[c] || []).length / PER_PAGE));
+      return Array.from({ length: n - 1 }, (_, i) =>
+        ({ loc: `${SITE_URL}/category/${catSlug(c)}/page/${i + 2}/`, priority: "0.4", changefreq: "weekly" }));
+    })
+  ];
   const urls = [
     { loc: SITE_URL + "/", priority: "1.0", changefreq: "daily" },
     { loc: SITE_URL + "/games/", priority: "0.9", changefreq: "daily" },
     ...categories.map(c => ({ loc: `${SITE_URL}/category/${catSlug(c)}/`, priority: "0.8", changefreq: "daily" })),
+    ...extraListPages,
     { loc: SITE_URL + "/exclusive/", priority: "0.9", changefreq: "weekly" },
     ...EXCLUSIVE_GAMES.map(g => ({ loc: `${SITE_URL}/exclusive/${g.slug}/`, priority: "0.8", changefreq: "weekly" })),
     ...(blogPosts.length ? [{ loc: SITE_URL + "/blog/", priority: "0.7", changefreq: "weekly" }] : []),
@@ -1565,6 +1643,7 @@ ${urls.map(u => `  <url><loc>${u.loc}</loc><lastmod>${nowISO}</lastmod><changefr
 
   write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
   write("CNAME", "playarcadex.com\n");
+  return urls.length;
 }
 
 function build404() {
@@ -1624,13 +1703,18 @@ buildExclusivePages();
 buildBlog();
 buildStaticPages();
 buildPWA();
-buildSitemap();
+const sitemapUrls = buildSitemap();
 build404();
 buildSearchIndex();
+
+const allGamesPageCount = Math.max(1, Math.ceil(games.length / PER_PAGE));
+const catPageCount = categories.reduce((n, c) =>
+  n + Math.max(1, Math.ceil((byCategory[c] || []).length / PER_PAGE)), 0);
 
 console.log(`✔ Done -> ${DIST}`);
 console.log(`  - index.html`);
 console.log(`  - ${games.length} game pages`);
-console.log(`  - ${categories.length} category pages`);
+console.log(`  - ${categories.length} categories (${catPageCount} pages, ${PER_PAGE}/page)`);
+console.log(`  - all games: ${allGamesPageCount} pages (${PER_PAGE}/page)`);
 console.log(`  - ${blogPosts.length} blog post(s) + blog index`);
-console.log(`  - sitemap.xml (${1 + categories.length + games.length} URLs), robots.txt, CNAME, 404.html`);
+console.log(`  - sitemap.xml (${sitemapUrls} URLs), robots.txt, CNAME, 404.html`);

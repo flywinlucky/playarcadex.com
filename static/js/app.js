@@ -87,10 +87,9 @@
     return fetch(BASE + "/games.json")
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        gamesIndex = data.map(function (g) {
-          g._hay = (g.title + " " + g.category + " " + (g.tags || []).join(" ")).toLowerCase();
-          return g;
-        });
+        // fara pre-procesare aici: indexul se incarca in idle pe home, iar campul
+        // de cautare (_hay) il foloseste doar cine chiar cauta — vezi runSearch.
+        gamesIndex = data;
         return gamesIndex;
       })
       .finally(function () { loading = false; });
@@ -121,7 +120,13 @@
       return;
     }
     loadIndex().then(function (idx) {
-      var hits = idx.filter(function (g) { return g._hay.indexOf(q) !== -1; }).slice(0, 60);
+      var hits = idx.filter(function (g) {
+        // haystack construit la prima cautare, apoi memorat pe obiect
+        if (g._hay === undefined) {
+          g._hay = (g.title + " " + g.category + " " + (g.tags || []).join(" ")).toLowerCase();
+        }
+        return g._hay.indexOf(q) !== -1;
+      }).slice(0, 60);
       if (defaultSections) defaultSections.style.display = "none";
       searchResultsGrid.style.display = "grid";
       searchResultsGrid.innerHTML = hits.map(cardHTML).join("");
@@ -564,16 +569,29 @@
       var lazyCat = row.getAttribute("data-cat");
       var shownN = parseInt(row.getAttribute("data-shown") || "0", 10);
       var lazyDone = !row.hasAttribute("data-lazy");
+      var lazyPool = null; // calculat O SINGURA data per rand (categoryPool parcurge 2600 jocuri)
       function fillBuffer() {
         if (lazyDone) return;
+        /* Randurile din sectiuni off-screen NU au layout (content-visibility:auto
+           pe .cat-sec), deci scrollWidth/clientWidth sunt 0 si conditia de mai jos
+           ar fi mereu adevarata -> bucla ar adauga toata categoria dintr-un foc.
+           Daca randul nu e randat, iesim si reluam cand devine vizibil. */
+        if (!row.clientWidth) return;
         if (!gamesIndex) { loadIndex().then(fillBuffer); return; } // incarca apoi reia
-        var pool = categoryPool(gamesIndex, lazyCat);
+        if (!lazyPool) lazyPool = categoryPool(gamesIndex, lazyCat);
+        var pool = lazyPool;
         var appended = false;
-        while (shownN < pool.length &&
+        var guard = 0; // plasa de siguranta: maxim 3 loturi per apel
+        while (shownN < pool.length && guard++ < 3 &&
                row.scrollWidth - row.clientWidth - row.scrollLeft <= row.clientWidth) {
+          var widthBefore = row.scrollWidth;
           row.insertAdjacentHTML("beforeend", pool.slice(shownN, shownN + 12).map(cardHTML).join(""));
           shownN = Math.min(shownN + 12, pool.length);
           appended = true;
+          /* Pe mobil cardurile PC-only sunt ascunse din CSS (.is-mobile). Daca lotul
+             adaugat nu a crescut latimea, conditia ramane adevarata oricat am adauga
+             -> ne oprim aici si continuam la urmatorul eveniment. */
+          if (row.scrollWidth === widthBefore) break;
         }
         if (shownN >= pool.length) { lazyDone = true; row.removeAttribute("data-lazy"); }
         if (appended) schedule([ctx]); // scrollWidth crescut -> reactualizeaza sagetile
@@ -593,8 +611,17 @@
         fillBuffer(); // asigura carduri in dreapta INAINTE de a derula (sincron cu index in cache)
         row.scrollBy({ left: step(), behavior: "smooth" });
       });
-      // scroll-ul afecteaza doar randul curent
-      row.addEventListener("scroll", function () { fillBuffer(); schedule([ctx]); }, { passive: true });
+      /* scroll-ul afecteaza doar randul curent. fillBuffer citeste layout
+         (scrollWidth), deci il rulam MAXIM o data pe frame — altfel un fling pe
+         mobil trimite zeci de evenimente de scroll pe secunda, fiecare cu reflow
+         fortat => derulare sacadata. */
+      var scrollTick = false;
+      row.addEventListener("scroll", function () {
+        schedule([ctx]);
+        if (scrollTick) return;
+        scrollTick = true;
+        requestAnimationFrame(function () { scrollTick = false; fillBuffer(); });
+      }, { passive: true });
 
       // ResizeObserver prinde si schimbarile de dimensiune cand se incarca imaginile,
       // fara sa atasam un handler pe fiecare imagine (sursa principala de reflow).
