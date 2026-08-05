@@ -309,8 +309,18 @@ button { font: inherit; cursor: pointer; border: 0; }
     max-height: 100%;
     overflow-y: auto;
     overscroll-behavior: contain;
+    /* bara de derulare in tema site-ului — implicit iesea alba, lipita de design */
     scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    padding-right: 4px;
   }
+  .game-rail::-webkit-scrollbar { width: 6px; }
+  .game-rail::-webkit-scrollbar-track { background: transparent; }
+  .game-rail::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+  }
+  .game-rail::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 }
 .game-rail-title {
   font-size: 0.78rem;
@@ -440,8 +450,12 @@ body.no-scroll { overflow: hidden; }
   padding-right: calc(14px + env(safe-area-inset-right));
 }
 
-/* Butonul Close din toolbar: doar in modul normal nu e necesar */
-.close-btn { display: none; background: #e0245e; color: #fff; }
+/* Butonul Close: apare DOAR dupa ce jocul a pornit — nu poti inchide ceva ce nici
+   nu a inceput. Selectorul are nevoie de ambele clase: `.tool-btn` (definit mai jos
+   in fisier) are `display: inline-flex` cu aceeasi specificitate, deci un simplu
+   `.close-btn { display: none }` era anulat de cascada si butonul aparea mereu. */
+.tool-btn.close-btn { display: none; background: #e0245e; color: #fff; }
+.game-stage.is-playing .tool-btn.close-btn { display: inline-flex; }
 .close-btn:hover { background: #ff2f6d; }
 
 /* In fullscreen: bara de jos dispare complet — ramane doar X-ul plutitor din colt */
@@ -610,6 +624,30 @@ body.no-scroll { overflow: hidden; }
   background: var(--surface);
 }
 .game-toolbar h1 { font-size: 1.05rem; font-weight: 800; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Pe ecran ingust titlul nu mai incape langa butoane si se taia ("Mad Day S...").
+   Il trecem pe randul lui, pe toata latimea, cu voie sa curga pe 2 randuri —
+   numele jocului e exact ce a cautat vizitatorul, nu are ce sa fie trunchiat. */
+@media (max-width: 620px) {
+  .game-toolbar {
+    flex-wrap: wrap;
+    gap: 8px 8px;
+    padding: 10px 12px 12px;
+  }
+  .game-toolbar h1 {
+    flex: 1 0 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  .game-toolbar .tool-btn { flex: 1 1 auto; justify-content: center; }
+  .game-toolbar .fav-btn { flex: 0 0 auto; min-width: 46px; }
+  /* titlul sectiunii + linkul "See all X games" incap greu pe acelasi rand */
+  .section-title { flex-wrap: wrap; row-gap: 2px; }
+  .more-games-all { font-size: 0.76rem; }
+}
 .tool-btn {
   background: var(--surface-2);
   color: var(--text);

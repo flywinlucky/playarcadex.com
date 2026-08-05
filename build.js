@@ -25,6 +25,10 @@ const TRENDING_API = "";
 // Google Analytics 4 (lasa gol "" ca sa dezactivezi)
 const GA_ID = "G-X4DF0DZ88J";
 
+// Hash-ul continutului lui app.js, pentru cache-busting. Se completeaza dupa
+// minificare (vezi copyDir/minifyJS mai jos), inainte sa se genereze paginile.
+let APP_VER = "";
+
 // FAQ general pentru homepage — targeteaza cautari conversationale despre site.
 // Raspunsurile pot contine linkuri interne (bune pentru UX + SEO).
 const HOME_FAQ = [
@@ -397,7 +401,7 @@ ${body}
     </div>
   </main>
   ${footerHTML()}
-  <script src="/js/app.js" defer></script>
+  <script src="/js/app.js${APP_VER ? `?v=${APP_VER}` : ""}" defer></script>
 </body>
 </html>`;
 }
@@ -1773,7 +1777,17 @@ copyDir(path.join(ROOT, "static"), DIST);
 // Minifica app.js copiat (conservator; app.js nu are template literals)
 {
   const appJs = path.join(DIST, "js", "app.js");
-  if (fs.existsSync(appJs)) fs.writeFileSync(appJs, minifyJS(fs.readFileSync(appJs, "utf8")));
+  if (fs.existsSync(appJs)) {
+    const min = minifyJS(fs.readFileSync(appJs, "utf8"));
+    fs.writeFileSync(appJs, min);
+    /* CACHE-BUSTING — NU scoate asta.
+       `/js/app.js` e servit cu `Cache-Control: max-age=31536000` (365 zile). Fara
+       versiune in URL, un vizitator care a mai fost pe site ramane cu JS-ul vechi
+       pana la un an — orice reparatie pare "nedeployata" desi e live. Hash din
+       continut => se schimba doar cand se schimba fisierul, deci pastram si
+       cache-ul agresiv, si actualizarea imediata. */
+    APP_VER = require("crypto").createHash("sha1").update(min).digest("hex").slice(0, 8);
+  }
 }
 buildHome();
 buildGamePages();

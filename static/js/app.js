@@ -220,7 +220,9 @@
         iframe.setAttribute("title", document.title);
         frameWrap.appendChild(iframe);
       }
-      if (splash && splash.parentNode) splash.remove();
+      // ascundem splash-ul (nu-l stergem) ca sa-l putem readuce la Close
+      if (splash) splash.style.display = "none";
+      if (gameStage) gameStage.classList.add("is-playing");
       if (goFullscreen) enterGameFs();
       if (slug) rememberPlayed(slug);
       if (gameCat) bumpInterest(gameCat, 3); // a jucat efectiv = semnal puternic
@@ -249,8 +251,25 @@
   if (fsBtn && gameStage) {
     fsBtn.addEventListener("click", enterGameFs);
   }
+  /* Opreste jocul si readuce splash-ul cu "Play Now", ca sa poata reporni.
+     Butonul Close e ascuns pana cand jocul chiar ruleaza (clasa `is-playing`),
+     fiindca nu are ce inchide inainte de asta. */
+  function stopGame() {
+    if (!frameWrap) return;
+    var iframe = frameWrap.querySelector("iframe");
+    if (iframe) iframe.remove();
+    if (splash) splash.style.display = "";
+    if (gameStage) gameStage.classList.remove("is-playing");
+    track("stop_game");
+    showMoreGames(); // a terminat jocul — momentul bun sa-i aratam altul
+  }
+
   if (closeFsBtn) {
-    closeFsBtn.addEventListener("click", exitGameFs);
+    closeFsBtn.addEventListener("click", function () {
+      // in fullscreen Close inseamna "iesi din fullscreen"; altfel "opreste jocul"
+      if (gameStage && gameStage.classList.contains("fs-active")) exitGameFs();
+      else stopGame();
+    });
   }
   // Tabul "All Games" din fullscreen = iesire din joc -> inapoi la site
   var fsAllGames = document.getElementById("fsAllGames");
