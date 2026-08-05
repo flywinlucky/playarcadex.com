@@ -25,29 +25,6 @@ const TRENDING_API = "";
 // Google Analytics 4 (lasa gol "" ca sa dezactivezi)
 const GA_ID = "G-X4DF0DZ88J";
 
-// Google AdSense publisher ID (lasa gol "" ca sa dezactivezi).
-// Auto ads e gestionat din dashboard-ul AdSense; aici doar includem scriptul.
-const ADSENSE_ID = "ca-pub-8814611374359683";
-
-// Ad Slot ID-uri pentru reclame MANUALE (din AdSense -> By ad unit -> Display ads).
-// Lasa "" la oricare ca sa NU apara reclama in acel loc.
-// Inlocuieste cu numerele tale (ex. "1234567890").
-const AD_SLOTS = {
-  homepage: "2604092541",   // banner intre categorii pe homepage
-  gamePage: "8672853045",   // banner sub joc pe pagina de joc
-  category: "2933441201"    // banner in pagina de categorie
-};
-
-// Helper: genereaza un bloc de reclama responsive (clean, in-feed style).
-// Returneaza "" daca nu e configurat slot-ul (deci nu apare nimic gol).
-function adUnit(slot, label = "Advertisement") {
-  if (!ADSENSE_ID || !slot) return "";
-  return `<div class="ad-slot"><span class="ad-label">${label}</span>
-    <ins class="adsbygoogle" style="display:block" data-ad-client="${ADSENSE_ID}" data-ad-slot="${slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>`;
-}
-
 // FAQ general pentru homepage — targeteaza cautari conversationale despre site.
 // Raspunsurile pot contine linkuri interne (bune pentru UX + SEO).
 const HOME_FAQ = [
@@ -367,8 +344,6 @@ function page({ title, description, canonical, body, jsonld, ogImage, activeCat 
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://img.gamemonetize.com">
   ${preconnect.map(u => `<link rel="preconnect" href="${u}"><link rel="dns-prefetch" href="${u}">`).join("\n  ")}
-  ${ADSENSE_ID ? `<!-- Google AdSense (Auto ads gestionat din dashboard) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}" crossorigin="anonymous"></script>` : ""}
   <style>${CSS_MIN}</style>
   ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}
   ${GA_ID ? `<!-- Google tag (gtag.js) — incarcat dupa ce pagina e gata, ca sa nu blocheze randarea -->
@@ -611,7 +586,6 @@ function buildBlog() {
         ${p.bodyHtml}
       </div>
     </article>
-    ${adUnit(AD_SLOTS.gamePage)}
     ${related.length ? `
     <h2 class="section-title"><span class="bar"></span>More from the Blog</h2>
     <div class="blog-grid">
@@ -753,7 +727,6 @@ function buildHome() {
       <div class="grid">
         ${newest.map(g => cardHTML(g)).join("\n        ")}
       </div>
-      ${adUnit(AD_SLOTS.homepage)}
       <div id="catSections">
       ${categorySections}
       </div>
@@ -845,7 +818,7 @@ function buildHome() {
    Genereaza descrieri variate per joc (nu sablon identic) folosind datele
    reale ale jocului: categorie, tag-uri, titlu. Seedat din slug => stabil
    intre build-uri si bine distribuit, ca sa NU para "mass-produced".
-   Scop: sa adauge valoare unica peste textul din feed (cerinta AdSense). */
+   Scop: sa adauge valoare unica peste textul din feed (SEO, anti-duplicate). */
 function hashStr(s) {
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
@@ -1060,7 +1033,6 @@ function buildGamePages() {
         <p>${esc(f.a)}</p>
       </details>`).join("\n      ")}
     </div>
-    ${adUnit(AD_SLOTS.gamePage)}
     ${related.length ? `
     <h2 class="section-title"><span class="bar"></span>More ${esc(g.category)} Games</h2>
     <div class="grid">
@@ -1164,7 +1136,6 @@ function buildCategoryPages() {
     <div class="grid">
       ${list.map((g, i) => cardHTML(g, i < 6)).join("\n      ")}
     </div>
-    ${adUnit(AD_SLOTS.category)}
     ${content.about}
     ${content.faqHtml}`;
 
