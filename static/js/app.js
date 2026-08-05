@@ -553,6 +553,44 @@
   /* ---------- Horizontal carousel arrows (stil CrazyGames) ---------- */
   function setupRows() {
     var rows = [];
+
+    /* ------------------------------------------------------------------
+       DE CE NU MASURAM RANDURILE OFF-SCREEN (bug "pagina nu raspunde")
+
+       Sectiunile de categorie au `content-visibility: auto`, deci browserul
+       SARE peste layout-ul lor cat sunt in afara ecranului. Daca citim
+       `scrollWidth` / `clientWidth` pe un rand dintr-o astfel de sectiune,
+       il fortam sa fie randat; browserul constata imediat ca e tot
+       off-screen si il sare la loc. Schimbarea de dimensiune declanseaza
+       observerul, care cere iar o masuratoare, care forteaza iar layout-ul...
+       — bucla nu se opreste niciodata, ruleaza la fiecare frame si tine main
+       thread-ul ocupat permanent. Simptom: pagina se incarca la infinit,
+       niciun buton nu raspunde, imaginile `lazy` nu mai pornesc deloc (doar
+       cele `eager`, cerute de parser inainte sa ruleze JS), iar Chrome
+       afiseaza in final RESULT_CODE_HUNG.
+
+       Solutia: un IntersectionObserver decide ce e vizibil, si masuram DOAR
+       ce e vizibil. Nu mai folosim ResizeObserver pe rand — el era exact
+       veriga care inchidea bucla, si oricum nu mai e necesar de cand
+       imaginile au width/height explicite (dimensiunea randului nu se mai
+       schimba cand se incarca pozele).
+       ------------------------------------------------------------------ */
+    var hasIO = "IntersectionObserver" in window;
+    var visible = hasIO ? new WeakSet() : null;
+    function isVisible(ctx) { return !hasIO || visible.has(ctx.wrap); }
+    var io = hasIO ? new IntersectionObserver(function (entries) {
+      var became = [];
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          visible.add(e.target);
+          if (e.target._ctx) became.push(e.target._ctx);
+        } else {
+          visible.delete(e.target);
+        }
+      });
+      if (became.length) schedule(became);
+    }, { rootMargin: "300px 0px" }) : null;
+
     document.querySelectorAll(".row-wrap").forEach(function (wrap) {
       var row = wrap.querySelector(".row");
       var left = wrap.querySelector(".row-arrow.left");
@@ -560,6 +598,8 @@
       if (!row || !left || !right) return;
       var ctx = { wrap: wrap, row: row, left: left, right: right };
       rows.push(ctx);
+      wrap._ctx = ctx;
+      if (io) io.observe(wrap);
 
       /* ---- Smart scroll: incarca lazy mai multe jocuri din categorie ----
          Mentine un buffer de carduri in dreapta pozitiei curente, ca PRIMUL
@@ -571,10 +611,10 @@
       var lazyPool = null; // calculat O SINGURA data per rand (categoryPool parcurge 2600 jocuri)
       function fillBuffer() {
         if (lazyDone) return;
-        /* Randurile din sectiuni off-screen NU au layout (content-visibility:auto
-           pe .cat-sec), deci scrollWidth/clientWidth sunt 0 si conditia de mai jos
-           ar fi mereu adevarata -> bucla ar adauga toata categoria dintr-un foc.
-           Daca randul nu e randat, iesim si reluam cand devine vizibil. */
+        /* Randul nu e pe ecran => NU-i atingem layout-ul (vezi explicatia lunga
+           de la inceputul lui setupRows). Reluam cand IntersectionObserver il
+           marcheaza vizibil. */
+        if (!isVisible(ctx)) return;
         if (!row.clientWidth) return;
         if (!gamesIndex) { loadIndex().then(fillBuffer); return; } // incarca apoi reia
         if (!lazyPool) lazyPool = categoryPool(gamesIndex, lazyCat);
@@ -621,18 +661,26 @@
         scrollTick = true;
         requestAnimationFrame(function () { scrollTick = false; fillBuffer(); });
       }, { passive: true });
-
-      // ResizeObserver prinde si schimbarile de dimensiune cand se incarca imaginile,
-      // fara sa atasam un handler pe fiecare imagine (sursa principala de reflow).
-      if ("ResizeObserver" in window) {
-        new ResizeObserver(function () { schedule([ctx]); }).observe(row);
-      }
     });
 
     // Batch: acumulam randurile de actualizat si rulam o SINGURA data pe frame,
     // cu toate CITIRILE de layout grupate inainte de toate SCRIERILE -> zero thrashing.
     var pending = null, ticking = false;
+    /* Plasa de siguranta pentru bucle de layout (ca cea descrisa mai sus, sau
+       alta pe care nu am prevazut-o). Nu ne putem lua dupa rata pe frame: si o
+       derulare normala pe un ecran de 120Hz produce un schedule pe frame.
+       Semnatura unei bucle e alta — se invarte singura, FARA ca utilizatorul sa
+       atinga ceva. Deci: multe rulari + zero interactiune de 5 secunde = bucla,
+       si oprim actualizarea sagetilor. Mai bine sagetile raman afisate gresit
+       decat sa blocam pagina. */
+    var runs = 0, disabled = false, lastInput = performance.now();
+    ["scroll", "pointerdown", "pointermove", "wheel", "touchstart", "touchmove", "keydown", "resize"]
+      .forEach(function (ev) {
+        window.addEventListener(ev, function () { lastInput = performance.now(); runs = 0; },
+          { passive: true, capture: true });
+      });
     function schedule(list) {
+      if (disabled) return;
       if (!pending) pending = [];
       (list || rows).forEach(function (c) {
         if (pending.indexOf(c) === -1) pending.push(c);
@@ -641,9 +689,15 @@
       ticking = true;
       requestAnimationFrame(function () {
         ticking = false;
+        if (++runs > 200 && performance.now() - lastInput > 5000) {
+          disabled = true;
+          pending = null;
+          if (io) io.disconnect();
+          return;
+        }
         var batch = pending; pending = null;
-        // FAZA 1 — doar citiri
-        var reads = batch.map(function (c) {
+        // FAZA 1 — doar citiri, si DOAR pe randurile chiar vizibile pe ecran
+        var reads = batch.filter(isVisible).map(function (c) {
           return { c: c, max: c.row.scrollWidth - c.row.clientWidth, sl: c.row.scrollLeft };
         });
         // FAZA 2 — doar scrieri
@@ -663,19 +717,21 @@
     }
 
     window.addEventListener("resize", function () { schedule(rows); });
-    schedule(rows); // initial
+
+    /* Fara IntersectionObserver (browsere vechi) nu avem cum sa stim ce e vizibil,
+       deci masuram tot — dar acolo nu exista nici content-visibility, deci nici
+       bucla. Cu IO, masuratoarea initiala vine din primul callback al lui io. */
+    if (!hasIO) {
+      schedule(rows);
+      setTimeout(function () { schedule(rows); }, 400);
+      setTimeout(function () { schedule(rows); }, 1200);
+    }
 
     // Preincarca games.json in idle, ca umplerea bufferului la hover/scroll sa fie
     // instantanee (fara asteptare de fetch la primul click pe sageata).
     if (document.querySelector(".row[data-lazy]")) {
       if ("requestIdleCallback" in window) requestIdleCallback(function () { loadIndex(); }, { timeout: 3000 });
       else setTimeout(function () { loadIndex(); }, 1500);
-    }
-
-    // Fallback daca nu exista ResizeObserver (browsere vechi)
-    if (!("ResizeObserver" in window)) {
-      setTimeout(function () { schedule(rows); }, 400);
-      setTimeout(function () { schedule(rows); }, 1200);
     }
   }
   if (document.readyState !== "loading") setupRows();

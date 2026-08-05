@@ -666,11 +666,21 @@ body.no-scroll { overflow: hidden; }
 .share-btn.copy { background: var(--accent); }
 .share-btn.copy:hover { background: var(--accent-hover); }
 
-/* ---------- Performance: nu randa sectiunile de sub fold pana la scroll ---------- */
-.cat-sec {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 540px;
-}
+/* ---------- .cat-sec: NU pune content-visibility aici ----------
+   A fost `content-visibility: auto` + `contain-intrinsic-size: auto 540px`, ca sa
+   sara layout-ul sectiunilor de sub fold. Scos pe 5 aug 2026: in combinatie cu
+   codul din app.js care masura latimea randurilor (scrollWidth/clientWidth) forma
+   o bucla infinita — citirea forta randarea subarborelui sarit, browserul il sarea
+   la loc, schimbarea de dimensiune cerea iar o masuratoare, si tot asa la fiecare
+   frame. Rezultat: homepage-ul se incarca la infinit, niciun buton nu raspundea,
+   Chrome dadea RESULT_CODE_HUNG. Era singura pagina din site cu `.cat-sec` si
+   singura care se bloca.
+
+   app.js nu mai atinge randurile off-screen (vezi setupRows), deci bucla nu s-ar
+   mai forma. Dar nu merita riscul pentru castigul de aici: home are ~390 de carduri
+   in total, nu 2600 ca inainte de paginare, deci layout-ul complet e ieftin.
+   Daca vrei sa reintroduci asta, verifica INTAI cu pagina deschisa si DevTools ->
+   Performance ca nu apar frame-uri la infinit pe o pagina lasata in pace. */
 
 /* ---------- Horizontal carousel rows (stil CrazyGames) ---------- */
 .row-wrap {
