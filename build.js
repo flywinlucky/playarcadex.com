@@ -1097,14 +1097,19 @@ function buildGamePages() {
     </nav>
     <div class="game-layout">
     <div class="game-stage" data-orient="${orient}">
-      <button class="fs-allgames" id="fsAllGames" aria-label="Exit game, back to all games">
-        <span class="fs-allgames-label">🎮 All Games</span>
-        <span class="fs-mini-logo">X</span>
-      </button>
-      <!-- Iesire din fullscreen: X in coltul de sus, PESTE joc. Apare doar in
-           fullscreen. NU inchide jocul si nu paraseste pagina — te intoarce la
-           pagina jocului, unde sunt recomandarile, ca sa poti alege altul. -->
-      <button class="fs-close" id="closeFsBtn" aria-label="Exit fullscreen" title="Exit fullscreen">✕</button>
+      <!-- Bara site-ului in fullscreen: spatiul nostru integrat in joc. Contine
+           iesirea din fullscreen (X, in colt) si intoarcerea la catalog.
+           Un <button> nu poate contine alt <button>, de aceea bara e un <div>
+           cu doua butoane separate. -->
+      <div class="fs-bar">
+        <button class="fs-close" id="closeFsBtn" aria-label="Exit fullscreen" title="Exit fullscreen">✕</button>
+        <button class="fs-allgames" id="fsAllGames" aria-label="Browse all games">
+          <span class="fs-allgames-inner">
+            <span class="fs-mini-logo">X</span>
+            <span class="fs-allgames-label">All Games</span>
+          </span>
+        </button>
+      </div>
       <div class="game-frame-wrap" id="frameWrap" data-src="${esc(g.url)}" data-slug="${esc(g.slug)}" data-category="${esc(g.category)}">
         <div class="game-splash" id="gameSplash">
           <img class="splash-bg" src="${esc(g.thumb)}" alt="" aria-hidden="true" loading="eager">

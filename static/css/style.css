@@ -458,95 +458,105 @@ body.no-scroll { overflow: hidden; }
 .game-stage.fs-active .game-toolbar { display: none; }
 .game-stage.fs-active #fsBtn { display: none; }
 
-/* X plutitor in coltul din dreapta-sus, PESTE joc (stil Yandex). Singura cale de
-   iesire din fullscreen in afara de Esc. Te lasa pe pagina jocului, langa
-   recomandari — nu inchide jocul si nu te trimite pe alta pagina. */
-.fs-close {
-  display: none;
-  position: absolute;
-  top: calc(10px + env(safe-area-inset-top));
-  right: calc(10px + env(safe-area-inset-right));
-  z-index: 30;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: rgba(18, 19, 30, 0.82);
-  color: #fff;
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(6px);
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.14s, transform 0.14s;
-}
-.fs-close:hover { background: var(--accent); transform: scale(1.08); }
-.game-stage.fs-active .fs-close { display: inline-flex; }
+/* ===== Bara site-ului in fullscreen (.fs-bar) =====
+   Ocupa propriul spatiu LANGA joc, nu peste el — e "spatiul nostru" integrat in
+   joc. In portrait: banda orizontala sus. In landscape: banda verticala stanga.
+   Contine X-ul de iesire din fullscreen (in colt) si intoarcerea la catalog.
 
-/* Bara "All Games" — ocupa propriul spatiu langa joc (NU peste el), stil Yandex.
-   In portrait: bara orizontala sus. In landscape: bara verticala stanga.
-   Subtire, neagra, cu o linie subtila de separare de joc. */
-.fs-allgames {
+   ORIENTARE — de ce rotim tot blocul, nu fiecare element:
+   varianta veche punea `writing-mode: vertical-rl` doar pe text, iar iconita
+   ramanea dreapta => in landscape textul si iconita erau intoarse unul fata de
+   celalalt. Acum randul [iconita + text] se construieste normal, orizontal, si
+   se roteste ca UN SINGUR bloc. Asa raman mereu paralele, in orice orientare. */
+.fs-bar {
   display: none;
   flex-shrink: 0;
   align-items: center;
-  justify-content: center;
-  gap: 9px;
   background: #000;
+}
+.game-stage.fs-active .fs-bar { display: flex; }
+
+.fs-close,
+.fs-allgames {
+  background: transparent;
   border: 0;
+  color: #fff;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  transition: background 0.14s;
 }
-.game-stage.fs-active .fs-allgames { display: flex; }
+.fs-close {
+  flex-shrink: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 8px;
+}
+.fs-close:hover { background: #e0245e; }
+.fs-allgames:hover { background: rgba(104, 66, 255, 0.45); }
 
-@media (orientation: portrait) {
-  .game-stage.fs-active .fs-allgames {
-    flex-direction: row;
-    width: 100%;
-    height: 38px;
-    gap: 9px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .game-stage.fs-active .fs-allgames .fs-allgames-label {
-    writing-mode: horizontal-tb;
-    transform: none;
-  }
-}
-@media (orientation: landscape) {
-  .game-stage.fs-active .fs-allgames {
-    flex-direction: column;
-    width: 38px;
-    height: 100%;
-    gap: 12px;
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .game-stage.fs-active .fs-allgames .fs-allgames-label {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-  }
+.fs-allgames-inner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
 }
 .fs-allgames-label {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: #fff;
   letter-spacing: 0.03em;
-  white-space: nowrap;
 }
 .fs-mini-logo {
-  width: 24px; height: 24px;
-  border-radius: 6px;
+  width: 20px; height: 20px;
+  border-radius: 5px;
   background: linear-gradient(135deg, var(--accent), #a55cff);
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 800;
   display: grid;
   place-items: center;
-  box-shadow: 0 0 10px var(--accent-glow);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px var(--accent-glow);
 }
-.fs-allgames:hover { background: rgba(104, 66, 255, 0.45); }
+
+/* PORTRAIT — banda subtire sus: All Games in stanga, X in coltul din dreapta */
+@media (orientation: portrait) {
+  .game-stage.fs-active .fs-bar {
+    flex-direction: row;
+    width: 100%;
+    height: 34px;
+    padding: 0 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .fs-bar .fs-close { order: 2; margin-left: auto; width: 30px; height: 26px; }
+  .fs-bar .fs-allgames { order: 1; height: 100%; padding: 0 8px; border-radius: 8px; }
+}
+
+/* LANDSCAPE — banda subtire in stanga: X sus (in colt), All Games sub el.
+   Continutul lui All Games se roteste ca bloc; cutia lui nerotita e mai lata
+   decat bara, dar rotatia se face in jurul centrului, deci vizual se incadreaza. */
+@media (orientation: landscape) {
+  .game-stage.fs-active .fs-bar {
+    flex-direction: column;
+    width: 34px;
+    height: 100%;
+    padding: 4px 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .fs-bar .fs-close { width: 26px; height: 30px; }
+  .fs-bar .fs-allgames {
+    flex: 1;
+    width: 100%;
+    overflow: visible;
+    border-radius: 8px;
+  }
+  .fs-bar .fs-allgames-inner { transform: rotate(-90deg); }
+}
 
 /* ===== Pozitionare dupa orientarea telefonului (doar in fullscreen) ===== */
 
