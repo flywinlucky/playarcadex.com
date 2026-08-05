@@ -12,7 +12,6 @@
  *   /game.html           -> 301  /games/
  *   /products/orice      -> 301  /                (nu au echivalent)
  *   /?category=X         -> 301  /category/Xslug/ (daca e categorie reala)
- *   /game/SLUG/ care da 404 -> 301 /games/       (joc scos din feed)
  *   orice altceva        -> trece nemodificat catre GitHub Pages
  *
  * IMPORTANT — workerul NU stochează slug-urile hardcodat. Citeste live
@@ -116,18 +115,7 @@ export default {
       return redirect(`${SITE}/`);
     }
 
-    // 4) restul -> trece catre originea GitHub Pages
-    const res = await fetch(request);
-
-    // 4b) Joc scos din feed-ul GameMonetize: pagina /game/SLUG/ nu mai exista
-    //     in build, deci originea da 404, iar Google acumuleaza "Not found".
-    //     Il trimitem 301 la catalog, ca sa nu ramana 404 in index.
-    //     Verificam DUPA raspunsul originii => zero risc de redirect gresit
-    //     pentru pagini care exista.
-    if (res.status === 404 && /^\/(game|category)\//.test(path)) {
-      return redirect(`${SITE}/games/`);
-    }
-
-    return res;
+    // 4) restul -> trece nemodificat catre originea GitHub Pages
+    return fetch(request);
   },
 };

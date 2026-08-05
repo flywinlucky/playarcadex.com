@@ -174,22 +174,8 @@
     } catch (e) {}
   }
 
-  /* Cand jucatorul iese din fullscreen a terminat (sau s-a plictisit) de joc.
-     E momentul cu cea mai mare sansa sa inceapa altul: il ducem la sectiunea
-     de recomandari in loc sa-l lasam pe o pagina fara directie.
-     `skipScroll` = true cand iesirea e doar un pas intern (ex. "All Games"). */
-  function showMoreGames() {
-    var more = document.getElementById("moreGames");
-    if (!more) return;
-    more.scrollIntoView({ behavior: "smooth", block: "start" });
-    more.classList.add("highlight");
-    setTimeout(function () { more.classList.remove("highlight"); }, 2600);
-    track("more_games_shown");
-  }
-
-  function exitGameFs(skipScroll) {
+  function exitGameFs() {
     if (!gameStage) return;
-    var wasActive = gameStage.classList.contains("fs-active");
     gameStage.classList.remove("fs-active");
     document.body.classList.remove("no-scroll");
     try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (e) {}
@@ -197,7 +183,6 @@
       if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
       else if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
     } catch (e) {}
-    if (wasActive && skipScroll !== true) setTimeout(showMoreGames, 250);
   }
 
   if (splash && frameWrap) {
@@ -252,7 +237,7 @@
   if (fsAllGames) {
     fsAllGames.addEventListener("click", function (e) {
       e.preventDefault();
-      exitGameFs(true); // navigam oricum, deci fara scroll la recomandari
+      exitGameFs();
       window.location.href = BASE + "/";
     });
   }
@@ -261,8 +246,6 @@
     if (!document.fullscreenElement && gameStage && gameStage.classList.contains("fs-active")) {
       gameStage.classList.remove("fs-active");
       document.body.classList.remove("no-scroll");
-      // acelasi moment ca la butonul Close: arata-i ce poate juca in continuare
-      setTimeout(showMoreGames, 250);
     }
   });
 
@@ -581,20 +564,12 @@
       var lazyCat = row.getAttribute("data-cat");
       var shownN = parseInt(row.getAttribute("data-shown") || "0", 10);
       var lazyDone = !row.hasAttribute("data-lazy");
-      var lazyPool = null; // calculat o singura data per rand (parcurge 2600 jocuri)
       function fillBuffer() {
         if (lazyDone) return;
-        /* Randurile din sectiuni off-screen NU au layout (content-visibility:auto
-           pe .cat-sec), deci scrollWidth/clientWidth sunt 0 si conditia de mai jos
-           ar fi mereu adevarata -> bucla ar adauga toata categoria dintr-o data.
-           Daca randul nu e randat, iesim si reluam cand devine vizibil. */
-        if (!row.clientWidth) return;
         if (!gamesIndex) { loadIndex().then(fillBuffer); return; } // incarca apoi reia
-        if (!lazyPool) lazyPool = categoryPool(gamesIndex, lazyCat);
-        var pool = lazyPool;
+        var pool = categoryPool(gamesIndex, lazyCat);
         var appended = false;
-        var guard = 0; // plasa de siguranta: maxim 3 loturi per apel
-        while (shownN < pool.length && guard++ < 3 &&
+        while (shownN < pool.length &&
                row.scrollWidth - row.clientWidth - row.scrollLeft <= row.clientWidth) {
           row.insertAdjacentHTML("beforeend", pool.slice(shownN, shownN + 12).map(cardHTML).join(""));
           shownN = Math.min(shownN + 12, pool.length);
@@ -664,9 +639,12 @@
     window.addEventListener("resize", function () { schedule(rows); });
     schedule(rows); // initial
 
-    /* Nu preincarcam games.json (645KB) la fiecare vizita — majoritatea
-       vizitatorilor nu deruleaza niciun rand. Se incarca la nevoie, cand
-       utilizatorul chiar intra cu mouse-ul pe un rand (vezi fillBuffer). */
+    // Preincarca games.json in idle, ca umplerea bufferului la hover/scroll sa fie
+    // instantanee (fara asteptare de fetch la primul click pe sageata).
+    if (document.querySelector(".row[data-lazy]")) {
+      if ("requestIdleCallback" in window) requestIdleCallback(function () { loadIndex(); }, { timeout: 3000 });
+      else setTimeout(function () { loadIndex(); }, 1500);
+    }
 
     // Fallback daca nu exista ResizeObserver (browsere vechi)
     if (!("ResizeObserver" in window)) {
